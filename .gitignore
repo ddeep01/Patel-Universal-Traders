@@ -14,9 +14,6 @@ db.sqlite3
 # Environment variables
 .env
 
-# Media uploads (optional, recommended)
-media/
-
 # Django collected static files (production output)
 staticfiles/
 
