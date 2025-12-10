@@ -1,0 +1,249 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<!-- Breadcrumb -->
+<section class="breadcrumb-section">
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'products:product_list' %}">Products</a></li>
+        <li class="breadcrumb-item active">{{ product.name }}</li>
+      </ol>
+    </nav>
+  </div>
+</section>
+
+<!-- Product Detail -->
+<section class="product-detail py-5">
+  <div class="container">
+    <div class="row">
+      <!-- Product Images -->
+      <div class="col-lg-6 mb-4">
+          <div class="product-gallery">
+          <div class="main-image mb-3">
+            <div class="thumb-wrap aspect-4-3">
+              {% if product.main_image %}
+              <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="img-cover rounded" id="mainProductImage">
+              {% else %}
+              <img src="{% static 'images/Product/' %}{{ product.slug }}.jpg" alt="{{ product.name }}" class="img-cover rounded" id="mainProductImage">
+              {% endif %}
+            </div>
+          </div>
+          <div class="thumbnail-images">
+            <div class="row g-2">
+              <div class="col-4">
+                <div class="thumb-wrap">
+                  {% if product.main_image %}
+                  <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="img-thumbnail thumbnail-img active" onclick="changeImage(this)">
+                  {% else %}
+                  <img src="{% static 'images/Product/' %}{{ product.slug }}.jpg" alt="{{ product.name }}" class="img-thumbnail thumbnail-img active" onclick="changeImage(this)">
+                  {% endif %}
+                </div>
+              </div>
+              {% if product.image_2 %}
+              <div class="col-4">
+                <div class="thumb-wrap">
+                  {% if product.image_2 %}
+                  <img src="{{ product.image_2.url }}" alt="{{ product.name }}" class="img-thumbnail thumbnail-img" onclick="changeImage(this)">
+                  {% else %}
+                  <img src="{% static 'images/Product/' %}{{ product.slug }}-2.jpg" alt="{{ product.name }}" class="img-thumbnail thumbnail-img" onclick="changeImage(this)">
+                  {% endif %}
+                </div>
+              </div>
+              {% endif %}
+              {% if product.image_3 %}
+              <div class="col-4">
+                <div class="thumb-wrap">
+                  {% if product.image_3 %}
+                  <img src="{{ product.image_3.url }}" alt="{{ product.name }}" class="img-thumbnail thumbnail-img" onclick="changeImage(this)">
+                  {% else %}
+                  <img src="{% static 'images/Product/' %}{{ product.slug }}-3.jpg" alt="{{ product.name }}" class="img-thumbnail thumbnail-img" onclick="changeImage(this)">
+                  {% endif %}
+                </div>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Info -->
+      <div class="col-lg-6">
+        <div class="product-detail-info">
+          <span class="product-category-badge">{{ product.category.name }}</span>
+          <h1 class="product-detail-title">{{ product.name }}</h1>
+          <p class="product-detail-subtitle">{{ product.short_description }}</p>
+          
+          <div class="product-description mt-4">
+            <h4>Product Description</h4>
+            <p>{{ product.description|linebreaks }}</p>
+          </div>
+
+          <div class="product-specifications mt-4">
+            <h4>Specifications</h4>
+            <table class="table table-bordered">
+              <tbody>
+                {% if product.grain_length %}
+                <tr>
+                  <th width="200">Grain Length</th>
+                  <td>{{ product.grain_length }}</td>
+                </tr>
+                {% endif %}
+                {% if product.purity %}
+                <tr>
+                  <th>Purity</th>
+                  <td>{{ product.purity }}</td>
+                </tr>
+                {% endif %}
+                {% if product.moisture %}
+                <tr>
+                  <th>Moisture Content</th>
+                  <td>{{ product.moisture }}</td>
+                </tr>
+                {% endif %}
+                {% if product.broken_grains %}
+                <tr>
+                  <th>Broken Grains</th>
+                  <td>{{ product.broken_grains }}</td>
+                </tr>
+                {% endif %}
+                {% if product.packaging_options %}
+                <tr>
+                  <th>Packaging Options</th>
+                  <td>{{ product.packaging_options }}</td>
+                </tr>
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+
+          {% if product.additional_specs %}
+          <div class="additional-specs mt-4">
+            <h4>Additional Information</h4>
+            <ul>
+              {% for spec in product.additional_specs.splitlines %}
+              <li>{{ spec }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+
+          <div class="product-actions mt-4">
+            <a href="{% url 'contact:contact' %}?product={{ product.name }}" class="btn btn-primary btn-lg me-2">
+              <i class="fas fa-envelope"></i> Request Quote
+            </a>
+            {% if product.spec_sheet %}
+            <a href="{{ product.spec_sheet.url }}" class="btn btn-outline-secondary btn-lg me-2" target="_blank" rel="noopener" download>
+              <i class="fas fa-file-pdf"></i> Download Spec Sheet
+            </a>
+            {% else %}
+            <a href="{% static 'files/spec-sheets/' %}{{ product.slug }}.pdf" class="btn btn-outline-secondary btn-lg me-2" target="_blank" rel="noopener" download>
+              <i class="fas fa-file-pdf"></i> Download Spec Sheet
+            </a>
+            {% endif %}
+            <a href="tel:+919876543210" class="btn btn-outline-primary btn-lg">
+              <i class="fas fa-phone-alt"></i> Call Now
+            </a>
+          </div>
+
+          <div class="product-features mt-4">
+            <div class="row g-3">
+              <div class="col-6">
+                <div class="feature-box">
+                  <i class="fas fa-shipping-fast"></i>
+                  <span>Worldwide Shipping</span>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="feature-box">
+                  <i class="fas fa-certificate"></i>
+                  <span>Quality Certified</span>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="feature-box">
+                  <i class="fas fa-box"></i>
+                  <span>Custom Packaging</span>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="feature-box">
+                  <i class="fas fa-handshake"></i>
+                  <span>Trusted Supplier</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Products -->
+    {% if related_products %}
+    <div class="related-products mt-5">
+      <h3 class="section-title mb-4">Related Products</h3>
+      <div class="row g-4">
+        {% for related in related_products %}
+        <div class="col-lg-4 col-md-6">
+          <div class="product-card">
+            <div class="product-image">
+              {% if related.main_image %}
+              <img src="{{ related.main_image.url }}" alt="{{ related.name }}">
+              {% else %}
+              <img src="{% static 'images/Product/' %}{{ related.slug }}.jpg" alt="{{ related.name }}">
+              {% endif %}
+              <div class="product-overlay">
+                <a href="{% url 'products:product_detail' related.slug %}" class="btn btn-light btn-sm">View Details</a>
+              </div>
+            </div>
+            <div class="product-info">
+              <span class="product-category">{{ related.category.name }}</span>
+              <h4 class="product-title">{{ related.name }}</h4>
+              <p class="product-description">{{ related.short_description|truncatewords:12 }}</p>
+              <a href="{% url 'products:product_detail' related.slug %}" class="btn btn-outline-primary btn-sm">Learn More</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function changeImage(element) {
+  document.getElementById('mainProductImage').src = element.src;
+  document.querySelectorAll('.thumbnail-img').forEach(img => img.classList.remove('active'));
+  element.classList.add('active');
+}
+</script>
+<!-- Structured data for Product (JSON-LD) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": "{{ product.name|escapejs }}",
+  "image": [
+    "{{ product.main_image.url }}"{% if product.image_2 %},"{{ product.image_2.url }}"{% endif %}{% if product.image_3 %},"{{ product.image_3.url }}"{% endif %}
+  ],
+  "description": "{{ product.short_description|striptags|escapejs }}",
+  "sku": "{{ product.slug }}",
+  "brand": {
+    "@type": "Organization",
+    "name": "Patel Universal Traders PVT.LTD."
+  },
+  "additionalProperty": [
+    {% if product.grain_length %}{"@type":"PropertyValue","name":"Grain Length","value":"{{ product.grain_length }}"}{% if product.purity or product.moisture %},{% endif %}{% endif %}
+    {% if product.purity %}{"@type":"PropertyValue","name":"Purity","value":"{{ product.purity }}"}{% if product.moisture %},{% endif %}{% endif %}
+    {% if product.moisture %}{"@type":"PropertyValue","name":"Moisture","value":"{{ product.moisture }}"}{% endif %}
+  ]
+}
+</script>
+{% endblock %}

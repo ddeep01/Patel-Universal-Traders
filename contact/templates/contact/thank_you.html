@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load form_tags %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/oldschool.css' %}">
+<style>
+  @font-face {
+    font-family: 'Antique Olive';
+    src: url("{% static 'fonts/AntiqueOlive.woff2' %}") format('woff2'),
+         url("{% static 'fonts/AntiqueOlive.woff' %}") format('woff');
+    font-weight: 300 800;
+    font-style: normal;
+    font-display: swap;
+  }
+  .thank-you-section, .thank-you-section * { font-family: 'Antique Olive', Georgia, 'Times New Roman', serif !important; font-weight: 400 !important; text-transform: none !important; }
+  .thank-you-section .oldschool-header h1 { font-size: 2rem; margin-bottom: 6px; text-transform: none; }
+  .thank-you-section .lead { font-size: 1.05rem; color: #333; }
+</style>
+{% endblock %}
+
+<section class="thank-you-section">
+  <div class="container">
+    <div class="oldschool-theme">
+      <div class="oldschool-paper">
+        <div class="oldschool-header">
+          <h1>Thank You</h1>
+          <p class="lead">Your message has been received.</p>
+        </div>
+
+        <div class="text-center">
+          <div style="font-size:4rem; color:#3a4b3a;">✔️</div>
+          <p class="mt-3">We appreciate you contacting Prime Impex. Our team will review your inquiry and typically respond within 24 hours.</p>
+
+          <div class="mt-4">
+            <a href="{% url 'home' %}" class="retro-btn me-2"><i class="fas fa-home"></i> Home</a>
+            <a href="{% url 'products:product_list' %}" class="retro-btn" style="background:linear-gradient(180deg,#7b4b1f,#592f0f); border-color:#9b6b3f;"><i class="fas fa-box-open"></i> Products</a>
+          </div>
+
+          <div class="oldschool-footer mt-4">
+            <h5>Need Immediate Assistance?</h5>
+            <p>Call us directly: <a href="tel:+919876543210"><strong>+91 98765 43210</strong></a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

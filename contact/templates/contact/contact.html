@@ -1,0 +1,340 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load form_tags %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/oldschool.css' %}">
+<style>
+  /* Load Antique Olive from site static files if available; fall back to Georgia/serif */
+  @font-face {
+    font-family: 'Antique Olive';
+    src: url("{% static 'fonts/AntiqueOlive.woff2' %}") format('woff2'),
+         url("{% static 'fonts/AntiqueOlive.woff' %}") format('woff');
+    font-weight: 300 800;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /* Apply Antique Olive to the contact page with sensible fallbacks */
+  .page-header, .page-header * { font-family: 'Antique Olive', Georgia, 'Times New Roman', serif !important; }
+
+  /* Scoped contact page overrides: normalize font-weight and tighten spacing */
+  .oldschool-theme, .oldschool-paper, .vintage-masthead, .vintage-columns,
+  .inquiry-panel, .scroll-panel, .scroll-item, .inquiry-title, .merchant-note {
+    font-weight: 400 !important; /* make all text regular */
+    letter-spacing: 0 !important;
+  }
+
+  /* Reduce paddings/margins to avoid excessive zoomed/oversized layout */
+  .page-header .container { max-width: 1100px; padding-left: 16px; padding-right: 16px; }
+  .oldschool-paper { padding: 18px !important; transform: none !important; scale: none !important; }
+  .vintage-masthead h1 { font-size: 1.6rem; margin-bottom: 6px; }
+  .vintage-masthead h2 { font-size: 1rem; margin-bottom: 8px; }
+  .vintage-masthead .intro { margin-bottom: 12px; font-size: 0.95rem; }
+
+  /* Layout: keep columns tidy and centered */
+  .vintage-columns { display: flex; gap: 18px; flex-wrap: wrap; align-items: flex-start; }
+  .scroll-panel { flex: 0 0 340px; max-width: 340px; padding: 10px; }
+  /* Improve spacing for each contact block to reduce visual congestion */
+  .scroll-panel .scroll-item { margin-bottom: 18px; padding: 12px 8px; border-radius: 6px; }
+  .scroll-panel .scroll-item h5 { margin-bottom: 8px; font-size: 1.02rem; }
+  .scroll-panel .scroll-item p { margin: 0; color: #222; }
+  .inquiry-panel { flex: 1 1 520px; max-width: 680px; padding: 12px 14px; margin: 0 auto; }
+
+  /* Form: reduce inner spacing and align labels/fields */
+  .inquiry-panel .inquiry-title { font-size: 1.05rem; margin-bottom: 10px; }
+  .inquiry-panel form { display: grid; gap: 10px; align-items: start; }
+  .inquiry-panel label { display: block; margin-bottom: 4px; font-weight: 400; }
+  .inquiry-panel .form-control { padding: 8px 10px; font-size: 0.95rem; }
+  .inquiry-panel .retro-textarea { min-height: 110px; }
+
+  /* Buttons */
+  .inquiry-panel .wax-btn { padding: 8px 14px; font-size: 0.95rem; }
+
+  /* Ensure any decorative transforms from oldschool.css are neutralized */
+  .oldschool-theme * { transform: none !important; transition: none !important; }
+
+  /* Error / success messages styling */
+  .form-messages { margin-bottom: 10px; }
+  .form-messages .alert { margin: 0 0 8px 0; padding: 8px 10px; }
+
+  @media (max-width: 900px) {
+    .vintage-columns { flex-direction: column; }
+    .scroll-panel, .inquiry-panel { max-width: 100%; flex: 1 1 100%; }
+  }
+
+  /* Explicitly normalize masthead and contact text */
+  .vintage-masthead .intro,
+  .scroll-title,
+  .scroll-item h5,
+  .scroll-item p,
+  .inquiry-title,
+  .merchant-note {
+    font-weight: 400 !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Strong override: force all contact page text to regular weight and normal case */
+  .page-header, .page-header *,
+  .page-header h1, .page-header h2, .page-header h3, .page-header h4, .page-header h5, .page-header h6,
+  .page-header p, .page-header a, .page-header span, .page-header li, .page-header label,
+  .page-header strong, .page-header b, .page-header em {
+    font-weight: 400 !important;
+    font-style: normal !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+  }
+
+  /* Also neutralize common button/retro classes inside contact page */
+  .page-header .wax-btn, .page-header .retro-btn, .page-header .retro-icon, .page-header .wax-seal {
+    font-weight: 400 !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+  }
+  /* Contact page background image (scoped) - included here so base.html will render it */
+  .page-header {
+    background-image: url("{% static 'images/contactus.webp' %}");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    /* subtle overlay for readability */
+    position: relative;
+    padding: 0px 0;
+  }
+  .page-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.28);
+    pointer-events: none;
+  }
+  /* ensure inner content sits above overlay */
+  .page-header .container > .oldschool-theme { position: relative; z-index: 2; }
+
+  @media (max-width: 768px) {
+    .page-header { padding: 22px 0; }
+  }
+
+  /* Force all text on contact page to normal weight and normal case for readability */
+  .page-header, .page-header * {
+    font-weight: 400 !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+  }
+  .vintage-masthead h1, .vintage-masthead h2, .vintage-masthead .intro,
+  .scroll-title, .inquiry-title, .merchant-note, .scroll-item h5,
+  .inquiry-panel label {
+    font-weight: 400 !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+  }
+  .inquiry-panel .wax-btn { text-transform: none !important; }
+  /* Quality Verification cards: modern two-column horizontal layout */
+  .quality-verification-section { background: #f6faf8; padding: 48px 0; }
+  .qv-container { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+  .qv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+  .qv-card { background: #fff; border-radius: 12px; padding: 22px; box-shadow: 0 10px 30px rgba(12,20,16,0.06); transition: transform 220ms ease, box-shadow 220ms ease; }
+  .qv-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(12,20,16,0.10); }
+  .qv-card .qv-icon { width:48px; height:48px; display:inline-flex; align-items:center; justify-content:center; border-radius:10px; background:linear-gradient(180deg,#e9f7ef,#dff3e8); color:#1b5e20; font-size:20px; margin-right:12px; }
+  .qv-card h3 { margin: 0 0 8px 0; font-size:1.12rem; font-weight:700; color:#0e2b1a; }
+  .qv-card p { margin:0; color:#22332a; line-height:1.45; }
+  .qv-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+  .qv-list li { display:flex; gap:12px; align-items:flex-start; }
+  .qv-li-icon { width:36px; height:36px; flex:0 0 36px; display:inline-flex; align-items:center; justify-content:center; font-size:18px; border-radius:8px; background:#fff6ea; color:#7a430f; box-shadow: 0 6px 16px rgba(122,67,15,0.06); }
+  .qv-list strong { display:block; color:#0b2b1a; font-weight:700; }
+  .qv-list small { display:block; color:#33423a; }
+  @media (max-width: 880px) {
+    .qv-grid { grid-template-columns: 1fr; }
+    .quality-verification-section { padding: 28px 0; }
+  }
+
+  /* Responsive improvements for contact page (mobile / tablet / desktop) */
+  /* Ensure form controls are touch-friendly and full width */
+  .inquiry-panel .form-control, .inquiry-panel .retro-field, .inquiry-panel textarea, .inquiry-panel select {
+    width: 100% !important;
+    box-sizing: border-box;
+    min-width: 0; /* prevents overflow in flex/grid contexts */
+    font-size: 0.98rem;
+    padding: 10px 12px;
+    border-radius: 6px;
+  }
+
+  .inquiry-panel label { display: block; margin-bottom: 6px; font-size: 0.95rem; }
+
+  /* Make the submit button easier to tap on mobile and centered on desktop */
+  .inquiry-panel .wax-btn {
+    display: block;
+    width: 100%;
+    max-width: 360px;
+    margin: 8px auto 0 auto;
+    padding: 12px 18px;
+    font-size: 1rem;
+    border-radius: 8px;
+  }
+
+  /* Reduce heavy shadows and spacing on small screens */
+  @media (max-width: 900px) {
+    .page-header { padding: 18px 0; }
+    .oldschool-paper { padding: 14px !important; }
+    .vintage-masthead h1 { font-size: 1.35rem; }
+    .vintage-masthead h2 { font-size: 0.95rem; }
+    .vintage-columns { flex-direction: column; gap: 12px; }
+    .scroll-panel, .inquiry-panel { flex: 1 1 100%; max-width: 100%; }
+    /* On small screens show the CTA inquiry form first (above address/map) */
+    .inquiry-panel { order: -1; }
+    .scroll-panel { order: 0; }
+    .scroll-panel .scroll-item { padding: 10px; }
+  }
+
+  /* Slight typographic scale-up on very small devices for readability */
+  @media (max-width: 420px) {
+    .vintage-masthead h1 { font-size: 1.25rem; }
+    .vintage-masthead h2 { font-size: 0.9rem; }
+    .inquiry-panel .retro-textarea { min-height: 120px; }
+    .qv-card { padding: 16px; }
+  }
+
+  /* Desktop improvements: keep content centered and readable */
+  @media (min-width: 901px) {
+    .vintage-columns { align-items: flex-start; }
+    .inquiry-panel { padding: 18px 22px; }
+    .scroll-panel { flex: 0 0 340px; }
+  }
+
+  /* Page header video (full-bleed) */
+  .page-video-wrapper{ width:100%; position:relative; overflow:hidden; background:#000; margin-bottom: 28px; }
+  .page-video-wrapper video{ width:100%; height:auto; display:block; max-height:70vh; object-fit:cover; }
+  .page-video-wrapper .video-inner{ width:100%; }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="page-header">
+  <!-- Full-width header video placed above the main container -->
+  <div class="page-video-wrapper" aria-hidden="false">
+    <div class="video-inner">
+      <video autoplay muted loop playsinline poster="{% static 'images/hero/quality-hero.webp' %}">
+        <source src="{% static 'videos/hero.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+  <div class="container">
+    <div class="oldschool-theme">
+      <div class="oldschool-paper">
+        <div class="vintage-masthead">
+          <h1>Contact the Merchants of Taste</h1>
+          <h2>Patel Universal Traders PVT.LTD.</h2>
+          <p class="intro">India has long been a source of the world's finest rice and spices. At Patel Universal Traders PVT.LTD., we continue that legacy with integrity, trust, and craftsmanship. If you are an importer, distributor, or global partner, we welcome the opportunity to collaborate — please get in touch.</p>
+        </div>
+
+        <div class="vintage-columns">
+          <!-- Left: Trade Office Coordinates (scroll-like box) -->
+          <div class="scroll-panel">
+            <div class="scroll-title">Trade Office Coordinates</div>
+
+            <div class="scroll-item">
+              <h5>Head Office ~ India</h5>
+              <p>Spice & Grain Belt<br>Taraori, Karnal, Haryana, India</p>
+            </div>
+
+            <div class="scroll-separator"></div>
+
+            <div class="scroll-item">
+              <h5>Contact</h5>
+              <p><a href="mailto:info@primeimpex.com">info@primeimpex.com</a><br><a href="tel:+919876543210">+91 98765 43210</a></p>
+            </div>
+
+            <div class="scroll-separator"></div>
+
+            <div class="scroll-item">
+              <h5>Global Inquiries</h5>
+              <p>Export support: <a href="mailto:exports@primeimpex.com">exports@primeimpex.com</a><br>Logistics: <a href="mailto:logistics@primeimpex.com">logistics@primeimpex.com</a></p>
+            </div>
+
+            <!-- Embedded Google Map inserted after contact details -->
+            <div class="map-retro mt-3" aria-hidden="false">
+              <div style="position:relative; width:100%; padding-bottom:56%; height:0; overflow:hidden; border-radius:6px;">
+                <iframe
+                  src="https://www.google.com/maps?q=Taraori%2C+Karnal%2C+Haryana%2C+India&output=embed"
+                  width="600" height="450" style="border:0; position:absolute; inset:0; width:100%; height:100%;"
+                  allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+              </div>
+            </div>
+
+            
+          </div>
+
+          <!-- (video block removed here; restored to original location below) -->
+
+          <!-- Right: Inquiry form styled as a boxed form -->
+          <aside class="inquiry-panel">
+            <div class="inquiry-title">Write Your Trade Inquiry</div>
+
+            <!-- Messages -->
+            <div class="form-messages">
+              {% if messages %}
+                {% for message in messages %}
+                  <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}</div>
+                {% endfor %}
+              {% endif %}
+            </div>
+
+            <form method="post" action="{% url 'contact:contact' %}" novalidate>
+              {% csrf_token %}
+
+              {% if form.non_field_errors %}
+                <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+              {% endif %}
+
+              <label for="id_name">{{ form.name.label }}</label>
+              {{ form.name|add_class:"form-control retro-field" }}
+              {% if form.name.errors %}<div class="text-danger small">{{ form.name.errors|join:", " }}</div>{% endif %}
+
+              <label for="id_company">{{ form.company.label }}</label>
+              {{ form.company|add_class:"form-control retro-field" }}
+              {% if form.company.errors %}<div class="text-danger small">{{ form.company.errors|join:", " }}</div>{% endif %}
+
+              <label for="id_email">{{ form.email.label }}</label>
+              {{ form.email|add_class:"form-control retro-field" }}
+              {% if form.email.errors %}<div class="text-danger small">{{ form.email.errors|join:", " }}</div>{% endif %}
+
+              <label for="id_phone">{{ form.phone.label }}</label>
+              {{ form.phone|add_class:"form-control retro-field" }}
+              {% if form.phone.errors %}<div class="text-danger small">{{ form.phone.errors|join:", " }}</div>{% endif %}
+
+              <label for="id_country">{{ form.country.label }}</label>
+              {{ form.country|add_class:"form-control retro-field" }}
+              {% if form.country.errors %}<div class="text-danger small">{{ form.country.errors|join:", " }}</div>{% endif %}
+
+              <label for="id_product_interest">{{ form.product_interest.label }}</label>
+              {{ form.product_interest|add_class:"form-control retro-field" }}
+              {% if form.product_interest.errors %}<div class="text-danger small">{{ form.product_interest.errors|join:", " }}</div>{% endif %}
+
+              <label for="id_quantity">{{ form.quantity.label }}</label>
+              {{ form.quantity|add_class:"form-control retro-field" }}
+              {% if form.quantity.errors %}<div class="text-danger small">{{ form.quantity.errors|join:", " }}</div>{% endif %}
+
+              <label for="id_message">{{ form.message.label }}</label>
+              {{ form.message|add_class:"form-control retro-field retro-textarea" }}
+              {% if form.message.errors %}<div class="text-danger small">{{ form.message.errors|join:", " }}</div>{% endif %}
+
+              <div style="margin-top:8px; text-align:center;">
+                <button type="submit" class="wax-btn"><span class="wax-seal" aria-hidden="true"></span> Send Your Message</button>
+              </div>
+            </form>
+
+            <div class="merchant-note">Patel Universal Traders PVT.LTD. — continuing India's 5,000-year legacy of trade and trust.</div>
+          </aside>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+<!-- Quality Verification Section removed per request -->
+{% endblock %}

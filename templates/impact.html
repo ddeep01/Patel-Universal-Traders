@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+  :root{
+    --impact-bg: #fbf7f3;
+    --card: #ffffff;
+    --accent: #d88a46;
+    --muted: #666666;
+    --shadow: 0 12px 30px rgba(16,24,40,0.06);
+  }
+  .impact-hero{ background: linear-gradient(180deg, rgba(216,138,70,0.06), rgba(255,255,255,0)); padding: 56px 0; }
+  .impact-container{ max-width: 1200px; margin: 0 auto; padding: 28px; }
+  .impact-section{ display:flex; flex-direction:column; gap:22px; margin-bottom:48px; align-items:center; }
+  .impact-row{ display:flex; flex-direction:column; gap:24px; align-items:center; }
+  .impact-card{ background:var(--card); border-radius:14px; box-shadow:var(--shadow); padding:28px; width:100%; }
+  .impact-media{ width:100%; border-radius:12px; overflow:hidden; box-shadow: 0 8px 26px rgba(15,15,15,0.06); }
+  .impact-media .img-placeholder{ background:linear-gradient(135deg,#f2e8df,#fff); height:320px; display:flex; align-items:center; justify-content:center; color:var(--muted); font-weight:700; font-size:1.05rem; }
+
+  .impact-content h2{ font-size:clamp(1.6rem,2.6vw,2.2rem); margin:0 0 12px; color:#111; font-weight:800; }
+  .impact-content p.lead{ color:#333; font-size:1.02rem; margin-bottom:12px; }
+  .impact-list{ margin:0; padding:0 0 0 18px; color:var(--muted); }
+  .impact-list li{ margin:8px 0; line-height:1.5; }
+
+  /* Alternating layout for larger screens */
+  .impact-row.cols{ flex-direction:column; }
+  @media(min-width:900px){
+    .impact-row.cols{ flex-direction:row; align-items:flex-start; }
+    .impact-row.cols.reverse{ flex-direction:row-reverse; }
+    .impact-col{ flex:1 1 50%; padding:18px; }
+  }
+
+  /* Visual accents */
+  .accent-pill{ display:inline-block; background:var(--accent); color:#fff; padding:6px 12px; border-radius:999px; font-weight:700; font-size:0.9rem; margin-bottom:10px; }
+  .cta-impact{ display:inline-block; background:var(--accent); color:#fff; padding:10px 16px; border-radius:10px; font-weight:700; text-decoration:none; box-shadow:0 8px 22px rgba(216,138,70,0.14); }
+
+  /* Gallery grid */
+  .impact-gallery{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:18px; }
+  .impact-thumb{ height:140px; border-radius:10px; background:linear-gradient(135deg,#fff,#f6f2ef); display:flex; align-items:center; justify-content:center; color:var(--muted); font-weight:700; }
+  @media(max-width:900px){ .impact-gallery{ grid-template-columns:repeat(2,1fr); } }
+  @media(max-width:480px){ .impact-gallery{ grid-template-columns:1fr; } .impact-media .img-placeholder{ height:220px; } }
+
+  /* Gentle entrance */
+  .impact-card, .impact-media, .impact-thumb{ transform:translateY(6px); opacity:0; transition: transform 480ms ease, opacity 420ms ease; }
+  .in-view .impact-card, .in-view .impact-media, .in-view .impact-thumb{ transform:none; opacity:1; }
+
+</style>
+{% endblock %}
+
+{% block title %}Impact — Patel Universal Traders Pvt. Ltd.{% endblock %}
+
+{% block content %}
+<section class="impact-hero">
+  <div class="impact-container">
+    <div class="impact-card" role="region" aria-labelledby="impact-hero-title">
+      <div class="d-flex align-items-center gap-3">
+        <div class="accent-pill">🌟 Impact</div>
+        <h1 id="impact-hero-title" style="margin:0; font-size:1.5rem;">Impact That Truly Matters</h1>
+      </div>
+      <p class="lead" style="margin-top:12px;">At Patel Universal Traders Pvt. Ltd., every order helps us feed orphaned children and senior citizens. A portion of our profit goes directly toward providing fresh, nutritious meals to trusted homes. Our business doesn’t just move products — it moves lives forward.</p>
+      <div style="margin-top:12px;">
+        <a class="cta-impact" href="{% url 'contact:contact' %}">Learn How to Help</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="impact-container" aria-label="Impact details">
+  <!-- Section 1: Image left, text right -->
+  <div class="impact-section">
+    <div class="impact-row cols">
+      <div class="impact-col">
+        <div class="impact-media">
+          <div class="img-placeholder">Image Placeholder</div>
+        </div>
+      </div>
+      <div class="impact-col impact-content">
+        <h2>How Your Order Helps</h2>
+        <p class="lead">Every shipment you place brings someone a meal, comfort, and hope.</p>
+        <ul class="impact-list">
+          <li>• A percentage of your purchase is added to our Impact Fund</li>
+          <li>• We source directly from local farmers, helping them earn better, grow more, and sustain their livelihood</li>
+          <li>• We distribute meals through verified orphanages &amp; old-age homes</li>
+          <li>• You receive transparent updates &amp; real stories of change</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2: Text left, image right (reverse) -->
+  <div class="impact-section">
+    <div class="impact-row cols reverse">
+      <div class="impact-col impact-content">
+        <h2>Why We Stand Apart</h2>
+        <p class="lead">Choosing us means choosing a partner who cares for people, not just profit.</p>
+        <ul class="impact-list">
+          <li>• Real support, every month</li>
+          <li>• No middlemen — direct contribution</li>
+          <li>• Honest reporting and real photos</li>
+          <li>• Care and compassion built into our business values</li>
+        </ul>
+      </div>
+      <div class="impact-col">
+        <div class="impact-media">
+          <div class="img-placeholder">Image Placeholder</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: Image left, text right -->
+  <div class="impact-section">
+    <div class="impact-row cols">
+      <div class="impact-col">
+        <div class="impact-media">
+          <div class="img-placeholder">Image Placeholder</div>
+        </div>
+      </div>
+      <div class="impact-col impact-content">
+        <h2>Real Moments We Create</h2>
+        <p class="lead">Warm meals. Happy smiles. Grateful elders. All made possible by your trust in us.</p>
+        <div class="impact-gallery">
+          <div class="impact-thumb">Photo 1</div>
+          <div class="impact-thumb">Photo 2</div>
+          <div class="impact-thumb">Photo 3</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: Text left, image right -->
+  <div class="impact-section">
+    <div class="impact-row cols reverse">
+      <div class="impact-col impact-content">
+        <h2>When You Choose Us</h2>
+        <p class="lead">You don’t just get quality goods… you give a better life to someone who needs it.</p>
+        <ul class="impact-list">
+          <li>• A reliable supplier</li>
+          <li>• A responsible partner</li>
+          <li>• A compassionate brand</li>
+        </ul>
+      </div>
+      <div class="impact-col">
+        <div class="impact-media">
+          <div class="img-placeholder">Image Placeholder</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Simple IntersectionObserver to add .in-view for gentle entrance
+document.addEventListener('DOMContentLoaded', function(){
+  var els = document.querySelectorAll('.impact-section');
+  if (!('IntersectionObserver' in window)) { els.forEach(function(e){ e.classList.add('in-view'); }); return; }
+  var io = new IntersectionObserver(function(entries, obs){
+    entries.forEach(function(entry){ if (entry.isIntersecting) { entry.target.classList.add('in-view'); obs.unobserve(entry.target); } });
+  }, { threshold: 0.12 });
+  els.forEach(function(e){ io.observe(e); });
+});
+</script>
+{% endblock %}

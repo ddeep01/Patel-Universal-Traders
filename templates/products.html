@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Our Products{% endblock %}
+{% block content %}
+<h2>Our Products</h2>
+<div class="row">
+  <div class="col-md-4">
+    <div class="card mb-4 shadow-sm">
+      <img src="{% static 'images/basmati.webp' %}" class="card-img-top" alt="Basmati Rice" loading="lazy" decoding="async">
+      <div class="card-body">
+        <h5 class="card-title">Basmati Rice</h5>
+        <p class="card-text">Aromatic, long-grain rice grown in the foothills of the Himalayas.</p>
+        <a href="/product/1/" class="btn btn-outline-primary btn-sm">View Details</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card mb-4 shadow-sm">
+      <img src="{% static 'images/nonbasmati.webp' %}" class="card-img-top" alt="Non-Basmati Rice" loading="lazy" decoding="async">
+      <div class="card-body">
+        <h5 class="card-title">Non-Basmati Rice</h5>
+        <p class="card-text">High-quality, affordable rice for daily consumption.</p>
+        <a href="/product/2/" class="btn btn-outline-primary btn-sm">View Details</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card mb-4 shadow-sm">
+      <img src="{% static 'images/organic.webp' %}" class="card-img-top" alt="Organic Rice" loading="lazy" decoding="async">
+      <div class="card-body">
+        <h5 class="card-title">Organic Rice</h5>
+        <p class="card-text">Naturally grown without pesticides or synthetic fertilizers.</p>
+        <a href="/product/3/" class="btn btn-outline-primary btn-sm">View Details</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

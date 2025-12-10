@@ -1,0 +1,31 @@
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Logs
+*.log
+
+# SQLite database
+db.sqlite3
+
+# Environment variables
+.env
+
+# Media uploads (optional, recommended)
+media/
+
+# Django collected static files (production output)
+staticfiles/
+
+# VSCode settings
+.vscode/
+
+# Local settings overrides (if any)
+local_settings.py
+
+# System files
+Thumbs.db
+.DS_Store

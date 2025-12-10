@@ -1,0 +1,539 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+  /* Ensure Journey & Founders images render at a consistent size (increased per request) */
+  .founder-photo {
+    width: 220px;
+    height: 220px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+  }
+  .founder-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    .founder-photo { width: 150px; height: 150px; }
+    .founder-photo img { width: 100%; height: 100%; }
+  }
+
+  /* About page hero: use provided image as a full-width hero background */
+  .about-hero-banner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: clamp(340px, 40vh, 520px);
+    background-image: url("{% static 'images/about/about us.jpg' %}");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #fff;
+  }
+  .about-hero-banner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.18);
+    z-index: 0;
+  }
+  .about-hero-banner .about-hero-text { position: relative; z-index: 2; }
+  .about-hero-banner .about-hero-text h1, .about-hero-banner .about-hero-text p { color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.6); }
+
+  /* Infrastructure gallery: force uniform thumbnail sizes */
+  .infra-thumb {
+    display: block;
+    overflow: hidden;
+    border-radius: 6px;
+  }
+  .infra-thumb img {
+    width: 100%;
+    height: 320px; /* larger visual height for featured infrastructure */
+    object-fit: cover;
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    .infra-thumb img { height: 220px; }
+  }
+
+  /* Exports & Partners flags: use specific sizes from design */
+  .export-markets .flag-btn { padding: 0.25rem; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; }
+  .export-markets .flag-btn img {
+    width: 75px;
+    height: 71px;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    .export-markets .flag-btn img { width: 60px; height: 24px; }
+  }
+
+  /* Founders / Journey background image and overlay */
+  .founders-section {
+    position: relative;
+    /* removed image background per request; use solid dark background for contrast */
+    background-image: none;
+    background-color: #0b0b0b; /* dark background; change to a lighter/darker hex if needed */
+    color: #fff;
+  }
+  .founders-section::before {
+    /* remove overlay when using solid background */
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: transparent;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .founders-section .container { position: relative; z-index: 2; }
+  /* Ensure text is visible on dark background */
+  .founders-section .section-title,
+  .founders-section .section-subtitle,
+  .founders-section .founder-text h4,
+  .founders-section .founder-text p,
+  .founders-section .founder-text strong,
+  .founders-section .founder-text .small {
+    color: #ffffff !important;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+  }
+  .founders-section a { color: #ffd166; }
+  /* Animations for Journey & Founders: vertical on small screens, directional horizontal on larger screens */
+  .founders-section .section-header,
+  .founders-section .founder-item {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 520ms cubic-bezier(.2,.9,.2,1), transform 520ms cubic-bezier(.2,.9,.2,1);
+    will-change: opacity, transform;
+  }
+
+  .founders-section .section-header.in-view,
+  .founders-section .founder-item.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Small-screen (stacked) stagger */
+  .founder-item .founder-photo { opacity: 0; transform: translateY(10px); transition-delay: 0s; }
+  .founder-item .founder-text h4 { opacity: 0; transform: translateY(10px); transition-delay: 0s; }
+  .founder-item .founder-text p  { opacity: 0; transform: translateY(10px); transition-delay: 0s; }
+
+  .founder-item.in-view .founder-photo { opacity: 1; transform: none; transition-delay: 80ms; }
+  .founder-item.in-view .founder-text h4 { opacity: 1; transform: none; transition-delay: 140ms; }
+  .founder-item.in-view .founder-text p  { opacity: 1; transform: none; transition-delay: 220ms; }
+
+  .section-header.in-view .section-title { opacity: 1; transform: none; transition-delay: 0ms; }
+  .section-header.in-view .section-subtitle { opacity: 1; transform: none; transition-delay: 60ms; }
+
+  /* Larger screens: arrange items in rows and animate images/text from opposite directions
+     If image is on left (default order), image slides in from right and text slides in from left.
+     If image is on right (nth-child even), directions are inverted. */
+  @media (min-width: 768px) {
+    .founder-list { display: flex; flex-direction: column; gap: 28px; }
+    .founder-item { display: flex; align-items: center; gap: 28px; }
+    .founder-item .founder-photo { flex: 0 0 220px; width: 220px; }
+    .founder-item .founder-text { flex: 1; }
+
+    /* initial horizontal offsets */
+    .founder-item .founder-photo { opacity: 0; transform: translateX(20px); transition: transform 520ms cubic-bezier(.2,.9,.2,1), opacity 520ms ease; }
+    .founder-item .founder-text h4, .founder-item .founder-text p { opacity: 0; transform: translateX(-20px); transition: transform 520ms cubic-bezier(.2,.9,.2,1), opacity 520ms ease; }
+
+    /* invert for even items (image on right) */
+    .founder-item:nth-child(even) .founder-photo { transform: translateX(-20px); }
+    .founder-item:nth-child(even) .founder-text h4, .founder-item:nth-child(even) .founder-text p { transform: translateX(20px); }
+
+    /* when visible -> reset transform */
+    .founder-item.in-view .founder-photo { transform: none; opacity: 1; transition-delay: 80ms; }
+    .founder-item.in-view .founder-text h4 { transform: none; opacity: 1; transition-delay: 140ms; }
+    .founder-item.in-view .founder-text p  { transform: none; opacity: 1; transition-delay: 220ms; }
+  }
+
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .founders-section .section-header,
+    .founders-section .founder-item,
+    .founders-section .founder-item .founder-photo,
+    .founders-section .founder-item .founder-text h4,
+    .founders-section .founder-item .founder-text p {
+      transition: none !important;
+      transform: none !important;
+      opacity: 1 !important;
+    }
+  }
+  /* Fixed background applied only to selected sections */
+  .fixed-bg-section {
+    position: relative;
+    background-image: url("{% static 'images/about/back.jpg' %}");
+    background-attachment: fixed; /* stays fixed while scrolling */
+    background-size: cover; /* cover full viewport */
+    background-repeat: no-repeat;
+    background-position: center;
+    /* fallback color if image missing */
+    background-color: transparent;
+    /* ensure content sits above any background layering we may add */
+    z-index: 0;
+  }
+  /* Optional overlay to improve contrast; tweak rgba alpha as needed */
+  .fixed-bg-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.18);
+    z-index: 0;
+    pointer-events: none;
+  }
+  .fixed-bg-section > .container { position: relative; z-index: 2; }
+
+  /* About detail: white text and subtle background blur for this section only */
+  .about-detail.fixed-bg-section {
+    position: relative;
+    color: #ffffff;
+  }
+  .about-detail.fixed-bg-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /* subtle dark overlay to improve contrast (no backdrop-filter for performance) */
+    background: rgba(0,0,0,0.28);
+    z-index: 1;
+    pointer-events: none;
+  }
+  .about-detail .about-detail-text { position: relative; z-index: 2; color: #fff; }
+  .about-detail .about-detail-text h3,
+  .about-detail .about-detail-text p,
+  .about-detail .about-detail-text .lead { color: #ffffff !important; }
+
+  /* Disable fixed background on smaller screens to avoid scroll jank */
+  @media (max-width: 1024px) {
+    .fixed-bg-section { background-attachment: scroll !important; }
+  }
+
+  /* If a section defines its own background (via class or inline style), it should override this. 
+     To make sure, authors can add the utility class `has-own-bg` to that section to prevent the fixed image.
+     Example: <section class="export-markets py-5 has-own-bg"> ... </section>
+  */
+  .has-own-bg.fixed-bg-section { background-image: none !important; }
+
+  /* Make Infrastructure & Exports section headings/subtitles clearly visible */
+  .infrastructure .section-header .section-title,
+  .export-markets .section-header .section-title {
+    color: #ffffff !important;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+  }
+  .infrastructure .section-header .section-subtitle,
+  .export-markets .section-header .section-subtitle {
+    color: rgba(255,255,255,0.92) !important;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+    font-weight: 600;
+  }
+</style>
+{% endblock %}
+
+{% block title %}About Us - Patel Universal Traders PVT.LTD.{% endblock %}
+
+{% block content %}
+<!-- Full-width about banner (now uses provided hero background image) -->
+<section class="about-hero-banner">
+  <div class="container about-hero-text text-center">
+    <h1>From India's Heartlands to Global Tables</h1>
+    <p class="small">The Legacy of Purity</p>
+  </div>
+</section>
+
+<!-- New about detail section: left text, right overlapping images -->
+<section class="about-detail py-5 fixed-bg-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 about-detail-text">
+        <h3>Patel Universal Traders PVT.LTD.</h3>
+        <p class="lead">Delivering India’s Heritage of Taste to the World.</p>
+        <p>At Patel Universal Traders PVT.LTD., we are proud to represent India’s finest rice and spices on the global stage. As a trusted exporter, we combine traditional sourcing with modern processing to deliver products that embody purity, authenticity, and quality. From the lush paddy fields and spice farms of India to dining tables across continents, every shipment reflects our commitment to ethical sourcing, precise quality control, and international standards.</p>
+        <p>With customized packaging, sustainable practices, and seamless logistics, we ensure our clients receive India’s true flavor — fresh, natural, and globally trusted.</p>
+        <p class="mb-0"><strong>Patel Universal Traders PVT.LTD. — Redefining Indian Excellence in Global Trade.</strong></p>
+      </div>
+      <div class="col-lg-6">
+        <div class="image-composition">
+          <div class="back-rect"></div>
+          <img src="{% static 'images/hero/hero1.jpg' %}" alt="Premium quality rice" class="comp rect-image" loading="lazy" decoding="async">
+          <img src="{% static 'images/hero/hero2.jpg' %}" alt="Global logistics" class="comp ellipse-image" loading="lazy" decoding="async">
+          <img src="{% static 'images/hero/hero3.jpg' %}" alt="Certified excellence" class="comp rounded-image" loading="lazy" decoding="async">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+ 
+<!-- Certifications & Awards -->
+<!-- Certifications & Awards and Leadership moved further down the page -->
+
+<!-- Story / Timeline -->
+<!-- Story, Mission & Certifications moved/removed per request -->
+ 
+<!-- Leadership grid for quick scanning -->
+<!-- leadership section removed per request -->
+
+<!-- Journey & Founders -->
+<section class="founders-section py-5">
+  <div class="container">
+    <div class="section-header text-center mb-4">
+      <h2 class="section-title"><span class="hover-black-bg">Journey &amp; Founders</span></h2>
+      <p class="section-subtitle">The story behind Patel Universal Traders PVT.LTD. and the founders who led the way</p>
+    </div>
+
+    <div class="founder-list">
+      <div class="founder-item">
+        <div class="founder-photo">
+          <img src="{% static 'images/team/founder1.jpg' %}" alt="Dipak Patel" loading="lazy">
+        </div>
+        <div class="founder-text">
+          <h4>Dipak Patel (Co-Founder &amp; Managing Director) — From Technology to Trade</h4>
+          <p>After completing my Bachelor’s in Computer Science from the University of East London, I always knew that innovation could empower traditional industries — especially agriculture. Coming from a farming background, I had seen the hard work and dedication that goes into every harvest. During my university years, I began selling our family’s produce — wheat, rice, and cumin — to local stores and restaurants. That small initiative planted the seed for something bigger: connecting India’s rich agricultural quality to global markets and building trusted supply chains that honor both farmers and customers.</p>
+        </div>
+      </div>
+
+      <div class="founder-item">
+        <div class="founder-photo">
+          <img src="{% static 'images/team/founder2.jpg' %}" alt="Pankaj Patel" loading="lazy">
+        </div>
+        <div class="founder-text">
+          <h4>Pankaj Patel (Co-Founder &amp; Director – Procurement &amp; Trade Relations) — Turning Tradition Into Opportunity</h4>
+          <p>Having completed my graduation from SAAL College, I shared the same passion for agriculture and entrepreneurship. Growing up in a farming family, I understood both the challenges and potential of this industry. Along with XYZ, we began trading our homegrown produce locally, building strong relationships and learning the real essence of trust and quality in business.</p>
+        </div>
+      </div>
+
+      <div class="founder-item">
+        <div class="founder-photo">
+          <img src="{% static 'images/team/manager1.jpg' %}" alt="Founders" loading="lazy">
+        </div>
+        <div class="founder-text">
+          <h4>Our Shared Vision</h4>
+            <p>“Two friends from farming families, one dream — to take India’s finest rice and spices to global tables.” Together, Dipak Patel and Pankaj Patel founded Patel Universal Traders PVT.LTD., transforming their early passion for agriculture into a trusted global export company. Their journey — from selling local farm produce to building an international trade brand — is rooted in authenticity, partnership, and an unwavering commitment to quality.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Infrastructure Gallery -->
+<!-- Certifications & Awards (moved after founders) -->
+<section class="certifications py-5">
+  <div class="container">
+    <div class="section-header text-center mb-4">
+      <h2 class="section-title">Certifications</h2>
+      <p class="section-subtitle">Our certifications and industry recognitions that ensure quality and trust</p>
+    </div>
+
+    <div class="row g-3 align-items-center">
+      <div class="col-lg-12">
+        <div class="row g-3 certificates-grid justify-content-center">
+          <!-- Certificate items: logo + title + download -->
+          <div class="col-6 col-md-4 cert-item text-center">
+            <img src="{% static 'images/certs/iso-logo.png' %}" alt="ISO" class="img-fluid cert-logo mb-2" loading="lazy" decoding="async">
+            <div class="small">ISO 9001</div>
+            <a href="{% static 'files/certificates/iso-9001.pdf' %}" class="d-block small mt-1" target="_blank" rel="noopener">Download PDF</a>
+          </div>
+          <div class="col-6 col-md-4 cert-item text-center">
+            <img src="{% static 'images/certs/fssai-logo.png' %}" alt="FSSAI" class="img-fluid cert-logo mb-2" loading="lazy" decoding="async">
+            <div class="small">FSSAI</div>
+            <a href="{% static 'files/certificates/fssai.pdf' %}" class="d-block small mt-1" target="_blank" rel="noopener">Download PDF</a>
+          </div>
+          <div class="col-6 col-md-4 cert-item text-center">
+            <img src="{% static 'images/certs/apeda-logo.png' %}" alt="APEDA" class="img-fluid cert-logo mb-2" loading="lazy" decoding="async">
+            <div class="small">APEDA</div>
+            <a href="{% static 'files/certificates/apeda.pdf' %}" class="d-block small mt-1" target="_blank" rel="noopener">Download PDF</a>
+          </div>
+          <div class="col-6 col-md-4 cert-item text-center">
+            <img src="{% static 'images/certs/haccp-logo.png' %}" alt="HACCP" class="img-fluid cert-logo mb-2" loading="lazy" decoding="async">
+            <div class="small">HACCP</div>
+            <a href="{% static 'files/certificates/haccp.pdf' %}" class="d-block small mt-1" target="_blank" rel="noopener">Download PDF</a>
+          </div>
+          <div class="col-6 col-md-4 cert-item text-center">
+            <img src="{% static 'images/certs/halal-logo.png' %}" alt="Halal" class="img-fluid cert-logo mb-2" loading="lazy" decoding="async">
+            <div class="small">Halal</div>
+            <a href="{% static 'files/certificates/halal.pdf' %}" class="d-block small mt-1" target="_blank" rel="noopener">Download PDF</a>
+          </div>
+          <div class="col-6 col-md-4 cert-item text-center">
+            <img src="{% static 'images/certs/organic-logo.png' %}" alt="Organic" class="img-fluid cert-logo mb-2" loading="lazy" decoding="async">
+            <div class="small">Organic</div>
+            <a href="{% static 'files/certificates/organic.pdf' %}" class="d-block small mt-1" target="_blank" rel="noopener">Download PDF</a>
+          </div>
+        </div>
+      </div>
+
+      
+    </div>
+  </div>
+</section>
+<section class="infrastructure py-5 fixed-bg-section">
+  <div class="container">
+    <div class="section-header text-center mb-4">
+      <h2 class="section-title">Infrastructure & Facilities</h2>
+      <p class="section-subtitle">Modern milling units, storage silos, and packaging lines</p>
+    </div>
+    <div class="row g-3">
+      {% for i in "1234" %}
+      <div class="col-md-6">
+          <a href="#" class="infra-thumb d-block" data-img="{% static 'images/infra/infra' %}{{ forloop.counter }}.jpg">
+          <img src="{% static 'images/infra/infra' %}{{ forloop.counter }}.jpg" alt="Infrastructure {{ forloop.counter }}" class="img-fluid rounded shadow-sm w-100" loading="lazy" decoding="async">
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Modal for gallery preview -->
+  <div class="modal fade" id="infraModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <img src="" id="infraModalImg" alt="Infrastructure" class="img-fluid w-100" loading="lazy" decoding="async">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Export Markets Interactive Flags -->
+<section class="export-markets py-5 fixed-bg-section">
+  <div class="container">
+    <div class="section-header text-center mb-4">
+      <h2 class="section-title">Exports & Partners</h2>
+      <p class="section-subtitle">Click a country to view key partner and year we started exports</p>
+    </div>
+    <div class="d-flex gap-3 justify-content-center flex-wrap">
+      <!-- sample flags with data attributes -->
+          <button class="btn btn-outline-light flag-btn" data-country="UAE" data-partner="Al Noor Foods" data-year="2012">
+        <img src="{% static 'images/flags/uae.png' %}" alt="UAE" loading="lazy" decoding="async">
+      </button>
+      <button class="btn btn-outline-light flag-btn" data-country="UK" data-partner="SpiceHouse Ltd" data-year="2014">
+        <img src="{% static 'images/flags/uk.png' %}" alt="UK" loading="lazy" decoding="async">
+      </button>
+      <button class="btn btn-outline-light flag-btn" data-country="USA" data-partner="Global Foods Inc" data-year="2016">
+        <img src="{% static 'images/flags/usa.png' %}" alt="USA" loading="lazy" decoding="async">
+      </button>
+      <button class="btn btn-outline-light flag-btn" data-country="Saudi Arabia" data-partner="Arabian Retail" data-year="2013">
+        <img src="{% static 'images/flags/saudi.png' %}" alt="Saudi Arabia" loading="lazy" decoding="async">
+      </button>
+      <button class="btn btn-outline-light flag-btn" data-country="Singapore" data-partner="EastTraders" data-year="2018">
+        <img src="{% static 'images/flags/singapore.png' %}" alt="Singapore" loading="lazy" decoding="async">
+      </button>
+    </div>
+
+    <!-- Modal for flag details -->
+    <div class="modal fade" id="flagModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="flagModalTitle"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p><strong>Key Partner:</strong> <span id="flagPartner"></span></p>
+            <p><strong>Year since exports started:</strong> <span id="flagYear"></span></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Careers CTA -->
+<!-- Careers section removed per request -->
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// infra gallery preview
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('.infra-thumb').forEach(function(a){
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      var img = a.getAttribute('data-img');
+      var modalImg = document.getElementById('infraModalImg');
+      modalImg.src = img;
+      var infraModal = new bootstrap.Modal(document.getElementById('infraModal'));
+      infraModal.show();
+    });
+  });
+
+  // flags
+  document.querySelectorAll('.flag-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var country = btn.getAttribute('data-country');
+      var partner = btn.getAttribute('data-partner');
+      var year = btn.getAttribute('data-year');
+      document.getElementById('flagModalTitle').innerText = country;
+      document.getElementById('flagPartner').innerText = partner;
+      document.getElementById('flagYear').innerText = year;
+      var flagModal = new bootstrap.Modal(document.getElementById('flagModal'));
+      flagModal.show();
+    });
+  });
+});
+</script>
+<script>
+// Reveal animation for founders on scroll
+document.addEventListener('DOMContentLoaded', function(){
+  var items = document.querySelectorAll('.founder-item');
+  if (!items || !items.length) return;
+
+  // honor reduced motion preference
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    items.forEach(function(i){ i.classList.add('in-view'); });
+    var header = document.querySelector('.founders-section .section-header');
+    if (header) header.classList.add('in-view');
+    return;
+  }
+
+  if (!('IntersectionObserver' in window)) {
+    items.forEach(function(i){ i.classList.add('in-view'); });
+    var header = document.querySelector('.founders-section .section-header');
+    if (header) header.classList.add('in-view');
+    return;
+  }
+
+  var io = new IntersectionObserver(function(entries, observer){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.22 });
+
+  items.forEach(function(i){ io.observe(i); });
+
+  // Also observe the section header so the title/subtitle animate when visible
+  var headerEl = document.querySelector('.founders-section .section-header');
+  if (headerEl) {
+    var hio = new IntersectionObserver(function(entries, hObserver){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          hObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    hio.observe(headerEl);
+  }
+});
+</script>
+{% endblock %}
+

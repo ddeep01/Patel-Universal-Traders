@@ -1,0 +1,1131 @@
+{% extends 'base.html' %}
+{% load static %}
+{% static 'images/hero/hero1.jpg' as hero_img %}
+{% static 'images/hero/hero1.jpg' as map_img %}
+{% static 'images/hero/back.jpg' as hero_bg %}
+
+{% block extra_css %}
+<style>
+  /* Move inline background images here to avoid editor/template parsing issues */
+  #heroFullWrap { background-image: url('{{ hero_img }}'); background-size: cover; background-position: center; }
+  #mapVideoWrap { background-image: url('{{ map_img }}'); background-size: cover; background-position: center; }
+
+  /* Hero section background + overlay helpers */
+  .hero-section { position: relative; overflow: hidden; }
+  .hero-section .container { position: relative; z-index: 2; }
+  .hero-section-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.18); z-index: 1; pointer-events: none; }
+
+  /* Hero background image (use static tag directly to avoid template var oddness) */
+  .hero-section .hero-bg { position: absolute; inset: 0; background-image: url("{% static 'images/hero/back.jpg' %}"); background-size: cover; background-position: center; z-index: 0; opacity: 0.22; }
+  /* Fallback <img> style: hidden by default but available for network/debug */
+  .hero-section .hero-bg-img { display: none; width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; z-index: 0; opacity: 0.22; }
+
+  /* Homepage animations */
+  .reveal-up { transform: translateY(18px); opacity: 0; transition: transform 560ms cubic-bezier(.2,.9,.2,1), opacity 420ms ease; }
+  .reveal-up.in-view { transform: translateY(0); opacity: 1; }
+
+  .hero-title { will-change: transform, opacity; }
+  .hero-subtitle { will-change: transform, opacity; transition-delay: 0.12s; }
+
+  .hero-buttons .btn { transform: translateY(6px); opacity: 0; transition: transform 420ms ease, opacity 320ms ease; }
+  .hero-buttons .btn.in-view { transform: translateY(0); opacity: 1; }
+
+  /* Animated counters */
+  .stat-item h3 { font-variant-numeric: tabular-nums; }
+  .stat-item p {
+    font-size: 0.9rem;
+    color: #000000;
+    margin: 0;
+  }
+
+  /* Why-list: keep row visible — we animate images only (per request) */
+  .why-item { opacity: 1; transform: none; }
+
+  /* Parallax: keep transform on the wrapper to move video/images subtly */
+  .hero-video-wrap.parallax { transition: transform 0.12s linear; }
+  /* Map/video section styles are controlled in main stylesheet; keep minimal inline rules here */
+  .map-video-wrap { position: relative; }
+  .map-video-wrap img { display: none; }
+
+  /* Force no gap between hero video and following hero content */
+  section.hero-video-full { margin-bottom: 0 !important; padding-bottom: 0 !important; }
+  .hero-video-wrap { line-height: 0; }
+  .hero-video-wrap video { display: block; width: 100%; height: auto; margin: 0; padding: 0; }
+  section.hero-video-full + section.hero-section { margin-top: 0 !important; padding-top: 0 !important; }
+
+  /* CTA Section Animation */
+  .cta-vintage-box {
+    animation: slideInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Stagger animations for benefits */
+  .cta-benefits .benefit-item:nth-child(1) { animation: slideInUp 0.6s ease-out 0.1s both; }
+  .cta-benefits .benefit-item:nth-child(2) { animation: slideInUp 0.6s ease-out 0.2s both; }
+  .cta-benefits .benefit-item:nth-child(3) { animation: slideInUp 0.6s ease-out 0.3s both; }
+
+  /* Vintage paper texture effect */
+  .cta-vintage-box {
+    background: 
+      repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0, 0, 0, 0.02) 2px, rgba(0, 0, 0, 0.02) 4px),
+      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.02) 2px, rgba(0, 0, 0, 0.02) 4px),
+      linear-gradient(135deg, rgba(255, 250, 240, 0.98), rgba(245, 238, 223, 0.98));
+  }
+
+  /* Why Choose section background using backwhy.jpg */
+    /* Why Choose section: background image + simple layout */
+    .why-choose-us-alt { position: relative; background-image: url("{% static 'images/hero/backwhy.jpg' %}"); background-size: cover; background-position: center; background-repeat: no-repeat; }
+    .why-choose-us-alt::before { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,0.7); z-index: 0; }
+    .why-choose-us-alt .container { position: relative; z-index: 2; }
+
+    .why-list { display: flex; flex-direction: column; gap: 2rem; }
+    .why-list .why-item { display: flex; align-items: center; gap: 1.25rem; }
+    .why-list .why-item .why-text, .why-list .why-item .why-img { flex: 1 1 50%; }
+    .why-list .why-item .why-img img { width: 100%; height: auto; display: block; border-radius: 8px; }
+
+    /* Responsive: stack vertically on narrow screens */
+    @media (max-width: 768px) {
+      .why-list .why-item { flex-direction: column; }
+      .why-list .why-item .why-text { text-align: left; }
+    }
+
+    /* Restore per-item text layout and add image-only slide-in animations
+       Layout pattern (no DOM swaps):
+       - Default DOM is Text then Image (Text left, Image right) for odd rows
+       - For even rows we flip the flex direction so Image appears left (Image then Text)
+
+       Animation rules (per your spec):
+       - Images on LEFT side animate in from the RIGHT (start translateX(80px), opacity 0)
+       - Images on RIGHT side animate in from the LEFT (start translateX(-80px), opacity 0)
+       - When the image element receives `.in-view` it transitions to opacity:1 and translateX(0)
+       - Duration: 1s; animation runs once (IntersectionObserver unobserves after first intersect)
+    */
+    .why-list .why-item .why-text { position: static; overflow: visible; }
+
+    /* Use flex-direction reversal on even rows to create alternating Text/Image layout without DOM changes */
+    .why-list .why-item { display: flex; align-items: center; gap: 1.25rem; }
+    .why-list .why-item:nth-child(even) { flex-direction: row-reverse; }
+
+    /* Image wrappers: start off-screen (left or right) and invisible */
+    /* Images start off-canvas: far enough to come "from at most right/left" depending on side */
+    .why-list .why-item .why-img { opacity: 0; transform: translateX(-120%); transition: transform 1s ease, opacity 1s ease; will-change: transform, opacity; }
+    /* Even rows: images are on the LEFT; animate from the RIGHT (start at +120%) */
+    .why-list .why-item:nth-child(even) .why-img { transform: translateX(120%); }
+
+    /* When the image wrapper gets `.in-view` (set by IntersectionObserver), reveal it */
+    .why-list .why-item .why-img.in-view { transform: translateX(0); opacity: 1; }
+
+    /* On small screens we stack vertically — animate from below for a nicer effect */
+    @media (max-width: 768px) {
+      .why-list .why-item { flex-direction: column; }
+      .why-list .why-item .why-img { transform: translateY(18px); }
+      .why-list .why-item .why-img.in-view { transform: translateY(0); opacity: 1; }
+    }
+
+  /* Ensure background image shows (override Bootstrap bg-light) */
+  .why-choose-us-alt { background-color: transparent !important; }
+
+  /* Make text clearly readable over the background image */
+  .why-choose-us-alt .section-title,
+  .why-choose-us-alt .section-subtitle,
+  .why-choose-us-alt .why-text h3,
+  .why-choose-us-alt .why-text p,
+  .why-choose-us-alt .why-text li {
+    color: #fff !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+  }
+  .why-choose-us-alt .why-text h3 { font-weight: 700; color: #fff !important; }
+
+  /* Certificates marquee (placed above CTA): horizontal infinite scrolling logos */
+    .cert-marquee { background: rgba(255,255,255,0.95); /* clean, minimal white */ padding: 12px 0 18px; margin-top: 0; overflow: hidden; }
+    .cert-marquee .marquee-header { text-align: center; margin: -12px 0px 27px; }
+    .cert-marquee .marquee-header h2 { margin: 0 0 6px; font-weight: 800; font-size: clamp(1.25rem, 2.4vw, 1.75rem); color: #111; }
+    .cert-marquee .marquee-header p { margin: 0; color: #555; font-weight: 600; }
+    .cert-marquee .marquee-viewport { max-width: 1200px; margin: 0 auto; position: relative; overflow: hidden; margin-top: 10px; }
+    .cert-marquee .marquee-track { display: flex; gap: 32px; align-items: center; width: max-content; }
+
+    /* Duplicate group inside the track for seamless looping */
+    .cert-marquee .marquee-group { display: flex; gap: 32px; align-items: center; }
+
+    .cert-marquee .cert-logo-large { width: 190px; height: auto; max-height: 110px; object-fit: contain; filter: none; transition: transform 220ms ease; display: block; }
+    .cert-marquee .cert-logo-large:hover { transform: scale(1.1); }
+
+    /* marquee animation: move from right -> left. We duplicate the group and translate by -50% to loop smoothly.
+      Total duration: 20s (18s movement + 2s pause). The 90% -> 100% portion holds the final position for 2s. */
+    .cert-marquee .marquee-track { animation: marqueeMove 20s linear infinite; }
+  @keyframes marqueeMove {
+    0% { transform: translateX(0); }
+    90% { transform: translateX(-50%); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* Make sure duplicated content doesn't wrap */
+  .cert-marquee .marquee-track, .cert-marquee .marquee-group { white-space: nowrap; }
+
+  /* Responsive: smaller logos and tighter gaps on narrow screens */
+  @media (max-width: 768px) {
+    .cert-marquee { padding: 14px 0; }
+    .cert-marquee .cert-logo-large { width: 120px; max-height: 72px; }
+    .cert-marquee .marquee-viewport { padding-left: 12px; padding-right: 12px; }
+    /* Keep animation but speed up a bit on small screens */
+    .cert-marquee .marquee-track { animation-duration: 14s; }
+  }
+
+  /* Very small screens: make it touch-friendly and allow manual horizontal scroll if preferred
+     Preserve animation but allow users to swipe if they want to interact. */
+  @media (max-width: 480px) {
+    .cert-marquee .cert-logo-large { width: 100px; max-height: 64px; }
+    .cert-marquee .marquee-viewport { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .cert-marquee .marquee-track { animation-duration: 12s; }
+  }
+
+  /* Map magnifier styles */
+  .map-wrap { position: relative; }
+  .map-magnifier {
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.45), 0 2px 6px rgba(0,0,0,0.2);
+    border: 3px solid rgba(255,255,255,0.9);
+    overflow: hidden;
+    pointer-events: none;
+    display: none; /* shown on hover */
+    z-index: 30;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-color: transparent;
+  }
+
+  /* small dot inside magnifier for cloned markers */
+  .map-magnifier .mag-marker { position: absolute; transform: translate(-50%, -50%); pointer-events: none; }
+  .map-magnifier .mag-marker .mag-dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(220,30,30,0.95); box-shadow: 0 2px 6px rgba(0,0,0,0.45); display: block; }
+
+  /* Hide magnifier on touch devices (use native pinch) */
+  @media (hover: none) {
+    .map-magnifier { display: none !important; }
+  }
+
+  /* Product slider: show 3 cards at a time and auto-scroll by one card width every 1s */
+  .product-slider { padding: 18px 0; }
+  .product-slider .slider-viewport { overflow: hidden; width: 100%; }
+  .product-slider .slider-track { display: flex; align-items: stretch; transition: transform 600ms ease; will-change: transform; }
+  .product-slider .slider-card { flex: 0 0 calc(100% / 3); box-sizing: border-box; padding: 0 8px; }
+  .product-slider .product-card { height: 100%; }
+  .product-slider .slider-card img { width: 100%; height: auto; display: block; }
+
+  /* Responsive: show fewer cards on narrow screens */
+  @media (max-width: 992px) {
+    .product-slider .slider-card { flex: 0 0 calc(100% / 2); }
+  }
+  @media (max-width: 576px) {
+    .product-slider .slider-card { flex: 0 0 100%; }
+  }
+
+  /* Featured Products: dark theme + floating heading */
+  .featured-products { background: linear-gradient(180deg, #0d0d0d 0%, #1a1a1a 100%); color: #f3f3f3; position: relative; }
+  .featured-products .section-header { color: #f3f3f3; }
+  .featured-products .section-title { color: #fff; text-shadow: 0 8px 30px rgba(255,200,120,0.06); }
+
+    /* Heading initial (before in-view): invisible only when section is NOT yet marked in-view */
+    .featured-products:not(.in-view) .section-title { opacity: 0; transform: translateY(40px) scale(0.985); }
+
+    /* When the section has been marked in-view, make the title visible by default
+      so it won't flash/disappear after the animation finishes. */
+    .featured-products.in-view .section-title { opacity: 1; transform: none; }
+
+  /* Bounce-up + fade-in entrance animation for the heading (runs once when section becomes visible) */
+  .featured-products.in-view .section-title.enter {
+    animation: bounceUp 720ms cubic-bezier(0.215, 0.61, 0.355, 1) both;
+  }
+
+  @keyframes bounceUp {
+    0% { opacity: 0; transform: translateY(40px); }
+    60% { opacity: 1; transform: translateY(-10px); }
+    80% { transform: translateY(4px); }
+    100% { transform: translateY(0); }
+  }
+
+  /* Persist final state after animation */
+  .featured-products .section-title.entered { opacity: 1 !important; transform: none !important; }
+
+  /* Ensure product cards are bright and separated from dark background */
+  .product-slider .product-card { background: #ffffff; color: #111; border-radius: 10px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.45); }
+  .product-slider .product-info { color: #111; }
+  .product-slider .product-image { background: #fff; }
+
+  /* Increase contrast for buttons on dark background */
+  .featured-products .btn-outline-primary { color: #fff; border-color: rgba(255,255,255,0.14); }
+
+  /* Custom View All button for Featured Products (high-contrast on dark bg) */
+  .featured-products .btn-view-all {
+    display: inline-block;
+    background: linear-gradient(90deg,#ffd166 0%, #ff9f1c 100%);
+    color: #1a1a1a;
+    border: none;
+    padding: 0.6rem 1.1rem;
+    border-radius: 10px;
+    font-weight: 700;
+    box-shadow: 0 8px 18px rgba(255,159,28,0.18), inset 0 -2px 0 rgba(0,0,0,0.06);
+    transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+    text-decoration: none;
+  }
+  .featured-products .btn-view-all:hover,
+  .featured-products .btn-view-all:focus {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 32px rgba(255,159,28,0.22);
+    filter: saturate(1.05);
+    outline: none;
+  }
+  .featured-products .btn-view-all:active { transform: translateY(-1px); }
+
+</style>
+{% endblock %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<!-- top banner removed per request: modern hero block deleted so carousel hero appears first -->
+
+<!-- Hero Section: video with CTA for enquiries and brochure -->
+<section class="hero-section">
+  <div class="hero-bg" aria-hidden="true">
+    <!-- Fallback <img> to ensure the background image loads visibly in all environments -->
+    <img src="{% static 'images/hero/back.jpg' %}" alt="" class="hero-bg-img" aria-hidden="true">
+  </div>
+  <div class="hero-section-overlay" aria-hidden="true"></div>
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 hero-content">
+        <h1 class="hero-title"><span class="typewriter" data-text="India’s Leading Basmati & Non-Basmati Rice Exporter">India’s Leading Basmati & Non-Basmati Rice Exporter</span></h1>
+        <p class="hero-subtitle">Supplying premium Basmati, Non-Basmati, and Organic rice worldwide with certified excellence and quality assurance.</p>
+        <!-- CTAs for carousel removed as requested -->
+        <div class="hero-stats mt-4 d-flex gap-3">
+          <div class="stat-item text-center">
+            <h3 class="stat-number" data-target="15" data-suffix="+">0</h3>
+            <p class="mb-0">Years Experience</p>
+          </div>
+          <div class="stat-item text-center">
+          <h3 class="stat-number" data-target="50" data-suffix="+">0</h3>
+            <p class="mb-0">Countries Served</p>
+          </div>
+          <div class="stat-item text-center">
+            <h3 class="stat-number" data-target="100" data-suffix="%">0</h3>
+            <p class="mb-0">Quality Guaranteed</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 hero-image">
+        <!-- Image carousel sits below the full-screen video -->
+        <div id="heroCarousel" class="carousel slide rounded" data-bs-ride="carousel" data-bs-interval="3000" data-bs-pause="false" data-bs-keyboard="false" data-bs-touch="false">
+          <div class="carousel-indicators" aria-hidden="true">
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1" disabled tabindex="-1"></button>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2" disabled tabindex="-1"></button>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3" disabled tabindex="-1"></button>
+          </div>
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img loading="lazy" src="{% static 'images/hero/hero1.jpg' %}" class="img-fluid rounded d-block w-100" alt="Basmati rice fields in India">
+            </div>
+            <div class="carousel-item">
+              <img loading="lazy" src="{% static 'images/hero/hero2.jpg' %}" class="img-fluid rounded d-block w-100" alt="Rice milling and packaging">
+            </div>
+            <div class="carousel-item">
+              <img loading="lazy" src="{% static 'images/hero/hero3.jpg' %}" class="img-fluid rounded d-block w-100" alt="Export shipping containers">
+            </div>
+          </div>
+          
+        </div>
+
+        <noscript>
+          <!-- If JS disabled, show the first hero image -->
+          <img loading="lazy" src="{% static 'images/hero/hero1.jpg' %}" alt="Basmati rice export company India" class="img-fluid rounded mt-3">
+        </noscript>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Demo block removed per user request -->
+
+<!-- Why Choose Us Section -->
+<section class="why-choose-us-alt py-5 bg-light">
+  <div class="container">
+    <div class="section-header text-center mb-5">
+      <h2 class="section-title">Why Choose Patel Universal Traders PVT.LTD.?</h2>
+      <p class="section-subtitle">Your trusted partner for premium rice exports</p>
+    </div>
+
+    <!-- Alternating blocks: text left / image right, then image left / text right -->
+    <div class="why-list animate-together">
+      <div class="why-item">
+        <div class="why-text">
+          <h3>Premium Quality & Sourcing</h3>
+          <p><strong>We source the finest Basmati and Non-Basmati rice directly from trusted growers. Each lot is inspected, graded and processed to meet strict quality standards before packing and shipment.</strong></p>
+          <ul>
+            <li><strong>Handpicked varieties</strong></li>
+            <li><strong>Rigorous quality checks</strong></li>
+            <li><strong>Traceable supply chain</strong></li>
+          </ul>
+        </div>
+        <div class="why-img">
+          <img loading="lazy" src="{% static 'images/hero/hero1.jpg' %}" alt="Premium quality rice" class="img-fluid" />
+        </div>
+      </div>
+
+      <div class="why-item">
+        <div class="why-text">
+          <h3>Global Logistics & Timely Delivery</h3>
+          <p><strong>With an established logistics network and experience exporting to over 50 countries, we ensure timely shipments and safe handling across sea, air and land routes.</strong></p>
+          <p class="mb-0"><strong>Flexible shipment sizes, reliable tracking and dedicated customer support for every order.</strong></p>
+        </div>
+        <div class="why-img">
+          <img loading="lazy" src="{% static 'images/hero/h2.jpg' %}" alt="Global logistics" class="img-fluid" />
+        </div>
+      </div>
+
+      <div class="why-item">
+        <div class="why-text">
+          <h3>Certified & Trusted</h3>
+          <p><strong>Our processes follow international safety and quality regulations — ISO, FSSAI and HACCP certifications guarantee hygienic handling and consistent product standards.</strong></p>
+        </div>
+        <div class="why-img">
+          <img loading="lazy" src="{% static 'images/hero/h3.jpg' %}" alt="Certified excellence" class="img-fluid" />
+        </div>
+      </div>
+
+      <!-- optional fourth block, mirrors first layout -->
+      <div class="why-item">
+        <div class="why-text">
+          <h3>Flexible Packaging & Custom Solutions</h3>
+          <p><strong>From retail packs to bulk orders, we provide custom packaging and labelling to match market and brand requirements. Small or large, every order is handled with care.</strong></p>
+        </div>
+        <div class="why-img">
+          <img loading="lazy" src="{% static 'images/hero/h4.jpg' %}" alt="Packaging solutions" class="img-fluid" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Products Section -->
+{% if featured_products %}
+<section class="featured-products py-5">
+  <div class="container">
+    <div class="section-header text-center mb-5">
+      <h2 class="section-title">Our Premium Products</h2>
+      <p class="section-subtitle">Explore our range of premium rice varieties</p>
+    </div>
+    <div class="product-slider">
+      <div class="slider-viewport">
+        <div class="slider-track" id="productSliderTrack">
+          {% for product in featured_products %}
+          <div class="slider-card">
+            <div class="product-card">
+              {% if product.main_image %}
+              <div class="product-image">
+                <img src="{{ product.main_image.url }}" alt="{{ product.name }} - premium rice exporter India">
+              </div>
+              {% endif %}
+              <div class="product-info text-center p-3">
+                <span class="product-category d-block">{{ product.category.name }}</span>
+                <h4 class="product-title">{{ product.name }}</h4>
+                <p class="product-description">{{ product.short_description }}</p>
+                <a href="{% url 'products:product_detail' product.slug %}" class="btn btn-outline-primary btn-sm">Learn More</a>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="text-center mt-4">
+      <a href="{% url 'products:product_list' %}" class="btn-view-all" aria-label="View all products">View All Products</a>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Global Dominance -->
+<section class="global-dominance py-5 bg-light">
+  <div class="container">
+    <div class="section-header text-center mb-4">
+      <h3 class="section-title">Global Dominance — Our Reach</h3>
+      <p class="section-subtitle">Proudly exporting to 25+ countries worldwide — hover markers to see location</p>
+    </div>
+
+    <div class="map-wrap position-relative">
+      <!-- Using user-provided map image -->
+      <img loading="lazy" src="{% static 'images/map.jpg' %}" alt="World map" class="img-fluid world-map">
+
+      <!-- Markers (approximate percentage positions). I adjusted coordinates for a typical map.jpg layout; we can fine-tune after you preview. -->
+      <div class="map-marker" id="marker-usa" style="left:20%; top:41%;" data-country="USA" tabindex="0" aria-label="USA">
+        <span class="map-dot" aria-hidden="true"></span>
+      </div>
+
+      <div class="map-marker" id="marker-uk" style="left:47%; top:34%;" data-country="United Kingdom" tabindex="0" aria-label="United Kingdom">
+        <span class="map-dot" aria-hidden="true"></span>
+      </div>
+
+      <div class="map-marker" id="marker-sa" style="left:55%; top:52%;" data-country="Saudi Arabia" tabindex="0" aria-label="Saudi Arabia">
+        <span class="map-dot" aria-hidden="true"></span>
+      </div>
+
+      <div class="map-marker" id="marker-uae" style="left:61%; top:50%;" data-country="UAE" tabindex="0" aria-label="UAE">
+        <span class="map-dot" aria-hidden="true"></span>
+      </div>
+
+      <div class="map-marker" id="marker-sg" style="left:72%; top:60%;" data-country="Singapore" tabindex="0" aria-label="Singapore">
+        <span class="map-dot" aria-hidden="true"></span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Map Video Section (full-width video with overlay text) -->
+<section class="map-video-section">
+  <div class="map-video-wrap" id="mapVideoWrap">
+    <video id="mapVideo" class="map-video" autoplay muted loop playsinline preload="metadata" style="background-image: url('{{ map_img }}');">
+      <source src="{% static 'videos/hero.mp4' %}" type="video/mp4">
+      <!-- fallback image if video not supported -->
+      <img src="{{ map_img }}" alt="Patel Universal Traders PVT.LTD." class="img-fluid w-100">
+    </video>
+  </div>
+
+  <div class="video-overlay" role="region" aria-label="Map video banner">
+    <h2 class="video-overlay-title">The Flavor That Conquered the World — The Timeless Journey of India’s Rice &amp; Spices | Patel Universal Traders PVT.LTD.</h2>
+  </div>
+</section>
+
+<!-- Process Snapshot removed per request -->
+
+<!-- CTA Section with Old-School Import-Export Theme -->
+<!-- Certificates marquee inserted above CTA -->
+<section class="cert-marquee" aria-label="Certificates and certifications">
+  <div class="marquee-header">
+    <h2>Quality That Speaks for Itself</h2>
+    <p>Internationally Recognized &amp; Certified</p>
+  </div>
+  <div class="marquee-viewport">
+    <div class="marquee-track" aria-hidden="false">
+      <div class="marquee-group">
+        <img src="{% static 'images/certs/iso-logo.png' %}" alt="ISO 9001" class="cert-logo-large">
+        <img src="{% static 'images/certs/fssai-logo.png' %}" alt="FSSAI" class="cert-logo-large">
+        <img src="{% static 'images/certs/apeda-logo.png' %}" alt="APEDA" class="cert-logo-large">
+        <img src="{% static 'images/certs/haccp-logo.png' %}" alt="HACCP" class="cert-logo-large">
+        <img src="{% static 'images/certs/halal-logo.png' %}" alt="Halal" class="cert-logo-large">
+        <img src="{% static 'images/certs/organic-logo.png' %}" alt="Organic" class="cert-logo-large">
+      </div>
+      <!-- duplicate for seamless loop -->
+      <div class="marquee-group" aria-hidden="true">
+        <img src="{% static 'images/certs/iso-logo.png' %}" alt="ISO 9001" class="cert-logo-large">
+        <img src="{% static 'images/certs/fssai-logo.png' %}" alt="FSSAI" class="cert-logo-large">
+        <img src="{% static 'images/certs/apeda-logo.png' %}" alt="APEDA" class="cert-logo-large">
+        <img src="{% static 'images/certs/haccp-logo.png' %}" alt="HACCP" class="cert-logo-large">
+        <img src="{% static 'images/certs/halal-logo.png' %}" alt="Halal" class="cert-logo-large">
+        <img src="{% static 'images/certs/organic-logo.png' %}" alt="Organic" class="cert-logo-large">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section with Old-School Import-Export Theme -->
+<section class="cta-section-vintage py-5" style="background-image: url('{% static 'images/infra/infra-bg.jpg' %}'); background-size: cover; background-position: center; background-attachment: fixed;">
+  <div class="cta-overlay"></div>
+  <div class="container position-relative" style="z-index: 2;">
+    <div class="cta-vintage-box">
+      <!-- Shipping container style card -->
+      <div class="row align-items-center">
+        <div class="col-lg-7">
+          <div class="vintage-cta-content">
+            <h2 class="vintage-cta-title">
+              <i class="fas fa-shipping-fast"></i> Ready to Place Your Order?
+            </h2>
+            <p class="vintage-cta-subtitle">Get in touch with us for competitive pricing and bulk orders</p>
+            
+            <!-- Key benefits icons -->
+            <div class="cta-benefits mt-4">
+              <div class="benefit-item">
+                <i class="fas fa-globe"></i>
+                <span>Global Shipping</span>
+              </div>
+              <div class="benefit-item">
+                <i class="fas fa-truck"></i>
+                <span>Fast Delivery</span>
+              </div>
+              <div class="benefit-item">
+                <i class="fas fa-lock"></i>
+                <span>Secure Transactions</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="vintage-cta-contact">
+            <div class="contact-card">
+              <h4 class="contact-card-title">
+                <i class="fas fa-envelope-open"></i> Connect With Us
+              </h4>
+              <div class="contact-methods">
+                <a href="{% url 'contact:contact' %}" class="btn btn-vintage btn-lg w-100 mb-3">
+                  <i class="fas fa-comments"></i> Contact Us Now
+                </a>
+                <div class="contact-divider">OR</div>
+                <div class="quick-contact">
+                  <p><strong>Call Direct:</strong></p>
+                  <a href="tel:+919876543210" class="btn btn-outline-vintage btn-sm w-100 mb-2">
+                    <i class="fas fa-phone"></i> +91 98765 43210
+                  </a>
+                  <p class="mt-3"><strong>Quick Email:</strong></p>
+                  <a href="mailto:info@primeimpex.com" class="btn btn-outline-vintage btn-sm w-100">
+                    <i class="fas fa-envelope"></i> info@primeimpex.com
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Blog Section -->
+{% if latest_posts %}
+<section class="blog-section py-5 bg-light">
+  <div class="container">
+    <div class="section-header text-center mb-5">
+      <h2 class="section-title">Latest Insights</h2>
+      <p class="section-subtitle">Stay updated with rice industry news and trends</p>
+    </div>
+    <div class="row g-4">
+      {% for post in latest_posts %}
+      <div class="col-lg-4 col-md-6">
+        <div class="blog-card">
+          {% if post.featured_image %}
+          <div class="blog-image">
+            <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+            <span class="blog-date">{{ post.publish_date|date:"M d, Y" }}</span>
+          </div>
+          {% endif %}
+          <div class="blog-content">
+            {% if post.category %}
+            <span class="blog-category">{{ post.category.name }}</span>
+            {% endif %}
+            <h4 class="blog-title">{{ post.title }}</h4>
+            <p class="blog-excerpt">{{ post.excerpt }}</p>
+            <a href="{% url 'blog:blog_detail' post.slug %}" class="blog-link">Read More <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="text-center mt-4">
+      <a href="{% url 'blog:blog_list' %}" class="btn btn-primary">View All Articles</a>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Trust Badges removed per request -->
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Product slider: auto-scroll right->left, shift by one card every 1s, recycle DOM for infinite loop
+document.addEventListener('DOMContentLoaded', function () {
+  var track = document.getElementById('productSliderTrack');
+  if (!track) return;
+
+  // ensure enough items to scroll smoothly; clone if necessary
+  var minItems = 6; // keep a reasonable buffer
+  while (track.children.length < minItems) {
+    for (var i = 0; i < track.children.length && track.children.length < minItems; i++) {
+      track.appendChild(track.children[i].cloneNode(true));
+    }
+    // break if nothing to clone (no featured products)
+    if (track.children.length === 0) return;
+  }
+
+  var interval = 1000; // ms between moves
+  var transitionMs = 600; // ms for CSS transition (matches CSS)
+
+  // compute card width dynamically (includes padding in layout)
+  function cardWidth() {
+    var first = track.querySelector('.slider-card');
+    if (!first) return 0;
+    return first.getBoundingClientRect().width;
+  }
+
+  // set initial transform
+  track.style.transform = 'translateX(0px)';
+
+  var ticking = false;
+  var move = function () {
+    if (ticking) return;
+    var w = cardWidth();
+    if (!w) return;
+    // move left by one card width
+    track.style.transition = 'transform ' + (transitionMs) + 'ms ease';
+    track.style.transform = 'translateX(' + (-w) + 'px)';
+    ticking = true;
+    // after transition, move first child to end and reset transform without transition
+    var onEnd = function () {
+      track.removeEventListener('transitionend', onEnd);
+      track.style.transition = 'none';
+      // move first element to the end
+      var first = track.children[0];
+      if (first) track.appendChild(first);
+      // reset transform to 0
+      track.style.transform = 'translateX(0px)';
+      // force reflow so next transition applies
+      void track.offsetWidth;
+      ticking = false;
+    };
+    track.addEventListener('transitionend', onEnd);
+  };
+
+  // Start the interval
+  var t = setInterval(move, interval);
+
+  // Pause on hover to allow interaction
+  track.addEventListener('mouseenter', function () { clearInterval(t); });
+  track.addEventListener('mouseleave', function () { t = setInterval(move, interval); });
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var hero = document.getElementById('heroCarousel');
+  if (hero) {
+    try {
+      // initialize a non-interactive carousel: 3s interval, no pause, no keyboard, no touch
+      var carousel = bootstrap.Carousel.getInstance(hero) || new bootstrap.Carousel(hero, { interval: 3000, ride: 'carousel', pause: false, keyboard: false, touch: false });
+      carousel.cycle();
+    } catch (e) {
+      console.warn('Hero carousel init failed:', e);
+    }
+  }
+});
+</script>
+<script>
+// Small helper: animate numbers from 0 -> target when visible
+function animateCounters() {
+  var counters = document.querySelectorAll('.stat-number');
+  if (!counters.length) return;
+  if (!('IntersectionObserver' in window)) {
+    // fallback: animate immediately
+    counters.forEach(function(c){ runCount(c); });
+    return;
+  }
+
+  var io = new IntersectionObserver(function(entries, obs) {
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) { runCount(entry.target); obs.unobserve(entry.target); }
+    });
+  }, { threshold: 0.4 });
+
+  counters.forEach(function(c){ io.observe(c); });
+
+  function runCount(el) {
+    var target = parseInt(el.getAttribute('data-target') || 0, 10);
+    var suffix = el.getAttribute('data-suffix') || '';
+    var duration = 1200; // ms
+    var start = null;
+    function step(ts) {
+      if (!start) start = ts;
+      var progress = Math.min((ts - start) / duration, 1);
+      var value = Math.floor(progress * target);
+      el.textContent = value + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = target + suffix;
+    }
+    requestAnimationFrame(step);
+  }
+}
+
+// Reveal animations for hero content and why-items
+function initReveals() {
+  // hero reveal
+  var heroContent = document.querySelector('.hero-content');
+  if (heroContent) {
+    // stagger children
+    var els = heroContent.querySelectorAll('.hero-title, .hero-subtitle, .hero-buttons');
+    els.forEach(function(el, idx){
+      setTimeout(function(){ el.classList.add('in-view'); }, idx * 140);
+    });
+  }
+
+  // why-list reveal using IntersectionObserver
+  var items = document.querySelectorAll('.why-item');
+  if (!items.length) return;
+
+  // Determine whether image is before or after text in DOM and add helper class
+  items.forEach(function(item){
+    var text = item.querySelector('.why-text');
+    var img = item.querySelector('.why-img');
+    if (img && text) {
+      // if img is the first element child, treat as left image, otherwise right
+      if (item.firstElementChild === img) item.classList.add('img-left');
+      else item.classList.add('img-right');
+    }
+  });
+
+  if (!('IntersectionObserver' in window)) { items.forEach(function(i){ i.classList.add('in-view'); }); return; }
+  var io = new IntersectionObserver(function(entries, obs) {
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.18 });
+  items.forEach(function(i){ io.observe(i); });
+}
+
+// Simple parallax on mousemove over hero (subtle)
+function initParallax() {
+  var wrap = document.querySelector('.hero-video-wrap');
+  if (!wrap) return;
+  wrap.classList.add('parallax');
+  // Throttle transform updates via requestAnimationFrame to avoid layout thrashing
+  var bounds = wrap.getBoundingClientRect();
+  var mouseX = 0, mouseY = 0; var rafId = null;
+  function updateBounds() { bounds = wrap.getBoundingClientRect(); }
+  function onMove(e) {
+    // capture normalized coordinates (-0.5 .. 0.5)
+    mouseX = (e.clientX - bounds.left) / bounds.width - 0.5;
+    mouseY = (e.clientY - bounds.top) / bounds.height - 0.5;
+    if (!rafId) rafId = requestAnimationFrame(applyTransform);
+  }
+  function applyTransform() {
+    rafId = null;
+    var tx = mouseX * 6;
+    var ty = mouseY * 4;
+    wrap.style.transform = 'translate3d(' + (tx) + 'px,' + (ty) + 'px,0)';
+  }
+  // Use passive listener for better scrolling performance where supported
+  wrap.addEventListener('mousemove', onMove, { passive: true });
+  wrap.addEventListener('mouseleave', function(){ wrap.style.transform = ''; });
+  // Recalculate bounds on resize/orientation change
+  window.addEventListener('resize', updateBounds);
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  animateCounters();
+  initReveals();
+  initParallax();
+});
+</script>
+<script>
+// IntersectionObserver for featured-products: trigger heading animations and float
+document.addEventListener('DOMContentLoaded', function(){
+  var section = document.querySelector('.featured-products');
+  if (!section) return;
+  if (!('IntersectionObserver' in window)) {
+    section.classList.add('in-view');
+    var title = section.querySelector('.section-title');
+    if (title) title.classList.add('floating');
+    return;
+  }
+  var io = new IntersectionObserver(function(entries, obs){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        section.classList.add('in-view');
+        var title = section.querySelector('.section-title');
+        if (title) title.classList.add('enter');
+        if (title) {
+          var onEnd = function() {
+            title.classList.add('entered');
+            title.removeEventListener('animationend', onEnd);
+          };
+          title.addEventListener('animationend', onEnd);
+        }
+        obs.unobserve(section);
+      }
+    });
+  }, { threshold: 0.2 });
+  io.observe(section);
+});
+</script>
+<script>
+// Map magnifier: creates a circular magnifier that follows the cursor and magnifies
+// both the map image and the red markers. Uses requestAnimationFrame for smooth updates.
+document.addEventListener('DOMContentLoaded', function(){
+  // Do nothing on touch-only devices
+  if (window.matchMedia && window.matchMedia('(hover: none)').matches) return;
+
+  var wrap = document.querySelector('.map-wrap');
+  var mapImg = wrap && wrap.querySelector('.world-map');
+  if (!wrap || !mapImg) return;
+
+  // Create magnifier element
+  var MAG_SIZE = 220; // px (diameter)
+  var mag = document.createElement('div');
+  mag.className = 'map-magnifier';
+  mag.style.width = MAG_SIZE + 'px';
+  mag.style.height = MAG_SIZE + 'px';
+  mag.style.display = 'none';
+  // container for cloned markers
+  var magMarkers = document.createElement('div');
+  magMarkers.className = 'mag-markers';
+  mag.appendChild(magMarkers);
+  wrap.appendChild(mag);
+
+  var scale = 2.0; // magnification factor
+  var magW = MAG_SIZE, magH = MAG_SIZE;
+
+  // Prepare cloned marker elements inside magnifier
+  var markers = wrap.querySelectorAll('.map-marker');
+  var markerClones = [];
+  markers.forEach(function(m){
+    var clone = document.createElement('div');
+    clone.className = 'mag-marker';
+    var dot = document.createElement('span');
+    dot.className = 'mag-dot';
+    clone.appendChild(dot);
+    magMarkers.appendChild(clone);
+    markerClones.push({ original: m, clone: clone });
+  });
+
+  // Helper: get offset relative to element
+  function getOffset(el) {
+    var rect = el.getBoundingClientRect();
+    return { left: rect.left + window.scrollX, top: rect.top + window.scrollY, width: rect.width, height: rect.height };
+  }
+
+  // Update background-size for magnifier based on map size
+  function updateBgSize() {
+    var mapRect = mapImg.getBoundingClientRect();
+    // compute background-size in px
+    mag.style.backgroundSize = (mapRect.width * scale) + 'px ' + (mapRect.height * scale) + 'px';
+  }
+  updateBgSize();
+  window.addEventListener('resize', updateBgSize);
+
+  var rafId = null;
+  var last = { x: 0, y: 0, visible: false };
+
+  function render() {
+    rafId = null;
+    var mapRect = mapImg.getBoundingClientRect();
+    // compute background-position so the point under cursor is centered in magnifier
+    var rx = last.x - mapRect.left; // px from left of map
+    var ry = last.y - mapRect.top;
+    var bgX = rx * scale - magW / 2;
+    var bgY = ry * scale - magH / 2;
+    mag.style.backgroundPosition = (-bgX) + 'px ' + (-bgY) + 'px';
+
+    // position magnifier centered at cursor, clamped to map-wrap bounds
+    var wrapRect = wrap.getBoundingClientRect();
+    var left = last.x - wrapRect.left - magW / 2;
+    var top = last.y - wrapRect.top - magH / 2;
+    // clamp
+    left = Math.max(0, Math.min(left, wrapRect.width - magW));
+    top = Math.max(0, Math.min(top, wrapRect.height - magH));
+    mag.style.left = left + 'px';
+    mag.style.top = top + 'px';
+
+    // update cloned marker positions: compute each marker's center relative to map and scale
+    markerClones.forEach(function(item){
+      var o = item.original.getBoundingClientRect();
+      var mx = (o.left + o.width/2) - mapRect.left; // px from left of map
+      var my = (o.top + o.height/2) - mapRect.top;
+      // position inside magnifier (scaled)
+      var relX = (mx * scale) - bgX;
+      var relY = (my * scale) - bgY;
+      item.clone.style.left = relX + 'px';
+      item.clone.style.top = relY + 'px';
+    });
+  }
+
+  function scheduleRender() {
+    if (!rafId) rafId = requestAnimationFrame(render);
+  }
+
+  function showMagnifier() {
+    mag.style.display = 'block';
+  }
+  function hideMagnifier() {
+    mag.style.display = 'none';
+  }
+
+  // Mouse move handler
+  wrap.addEventListener('mousemove', function(e){
+    last.x = e.clientX;
+    last.y = e.clientY;
+    // set background image (full-size map image url) on first move
+    if (!mag.style.backgroundImage) {
+      var src = mapImg.currentSrc || mapImg.src;
+      mag.style.backgroundImage = 'url(' + src + ')';
+      updateBgSize();
+    }
+    if (!last.visible) { last.visible = true; showMagnifier(); }
+    scheduleRender();
+  });
+
+  wrap.addEventListener('mouseenter', function(){ last.visible = true; showMagnifier(); });
+  wrap.addEventListener('mouseleave', function(){ last.visible = false; hideMagnifier(); });
+
+  // Keep magnifier updated on scroll (if user scrolls while over the map)
+  window.addEventListener('scroll', function(){ if (last.visible) scheduleRender(); }, { passive: true });
+});
+</script>
+<script>
+// Debug helper: log computed order and visual x position for why-items
+document.addEventListener('DOMContentLoaded', function(){
+  // no-op (debug script removed)
+});
+</script>
+<script>
+// Force-remove residual gap between hero video and hero section (fixes some browser/layout quirks)
+// gap-fix script removed: prefer CSS-only solution to avoid layout jumps
+</script>
+<script>
+// IntersectionObserver to add .in-view to images when they enter the viewport
+document.addEventListener('DOMContentLoaded', function(){
+  var imgWrappers = document.querySelectorAll('.why-choose-us-alt .why-img');
+  if (!('IntersectionObserver' in window) ) {
+    // fallback: reveal all
+    imgWrappers.forEach(function(w){ w.classList.add('in-view'); });
+    return;
+  }
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        // once visible, we can unobserve to avoid repeated triggers
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  imgWrappers.forEach(function(w){ io.observe(w); });
+});
+</script>
+<script>
+// Animate overlay title characters when the map video section is visible
+document.addEventListener('DOMContentLoaded', function () {
+  var section = document.querySelector('.map-video-section');
+  var title = document.querySelector('.video-overlay-title');
+  if (!section || !title) return;
+
+  // Split title text into spans per character for staggered animation
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var raw = title.textContent.trim();
+  var chars = Array.from(raw);
+  title.innerHTML = chars.map(function (ch) {
+    if (ch === ' ') return '<span class="char">&nbsp;</span>';
+    return '<span class="char">' + ch + '</span>';
+  }).join('');
+
+  var charNodes = title.querySelectorAll('.char');
+
+  // If reduced motion, reveal instantly
+  if (prefersReduced) {
+    charNodes.forEach(function (c) { c.style.opacity = 1; c.style.transform = 'none'; });
+    return;
+  }
+
+  // IntersectionObserver to trigger animation when section is in view
+  if (!('IntersectionObserver' in window)) {
+    title.classList.add('play');
+    return;
+  }
+
+  var io = new IntersectionObserver(function (entries, observer) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        // set staggered transition delays and add play class
+        charNodes.forEach(function (node, idx) {
+          node.style.transitionDelay = (idx * 0.03) + 's';
+        });
+        // small timeout to ensure transition-delay applied before toggling class
+        requestAnimationFrame(function () { title.classList.add('play'); });
+        observer.unobserve(section);
+      }
+    });
+  }, { threshold: 0.4 });
+
+  io.observe(section);
+});
+</script>
+<script>
+// Typing animation for hero title
+document.addEventListener('DOMContentLoaded', function () {
+  var el = document.querySelector('.hero-title .typewriter');
+  if (!el) return;
+
+  // Respect reduced motion
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var full = el.getAttribute('data-text') || el.textContent.trim();
+  var speed = 46; // ms per character
+
+  // If reduced motion, reveal text and exit
+  if (prefersReduced) {
+    el.textContent = full;
+    return;
+  }
+
+  // Clear text for typing effect, but keep for no-JS fallback until we clear
+  el.textContent = '';
+  el.classList.add('typing');
+
+  var i = 0;
+  function tick() {
+    i++;
+    el.textContent = full.slice(0, i);
+    if (i < full.length) {
+      setTimeout(tick, speed);
+    } else {
+      // finished
+      el.classList.remove('typing');
+    }
+  }
+
+  // Optionally start when hero title enters viewport (use IO for reliability)
+  if ('IntersectionObserver' in window) {
+    var io2 = new IntersectionObserver(function(entries, observer){
+      if (entries[0].isIntersecting) { tick(); observer.unobserve(el); }
+    }, { threshold: 0.2 });
+    io2.observe(el);
+  } else {
+    // no IO: start immediately
+    setTimeout(tick, 260);
+  }
+});
+</script>
+<script>
+// Prevent flash: show wrapper poster until video is ready, then fade video in
+document.addEventListener('DOMContentLoaded', function () {
+  function attachReady(videoId, wrapId) {
+    var v = document.getElementById(videoId);
+    var wrap = document.getElementById(wrapId);
+    if (!v || !wrap) return;
+
+    function markReady() {
+      wrap.classList.add('video-ready');
+    }
+
+    v.addEventListener('canplay', markReady, { once: true });
+    v.addEventListener('playing', markReady, { once: true });
+    // If already loaded enough
+    if (v.readyState >= 3) markReady();
+  }
+
+  attachReady('heroFullVideo', 'heroFullWrap');
+  attachReady('mapVideo', 'mapVideoWrap');
+});
+</script>
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<section class="page-header">
+  <div class="container">
+    <h1>Blog & Insights</h1>
+    <p>Latest news, trends, and updates from the rice export industry</p>
+  </div>
+</section>
+
+<section class="blog-section py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8">
+        {% if page_obj %}
+        <div class="row g-4">
+          {% for post in page_obj %}
+          <div class="col-md-6">
+            <div class="blog-card">
+              {% if post.featured_image %}
+              <div class="blog-image">
+                <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+                <span class="blog-date">{{ post.publish_date|date:"M d, Y" }}</span>
+              </div>
+              {% endif %}
+              <div class="blog-content">
+                {% if post.category %}<span class="blog-category">{{ post.category.name }}</span>{% endif %}
+                <h4 class="blog-title">{{ post.title }}</h4>
+                <p class="blog-excerpt">{{ post.excerpt }}</p>
+                <a href="{% url 'blog:blog_detail' post.slug %}" class="blog-link">Read More <i class="fas fa-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <nav class="mt-5">
+          <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+            <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+              <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+            {% endfor %}
+            {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+            {% endif %}
+          </ul>
+        </nav>
+        {% endif %}
+        {% else %}
+        <p>No blog posts available.</p>
+        {% endif %}
+      </div>
+
+      <div class="col-lg-4">
+        <!-- News & Events widget (recent trade shows, photos, press releases) -->
+        <div class="sidebar-widget events-widget mb-4">
+          <h4 class="widget-title">News & Events</h4>
+          <div class="event-item mb-3">
+            <div class="row g-2 align-items-center">
+              <div class="col-4">
+                <img src="{% static 'images/events/gulfood-2025-thumb.jpg' %}" alt="Gulfood 2025" class="img-fluid rounded">
+              </div>
+              <div class="col-8">
+                <h6 class="mb-1">Gulfood 2025 — Dubai</h6>
+                <p class="small text-muted mb-1">Participated in Gulfood 2025 to showcase our export-quality rice.</p>
+                <a href="{% static 'files/press/gulfood-2025-press.pdf' %}" class="small" target="_blank" rel="noopener">Press Release</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="event-item mb-3">
+            <div class="row g-2 align-items-center">
+              <div class="col-4">
+                <img src="{% static 'images/events/trade-show-thumb.jpg' %}" alt="Trade Show" class="img-fluid rounded">
+              </div>
+              <div class="col-8">
+                <h6 class="mb-1">International Trade Meet</h6>
+                <p class="small text-muted mb-1">Represented Patel Universal Traders PVT.LTD. at regional trade events.</p>
+                <a href="#" class="small">Read More</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-widget">
+          <h4 class="widget-title">Categories</h4>
+          <ul class="category-list">
+            {% for category in categories %}
+            <li><a href="{% url 'blog:blog_list' %}?category={{ category.slug }}">{{ category.name }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

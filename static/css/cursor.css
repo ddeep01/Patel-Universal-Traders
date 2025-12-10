@@ -1,0 +1,246 @@
+/* ============================================
+   CUSTOM CURSOR COMPONENT - PRODUCTION CSS
+   Rice & Spices Theme
+   ============================================ */
+
+/* CSS Variables - Easy customization for designers */
+:root {
+  /* Cursor colors and styling */
+  --cursor-primary-color: #2c5f2d;
+  --cursor-secondary-color: #f8b739;
+  --cursor-shadow-color: rgba(44, 95, 45, 0.25);
+  --cursor-transition-speed: 0.15s;
+  
+  /* Size configuration */
+  --cursor-size: 32px;
+  --cursor-trail-size: 8px;
+  --cursor-zoom-scale: 1.3;
+  
+  /* Asset paths (override per environment) */
+  --cursor-rice-icon: url('/static/images/cursor-rice.svg');
+  --cursor-spice-icon: url('/static/images/cursor-spice.svg');
+  
+  /* Performance tuning */
+  --cursor-frame-rate: 60;
+}
+
+/* ============================================
+   HTML Structure Setup
+   ============================================ */
+
+body {
+  /* Disable default cursor; will be replaced by custom */
+  cursor: url('/static/images/cursor-rice.svg') 16 16, auto;
+}
+
+/* Fallback for touch devices */
+@media (hover: none) and (pointer: coarse) {
+  body {
+    cursor: auto;
+  }
+}
+
+/* ============================================
+   Custom Cursor Element
+   ============================================ */
+
+.site-cursor {
+  /* Main cursor wrapper */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--cursor-size);
+  height: var(--cursor-size);
+  pointer-events: none;
+  z-index: 9999;
+  display: none; /* Only show when JS detects support */
+}
+
+/* Cursor is hidden until JS detects support */
+body.cursor-enabled .site-cursor {
+  display: block;
+}
+
+/* Cursor icon background */
+.site-cursor::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background-image: var(--cursor-rice-icon);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: translate(-50%, -50%) scale(1);
+  transition: transform var(--cursor-transition-speed) cubic-bezier(0.34, 1.56, 0.64, 1),
+              filter var(--cursor-transition-speed) ease;
+  filter: drop-shadow(0 2px 4px var(--cursor-shadow-color));
+}
+
+/* Cursor trail dot */
+.site-cursor::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--cursor-trail-size);
+  height: var(--cursor-trail-size);
+  background: radial-gradient(circle, var(--cursor-secondary-color), var(--cursor-primary-color));
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0.4);
+  opacity: 0.6;
+  filter: drop-shadow(0 1px 2px var(--cursor-shadow-color));
+}
+
+/* ============================================
+   Interactive Element Hover States
+   ============================================ */
+
+/* Hover state: swap to spice icon and enlarge */
+.site-cursor.active::before {
+  background-image: var(--cursor-spice-icon);
+  transform: translate(-50%, -50%) scale(var(--cursor-zoom-scale));
+  filter: drop-shadow(0 4px 8px var(--cursor-shadow-color));
+}
+
+.site-cursor.active::after {
+  transform: translate(-50%, -50%) scale(0.6);
+  opacity: 0.8;
+}
+
+/* ============================================
+   Click Feedback Animation
+   ============================================ */
+
+@keyframes cursor-click-ripple {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.8);
+    opacity: 0;
+  }
+}
+
+.site-cursor.clicking::after {
+  animation: cursor-click-ripple 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* ============================================
+   Reduced Motion Support
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .site-cursor::before,
+  .site-cursor::after {
+    transition: none;
+    animation-duration: 0s !important;
+  }
+  
+  body.cursor-enabled.reduced-motion .site-cursor::before {
+    transform: translate(-50%, -50%) scale(1) !important;
+    filter: none;
+  }
+  
+  body.cursor-enabled.reduced-motion .site-cursor::after {
+    transform: translate(-50%, -50%) scale(0.4) !important;
+    opacity: 0.4;
+  }
+}
+
+/* ============================================
+   Touch Device Detection - Hide Custom Cursor
+   ============================================ */
+
+@media (hover: none) and (pointer: coarse) {
+  .site-cursor {
+    display: none !important;
+  }
+  
+  body {
+    cursor: auto !important;
+  }
+}
+
+/* ============================================
+   High DPI / Retina Support
+   ============================================ */
+
+@media (min-device-pixel-ratio: 2),
+       (min-resolution: 192dpi) {
+  .site-cursor::before,
+  .site-cursor::after {
+    /* SVG or 2x PNG recommended */
+    filter: drop-shadow(0 2px 6px var(--cursor-shadow-color));
+  }
+}
+
+/* ============================================
+   Focus Visibility - Accessibility
+   Keep default focus indicators visible
+   ============================================ */
+
+:focus-visible {
+  outline: 2px solid var(--cursor-primary-color);
+  outline-offset: 2px;
+}
+
+/* Ensure focus outline not obscured by custom cursor */
+body.cursor-enabled *:focus-visible {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+
+/* Disable cursor on specific elements */
+.cursor-disabled {
+  cursor: auto !important;
+}
+
+.cursor-disabled .site-cursor {
+  display: none !important;
+}
+
+/* Text selection - show standard cursor */
+::selection {
+  cursor: text;
+}
+
+::-moz-selection {
+  cursor: text;
+}
+
+/* ============================================
+   Browser Support Detection
+   ============================================ */
+
+/* If CSS cursor not supported, JS will add extra visual feedback */
+body.cursor-enhanced {
+  cursor: auto;
+}
+
+/* Performance optimization - disable animations during scroll */
+body.scrolling .site-cursor::before,
+body.scrolling .site-cursor::after {
+  transition: none;
+}
+
+/* ============================================
+   Printable Media - Hide Custom Cursor
+   ============================================ */
+
+@media print {
+  .site-cursor {
+    display: none !important;
+  }
+  
+  body {
+    cursor: auto !important;
+  }
+}

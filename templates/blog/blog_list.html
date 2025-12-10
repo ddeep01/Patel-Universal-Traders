@@ -1,0 +1,193 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Support & Impact — Patel Universal Traders Pvt. Ltd.{% endblock %}
+
+{% block extra_css %}
+<style>
+  :root{ --support-warm:#fff7f1; --accent:#d88a46; --muted:#6b6b6b; --card:#ffffff; }
+  .support-hero{ background:linear-gradient(180deg, rgba(216,138,70,0.06), rgba(255,255,255,0)); padding:64px 0; }
+  .support-hero .hero-card{ max-width:1200px; margin:0 auto; background:var(--card); border-radius:14px; padding:44px; box-shadow:0 26px 60px rgba(15,15,15,0.06); }
+  /* reuse Quality verification card styles (copied from quality.html) */
+  .qv-card-modern { background: #fff; border-radius: 14px; padding: 20px; box-shadow: 0 12px 34px rgba(8,18,12,0.06); transition: transform 260ms cubic-bezier(.2,.9,.2,1), box-shadow 260ms ease; }
+  .qv-card-modern:hover { transform: translateY(-8px); box-shadow: 0 26px 60px rgba(8,18,12,0.10); }
+  .qv-card-modern .qv-top { display:flex; align-items:center; gap:12px; margin-bottom:8px; }
+  .qv-card-modern .qv-top .qv-icon-modern { width:44px; height:44px; border-radius:10px; display:inline-flex; align-items:center; justify-content:center; background:linear-gradient(180deg,#eef9f0,#e0f3e4); color:#136127; font-size:18px; box-shadow: 0 6px 18px rgba(12,20,16,0.04); }
+  .qv-card-modern h4 { margin:0 0 6px 0; font-size:1.04rem; font-weight:700; color:#0b2b1a; }
+  .qv-card-modern p { margin:0; color:#20332b; line-height:1.5; }
+  .qv-points { margin-top:10px; display:flex; flex-direction:column; gap:10px; }
+  .qv-point { display:flex; gap:10px; align-items:flex-start; }
+  .qv-point .icon { width:36px; height:36px; flex:0 0 36px; display:inline-flex; align-items:center; justify-content:center; border-radius:8px; background:#fff; box-shadow: 0 6px 16px rgba(0,0,0,0.04); color:#7a470f; }
+  .qv-point strong { display:block; font-weight:700; color:#0d2b1a; }
+  .qv-point small { display:block; color:#33423a; }
+  .support-hero h1{ font-size:clamp(1.6rem,3.2vw,2.6rem); margin:0 0 8px; font-weight:800; color:#1a2b20; }
+  .support-hero p.lead{ font-size:1.05rem; color:#333; margin:0; line-height:1.6; }
+
+  .support-wrap{ max-width:1200px; margin:44px auto; padding:12px; display:flex; flex-direction:column; gap:28px; }
+  .alt-section{ display:grid; grid-template-columns: repeat(2,1fr); gap:28px; align-items:center; }
+  .alt-section .support-card{ background:var(--card); border-radius:12px; padding:20px; box-shadow:0 18px 40px rgba(15,15,15,0.06); overflow:hidden; }
+  /* Standardize hero/media height so s-1, s-2, s-7 render the same */
+  .alt-section .media{ border-radius:12px; background:linear-gradient(135deg,#fffaf6,#fff); min-height:320px; display:flex; align-items:center; justify-content:center; color:var(--muted); font-weight:700; }
+  .alt-section .media img{ width:100%; height:100%; object-fit:cover; display:block; border-radius:12px; }
+
+  .support-content h2{ margin:0 0 8px; font-size:1.4rem; font-weight:800; color:#1a2b20; }
+  .support-content p{ margin:0 0 12px; color:#333; line-height:1.6; }
+  .support-content ul{ margin:10px 0; padding-left:18px; color:#333; }
+  .support-content li{ margin:8px 0; }
+  .support-content .muted{ color:var(--muted); }
+
+  /* alternating helpers */
+  .alt-reverse{ direction:ltr; }
+  .alt-reverse .media{ order:2; }
+  .alt-reverse .support-card{ order:1; }
+
+  /* reveal bottom→up */
+  @keyframes floatUp { from { transform: translateY(18px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .reveal-up { opacity:0; transform:translateY(18px); }
+  .reveal-up.in-view { animation: floatUp 640ms ease both; }
+  @media (prefers-reduced-motion: reduce){ .reveal-up { animation:none; opacity:1; transform:none; } }
+
+  /* responsive */
+  @media (max-width:900px){ .alt-section{ grid-template-columns: 1fr; } .alt-section .media{ min-height:220px; } }
+  @media (max-width:576px){ .support-hero .hero-card{ padding:24px; } }
+  /* Moments gallery: centered 3 thumbnails + full-width image */
+  .moments-section{ display:flex; flex-direction:column; gap:18px; align-items:center; }
+  .moments-card{ max-width:980px; width:100%; text-align:center; }
+  .moments-thumbs{ display:flex; gap:14px; justify-content:center; align-items:center; flex-wrap:wrap; }
+  /* Make gallery thumbs slightly taller for s-3, s-4, s-5 */
+  .moments-thumb{ width:28%; min-width:140px; height:160px; border-radius:10px; overflow:hidden; background:linear-gradient(135deg,#fff,#f6f2ef); box-shadow:0 12px 28px rgba(15,15,15,0.06); display:flex; align-items:center; justify-content:center; }
+  .moments-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+  /* Slightly reduce the full image height so s-6 is full-width but a bit shorter */
+  .moments-full{ width:100%; border-radius:12px; overflow:hidden; box-shadow:0 20px 50px rgba(15,15,15,0.06); min-height:260px; display:flex; align-items:center; justify-content:center; }
+  .moments-full img{ width:100%; height:100%; object-fit:cover; display:block; }
+  @media(max-width:900px){ .alt-section .media{ min-height:260px; } .moments-thumb{ width:32%; min-width:100px; height:140px; } .moments-full{ min-height:200px; } }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero -->
+<section class="support-hero">
+  <div class="hero-card">
+    <h1>Impact That Truly Matters</h1>
+    <p class="lead">At Patel Universal Traders Pvt. Ltd., every order helps us feed orphaned children and senior citizens. A portion of our profit goes directly toward providing fresh, nutritious meals to trusted homes. Our business doesn’t just move products — it moves lives forward.</p>
+    <!-- Quality verification-style hero card (animated) -->
+    <article class="qv-card-modern mt-3 reveal-up" aria-labelledby="support-qv-1">
+      <div class="qv-top">
+        <div class="qv-icon-modern" aria-hidden="true"><i class="fas fa-hand-holding-heart"></i></div>
+        <h4 id="support-qv-1">How We Ensure Impact & Transparency</h4>
+      </div>
+      <div class="qv-points" role="list">
+        <div class="qv-point" role="listitem">
+          <div class="icon" aria-hidden="true"><i class="fas fa-seedling"></i></div>
+          <div>
+            <strong>Direct Sourcing</strong>
+            <small>We source directly from farmers so contributions reach the community without intermediaries.</small>
+          </div>
+        </div>
+        <div class="qv-point" role="listitem">
+          <div class="icon" aria-hidden="true"><i class="fas fa-utensils"></i></div>
+          <div>
+            <strong>Meal Distribution</strong>
+            <small>Partnered homes receive regular meal shipments; we track distribution and share updates.</small>
+          </div>
+        </div>
+        <div class="qv-point" role="listitem">
+          <div class="icon" aria-hidden="true"><i class="fas fa-camera"></i></div>
+          <div>
+            <strong>Transparent Reporting</strong>
+            <small>We publish periodic stories and photos so you can see the real difference your order makes.</small>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<main class="support-wrap">
+
+  <!-- Section 1: PHOTO (left) — TEXT (right) -->
+  <section class="alt-section reveal-up" aria-label="How Your Order Helps">
+    <div class="media" aria-hidden="true">
+      <img src="{% static 'images/support/s-1.webp' %}" alt="Meal Distribution" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; display:block; border-radius:12px;">
+    </div>
+    <div class="support-card support-content">
+      <h2>How Your Order Helps</h2>
+      <ul>
+        <li>A percentage of your purchase is added to our Impact Fund</li>
+        <li>We source directly from local farmers, helping them earn better, grow more, and sustain their livelihood</li>
+        <li>We distribute meals through verified orphanages &amp; old-age homes</li>
+        <li>You receive transparent updates &amp; real stories of change</li>
+      </ul>
+      <p class="muted">Every shipment you place brings someone a meal, comfort, and hope.</p>
+    </div>
+  </section>
+
+  <!-- Section 2: TEXT (left) — PHOTO (right) -->
+  <section class="alt-section alt-reverse reveal-up" aria-label="Why We Stand Apart">
+    <div class="support-card support-content">
+      <h2>Why We Stand Apart</h2>
+      <ul>
+        <li>Real support, every month</li>
+        <li>No middlemen — direct contribution</li>
+        <li>Honest reporting and real photos</li>
+        <li>Care and compassion built into our business values</li>
+      </ul>
+      <p class="muted">Choosing us means choosing a partner who cares for people, not just profit.</p>
+    </div>
+    <div class="media" aria-hidden="true">
+      <img src="{% static 'images/support/s-2.webp' %}" alt="Farmer Support" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; display:block; border-radius:12px;">
+    </div>
+  </section>
+
+  <!-- Section 3: Centered gallery with 3 thumbnails + 1 full-width image -->
+  <section class="moments-section reveal-up" aria-label="Real Moments We Create">
+    <div class="moments-card support-card">
+      <h2>Real Moments We Create</h2>
+      <p class="muted">Warm meals. Happy smiles. Grateful elders. All made possible by your trust in us.</p>
+      <div class="moments-thumbs" role="list">
+        <div class="moments-thumb" role="listitem" aria-hidden="true">
+          <img src="{% static 'images/support/s-3.webp' %}" alt="Photo 1" loading="lazy" decoding="async">
+        </div>
+        <div class="moments-thumb" role="listitem" aria-hidden="true">
+          <img src="{% static 'images/support/s-4.webp' %}" alt="Photo 2" loading="lazy" decoding="async">
+        </div>
+        <div class="moments-thumb" role="listitem" aria-hidden="true">
+          <img src="{% static 'images/support/s-5.webp' %}" alt="Photo 3" loading="lazy" decoding="async">
+        </div>
+      </div>
+    </div>
+
+    <!-- full-width image removed as requested -->
+  </section>
+
+  <!-- Section 4: TEXT (left) — PHOTO (right) -->
+  <section class="alt-section alt-reverse reveal-up" aria-label="When you choose">
+    <div class="support-card support-content">
+      <h2>When you choose Patel Universal Traders Pvt. Ltd., you choose:</h2>
+      <ul>
+        <li>A reliable supplier</li>
+        <li>A responsible partner</li>
+        <li>A compassionate brand</li>
+      </ul>
+      <p class="muted">You don’t just get quality goods… you give a better life to someone who needs it.</p>
+    </div>
+    <div class="media" aria-hidden="true">
+      <img src="{% static 'images/support/s-7.webp' %}" alt="Meal Distribution" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; display:block; border-radius:12px;">
+    </div>
+  </section>
+
+</main>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var els = document.querySelectorAll('.reveal-up');
+  if (!('IntersectionObserver' in window)) { els.forEach(function(el){ el.classList.add('in-view'); }); return; }
+  var io = new IntersectionObserver(function(entries, obs){ entries.forEach(function(entry){ if (entry.isIntersecting) { entry.target.classList.add('in-view'); obs.unobserve(entry.target); } }); }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+  els.forEach(function(el){ io.observe(el); });
+});
+</script>
+{% endblock %}
