@@ -127,7 +127,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 # ✅ Static files
-STATIC_URL = '/static/'
+STATIC_URL = "https://patel-universal-traders-1.onrender.com/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
