@@ -1,0 +1,1 @@
+web: gunicorn prime_impex.wsgi:application
