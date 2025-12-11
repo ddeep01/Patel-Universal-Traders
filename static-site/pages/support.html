@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support & Impact — Patel Universal Traders Pvt. Ltd.</title>
+  <meta name="description" content="Learn about our social impact and support initiatives at Patel Universal Traders">
+  
+  <link rel="icon" type="image/png" href="../images/favicon.webp">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/cursor.css">
+  <!-- Preload critical support images to avoid delayed render -->
+  <link rel="preload" href="../images/support/s-1.webp" as="image">
+  <link rel="preload" href="../images/support/s-2.webp" as="image">
+  <link rel="preload" href="../images/support/s-7.webp" as="image">
+  <link rel="preload" href="../images/support/s-3.webp" as="image">
+  <link rel="preload" href="../images/support/s-4.webp" as="image">
+  <link rel="preload" href="../images/support/s-5.webp" as="image">
+
+  <!-- Top Bar Styles -->
+  <style>
+    .top-bar {
+      background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%);
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.875rem;
+    }
+    .top-bar .top-info { color: #fff; }
+    .top-bar .top-info a { color: #fff; text-decoration: none; transition: color 200ms ease; }
+    .top-bar .top-info a:hover { color: #ffd166; }
+    .top-bar .social-links a { color: #fff; text-decoration: none; margin-left: 12px; transition: color 200ms ease; display: inline-block; }
+    .top-bar .social-links a:hover { color: #ffd166; }
+    @media (max-width: 768px) { .top-bar { display: none; } }
+
+    .navbar-brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .brand-img { border-radius: 8px; height: 68px; max-height: 68px; width: auto; flex: 0 0 auto; display: inline-block; margin-right: 0; transition: transform 200ms ease, box-shadow 160ms ease; box-shadow: 0 6px 18px rgba(15,15,15,0.06); }
+    .brand-img:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 14px 36px rgba(15,15,15,0.12); }
+    .brand-text { font-weight: 800; font-size: 1.02rem; line-height: 1.05; letter-spacing: 0.2px; display: block; flex: 1 1 auto; min-width: 0; white-space: normal; overflow-wrap: anywhere; background: linear-gradient(90deg, #2c5f2d 0%, #4f8d52 100%); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: 0 1px 0 rgba(255,255,255,0.15); }
+    @media (max-width: 768px) { .brand-img { height: 56px; max-height: 56px; } .brand-text { font-size: 0.92rem; } }
+    @media (max-width: 576px) { .brand-text { display: none !important; } .brand-img { height: 48px; max-height: 48px; } .navbar .navbar-toggler { margin-left: auto; } .navbar-brand { gap: 8px; } }
+
+    .nav-link { font-weight: 500; color: #333 !important; transition: color 200ms ease; position: relative; padding-bottom: 6px; }
+    .nav-link:hover { color: #2c5f2d !important; }
+    .nav-link.active { color: #2c5f2d !important; border-bottom: 3px solid #2c5f2d; }
+
+    .btn-contact { background-color: #2c5f2d !important; color: #fff !important; border-radius: 6px; padding: 8px 16px !important; margin-left: 12px; }
+    .btn-contact:hover { background-color: #234a24 !important; transform: translateY(-2px); }
+  </style>
+
+  <!-- Support Page Styles -->
+  <style>
+    :root{ --support-warm:#fff7f1; --accent:#d88a46; --muted:#6b6b6b; --card:#ffffff; }
+    .support-hero{ background:linear-gradient(180deg, rgba(216,138,70,0.06), rgba(255,255,255,0)); padding:64px 0; }
+    .support-hero .hero-card{ max-width:1200px; margin:0 auto; background:var(--card); border-radius:14px; padding:44px; box-shadow:0 26px 60px rgba(15,15,15,0.06); }
+    /* reuse Quality verification card styles (copied from quality.html) */
+    .qv-card-modern { background: #fff; border-radius: 14px; padding: 20px; box-shadow: 0 12px 34px rgba(8,18,12,0.06); transition: transform 260ms cubic-bezier(.2,.9,.2,1), box-shadow 260ms ease; }
+    .qv-card-modern:hover { transform: translateY(-8px); box-shadow: 0 26px 60px rgba(8,18,12,0.10); }
+    .qv-card-modern .qv-top { display:flex; align-items:center; gap:12px; margin-bottom:8px; }
+    .qv-card-modern .qv-top .qv-icon-modern { width:44px; height:44px; border-radius:10px; display:inline-flex; align-items:center; justify-content:center; background:linear-gradient(180deg,#eef9f0,#e0f3e4); color:#136127; font-size:18px; box-shadow: 0 6px 18px rgba(12,20,16,0.04); }
+    .qv-card-modern h4 { margin:0 0 6px 0; font-size:1.04rem; font-weight:700; color:#0b2b1a; }
+    .qv-card-modern p { margin:0; color:#20332b; line-height:1.5; }
+    .qv-points { margin-top:10px; display:flex; flex-direction:column; gap:10px; }
+    .qv-point { display:flex; gap:10px; align-items:flex-start; }
+    .qv-point .icon { width:36px; height:36px; flex:0 0 36px; display:inline-flex; align-items:center; justify-content:center; border-radius:8px; background:#fff; box-shadow: 0 6px 16px rgba(0,0,0,0.04); color:#7a470f; }
+    .qv-point strong { display:block; font-weight:700; color:#0d2b1a; }
+    .qv-point small { display:block; color:#33423a; }
+    .support-hero h1{ font-size:clamp(1.6rem,3.2vw,2.6rem); margin:0 0 8px; font-weight:800; color:#1a2b20; }
+    .support-hero p.lead{ font-size:1.05rem; color:#333; margin:0; line-height:1.6; }
+
+    .support-wrap{ max-width:1200px; margin:44px auto; padding:12px; display:flex; flex-direction:column; gap:28px; }
+    .alt-section{ display:grid; grid-template-columns: repeat(2,1fr); gap:28px; align-items:center; }
+    .alt-section .support-card{ background:var(--card); border-radius:12px; padding:20px; box-shadow:0 18px 40px rgba(15,15,15,0.06); overflow:hidden; }
+    /* Standardize hero/media height so s-1, s-2, s-7 render the same */
+    .alt-section .media{ border-radius:12px; background:linear-gradient(135deg,#fffaf6,#fff); min-height:320px; display:flex; align-items:center; justify-content:center; color:var(--muted); font-weight:700; }
+    .alt-section .media img{ width:100%; height:100%; object-fit:cover; display:block; border-radius:12px; }
+
+    .support-content h2{ margin:0 0 8px; font-size:1.4rem; font-weight:800; color:#1a2b20; }
+    .support-content p{ margin:0 0 12px; color:#333; line-height:1.6; }
+    .support-content ul{ margin:10px 0; padding-left:18px; color:#333; }
+    .support-content li{ margin:8px 0; }
+    .support-content .muted{ color:var(--muted); }
+
+    /* alternating helpers */
+    .alt-reverse{ direction:ltr; }
+    .alt-reverse .media{ order:2; }
+    .alt-reverse .support-card{ order:1; }
+
+    /* reveal bottom→up */
+    @keyframes floatUp { from { transform: translateY(18px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .reveal-up { opacity:0; transform:translateY(18px); }
+    .reveal-up.in-view { animation: floatUp 640ms ease both; }
+    @media (prefers-reduced-motion: reduce){ .reveal-up { animation:none; opacity:1; transform:none; } }
+
+    /* responsive */
+    @media (max-width:900px){ .alt-section{ grid-template-columns: 1fr; } .alt-section .media{ min-height:220px; } }
+    @media (max-width:576px){ .support-hero .hero-card{ padding:24px; } }
+    /* Moments gallery: centered 3 thumbnails + 1 full-width image */
+    .moments-section{ display:flex; flex-direction:column; gap:18px; align-items:center; }
+    .moments-card{ max-width:980px; width:100%; text-align:center; }
+    .moments-thumbs{ display:flex; gap:14px; justify-content:center; align-items:center; flex-wrap:wrap; }
+    /* Make gallery thumbs slightly taller for s-3, s-4, s-5 */
+    .moments-thumb{ width:28%; min-width:140px; height:160px; border-radius:10px; overflow:hidden; background:linear-gradient(135deg,#fff,#f6f2ef); box-shadow:0 12px 28px rgba(15,15,15,0.06); display:flex; align-items:center; justify-content:center; }
+    .moments-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+    /* Slightly reduce the full image height so s-6 is full-width but a bit shorter */
+    .moments-full{ width:100%; border-radius:12px; overflow:hidden; box-shadow:0 20px 50px rgba(15,15,15,0.06); min-height:260px; display:flex; align-items:center; justify-content:center; }
+    .moments-full img{ width:100%; height:100%; object-fit:cover; display:block; }
+    @media(max-width:900px){ .alt-section .media{ min-height:260px; } .moments-thumb{ width:32%; min-width:100px; height:140px; } .moments-full{ min-height:200px; } }
+  </style>
+</head>
+<body>
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="top-info">
+            <i class="fas fa-phone-alt"></i> <a href="tel:+919876543210">+91 98765 43210</a>
+            <i class="fas fa-envelope ms-3"></i> <a href="mailto:info@primeimpex.com">info@primeimpex.com</a>
+          </div>
+        </div>
+        <div class="col-md-6 text-end">
+          <div class="social-links">
+            <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="../index.html">
+        <img src="../images/Logo.png" alt="Patel Universal Traders Logo" class="brand-img" fetchpriority="high" width="120" height="68" loading="eager" decoding="sync" style="background-color:#fffaf6;">
+        <span class="brand-text">Patel Universal Traders PVT.LTD.</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
+          <li class="nav-item"><a class="nav-link" href="quality.html">Quality</a></li>
+          <li class="nav-item"><a class="nav-link active" href="support.html">Support</a></li>
+          <li class="nav-item"><a class="nav-link btn-contact" href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="support-hero">
+    <div class="hero-card">
+      <h1>Impact That Truly Matters</h1>
+      <p class="lead">At Patel Universal Traders Pvt. Ltd., every order helps us feed orphaned children and senior citizens. A portion of our profit goes directly toward providing fresh, nutritious meals to trusted homes. Our business doesn't just move products — it moves lives forward.</p>
+      <!-- Quality verification-style hero card (animated) -->
+      <article class="qv-card-modern mt-3 reveal-up" aria-labelledby="support-qv-1">
+        <div class="qv-top">
+          <div class="qv-icon-modern" aria-hidden="true"><i class="fas fa-hand-holding-heart"></i></div>
+          <h4 id="support-qv-1">How We Ensure Impact & Transparency</h4>
+        </div>
+        <div class="qv-points" role="list">
+          <div class="qv-point" role="listitem">
+            <div class="icon" aria-hidden="true"><i class="fas fa-seedling"></i></div>
+            <div>
+              <strong>Direct Sourcing</strong>
+              <small>We source directly from farmers so contributions reach the community without intermediaries.</small>
+            </div>
+          </div>
+          <div class="qv-point" role="listitem">
+            <div class="icon" aria-hidden="true"><i class="fas fa-utensils"></i></div>
+            <div>
+              <strong>Meal Distribution</strong>
+              <small>Partnered homes receive regular meal shipments; we track distribution and share updates.</small>
+            </div>
+          </div>
+          <div class="qv-point" role="listitem">
+            <div class="icon" aria-hidden="true"><i class="fas fa-camera"></i></div>
+            <div>
+              <strong>Transparent Reporting</strong>
+              <small>We publish periodic stories and photos so you can see the real difference your order makes.</small>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <main class="support-wrap">
+
+    <!-- Section 1: PHOTO (left) — TEXT (right) -->
+    <section class="alt-section reveal-up" aria-label="How Your Order Helps">
+      <div class="media" aria-hidden="true">
+        <img src="../images/support/s-1.webp" alt="Meal Distribution" fetchpriority="high" width="1200" height="720" loading="eager" decoding="sync" style="width:100%; height:100%; object-fit:cover; display:block; border-radius:12px; background-color:#fffaf6;">
+      </div>
+      <div class="support-card support-content">
+        <h2>How Your Order Helps</h2>
+        <ul>
+          <li>A percentage of your purchase is added to our Impact Fund</li>
+          <li>We source directly from local farmers, helping them earn better, grow more, and sustain their livelihood</li>
+          <li>We distribute meals through verified orphanages &amp; old-age homes</li>
+          <li>You receive transparent updates &amp; real stories of change</li>
+        </ul>
+        <p class="muted">Every shipment you place brings someone a meal, comfort, and hope.</p>
+      </div>
+    </section>
+
+    <!-- Section 2: TEXT (left) — PHOTO (right) -->
+    <section class="alt-section alt-reverse reveal-up" aria-label="Why We Stand Apart">
+      <div class="support-card support-content">
+        <h2>Why We Stand Apart</h2>
+        <ul>
+          <li>Real support, every month</li>
+          <li>No middlemen — direct contribution</li>
+          <li>Honest reporting and real photos</li>
+          <li>Care and compassion built into our business values</li>
+        </ul>
+        <p class="muted">Choosing us means choosing a partner who cares for people, not just profit.</p>
+      </div>
+      <div class="media" aria-hidden="true">
+        <img src="../images/support/s-2.webp" alt="Farmer Support" fetchpriority="high" width="1200" height="720" loading="eager" decoding="sync" style="width:100%; height:100%; object-fit:cover; display:block; border-radius:12px; background-color:#fffaf6;">
+      </div>
+    </section>
+
+    <!-- Section 3: Centered gallery with 3 thumbnails + 1 full-width image -->
+    <section class="moments-section reveal-up" aria-label="Real Moments We Create">
+      <div class="moments-card support-card">
+        <h2>Real Moments We Create</h2>
+        <p class="muted">Warm meals. Happy smiles. Grateful elders. All made possible by your trust in us.</p>
+        <div class="moments-thumbs" role="list">
+          <div class="moments-thumb" role="listitem" aria-hidden="true">
+            <img src="../images/support/s-3.webp" alt="Photo 1" fetchpriority="high" width="480" height="320" loading="eager" decoding="sync" style="background-color:#fffaf6;">
+          </div>
+          <div class="moments-thumb" role="listitem" aria-hidden="true">
+            <img src="../images/support/s-4.webp" alt="Photo 2" fetchpriority="high" width="480" height="320" loading="eager" decoding="sync" style="background-color:#fffaf6;">
+          </div>
+          <div class="moments-thumb" role="listitem" aria-hidden="true">
+            <img src="../images/support/s-5.webp" alt="Photo 3" fetchpriority="high" width="480" height="320" loading="eager" decoding="sync" style="background-color:#fffaf6;">
+          </div>
+        </div>
+      </div>
+
+      <!-- full-width image removed as requested -->
+    </section>
+
+    <!-- Section 4: TEXT (left) — PHOTO (right) -->
+    <section class="alt-section alt-reverse reveal-up" aria-label="When you choose">
+      <div class="support-card support-content">
+        <h2>When you choose Patel Universal Traders Pvt. Ltd., you choose:</h2>
+        <ul>
+          <li>A reliable supplier</li>
+          <li>A responsible partner</li>
+          <li>A compassionate brand</li>
+        </ul>
+        <p class="muted">You don't just get quality goods… you give a better life to someone who needs it.</p>
+      </div>
+      <div class="media" aria-hidden="true">
+        <img src="../images/support/s-7.webp" alt="Meal Distribution" fetchpriority="high" width="1200" height="720" loading="eager" decoding="sync" style="width:100%; height:100%; object-fit:cover; display:block; border-radius:12px; background-color:#fffaf6;">
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer bg-dark text-white pt-5 pb-3">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 mb-4">
+          <h5 class="footer-heading">Patel Universal Traders PVT.LTD.</h5>
+          <p class="footer-text">India's leading exporter of Premium Rice &amp; Spices.</p>
+          <div class="d-flex gap-2 mt-3">
+            <a href="contact.html" class="btn btn-light btn-sm">Enquire Now</a>
+            <a href="#" class="btn btn-outline-light btn-sm" target="_blank" rel="noopener" download>Download Brochure</a>
+          </div>
+          <div class="social-links-footer mt-3">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-6 mb-4 footer-quick-links">
+          <h5 class="footer-heading">Quick Links</h5>
+          <ul class="footer-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="quality.html">Quality</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4 footer-products">
+          <h5 class="footer-heading">Our Products</h5>
+          <ul class="footer-links">
+            <li><a href="products.html">Basmati Rice</a></li>
+            <li><a href="products.html">Non-Basmati Rice</a></li>
+            <li><a href="products.html">Organic Rice</a></li>
+            <li><a href="products.html">Spices</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <h5 class="footer-heading">Contact Info</h5>
+          <ul class="footer-contact">
+            <li><i class="fas fa-map-marker-alt"></i> Mumbai, Maharashtra, India</li>
+            <li><i class="fas fa-phone-alt"></i> <a href="tel:+919876543210">+91 98765 43210</a></li>
+            <li><i class="fas fa-envelope"></i> <a href="mailto:info@primeimpex.com">info@primeimpex.com</a></li>
+            <li><i class="fas fa-globe"></i> www.primeimpex.com</li>
+          </ul>
+        </div>
+      </div>
+      <hr class="footer-divider">
+      <div class="row">
+        <div class="col-12 text-center">
+          <p class="mb-0">&copy; 2025 Patel Universal Traders PVT.LTD. All Rights Reserved. <a href="#" class="footer-legal">Privacy Policy</a> | <a href="#" class="footer-legal">Terms of Service</a></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/cursor.js"></script>
+  <script>
+document.addEventListener('DOMContentLoaded', function(){
+  var els = document.querySelectorAll('.reveal-up');
+  if (!('IntersectionObserver' in window)) { els.forEach(function(el){ el.classList.add('in-view'); }); return; }
+  var io = new IntersectionObserver(function(entries, obs){ entries.forEach(function(entry){ if (entry.isIntersecting) { entry.target.classList.add('in-view'); obs.unobserve(entry.target); } }); }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+  els.forEach(function(el){ io.observe(el); });
+});
+  </script>
+</body>
+</html>

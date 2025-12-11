@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - Patel Universal Traders PVT.LTD.</title>
+  <meta name="description" content="Learn about Patel Universal Traders - India's trusted exporter of premium rice and spices">
+  
+  <link rel="icon" type="image/png" href="../images/favicon.webp">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/cursor.css">
+
+  <!-- Preload critical hero images to avoid delayed render in about-detail -->
+  <link rel="preload" href="../images/hero/hero1.webp" as="image">
+  <link rel="preload" href="../images/hero/hero2.webp" as="image">
+  <link rel="preload" href="../images/hero/hero3.webp" as="image">
+
+  <style>
+    /* Top Bar Styling */
+    .top-bar {
+      background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%);
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.875rem;
+    }
+    .top-bar .top-info {
+      color: #fff;
+    }
+    .top-bar .top-info a {
+      color: #fff;
+      text-decoration: none;
+      transition: color 200ms ease;
+    }
+    .top-bar .top-info a:hover {
+      color: #ffd166;
+    }
+    .top-bar .social-links a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 12px;
+      transition: color 200ms ease;
+      display: inline-block;
+    }
+    .top-bar .social-links a:hover {
+      color: #ffd166;
+    }
+
+    @media (max-width: 768px) {
+      .top-bar { display: none; }
+    }
+
+    /* Navbar brand styles */
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-img {
+      border-radius: 8px;
+      height: 68px;
+      max-height: 68px;
+      width: auto;
+      flex: 0 0 auto;
+      display: inline-block;
+      margin-right: 0;
+      transition: transform 200ms ease, box-shadow 160ms ease;
+      box-shadow: 0 6px 18px rgba(15,15,15,0.06);
+    }
+    .brand-img:hover { 
+      transform: translateY(-2px) scale(1.02); 
+      box-shadow: 0 14px 36px rgba(15,15,15,0.12); 
+    }
+
+    .brand-text {
+      font-weight: 800;
+      font-size: 1.02rem;
+      line-height: 1.05;
+      letter-spacing: 0.2px;
+      display: block;
+      flex: 1 1 auto;
+      min-width: 0;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      background: linear-gradient(90deg, #2c5f2d 0%, #4f8d52 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.15);
+    }
+
+    @media (max-width: 768px) {
+      .brand-img { height: 56px; max-height: 56px; }
+      .brand-text { font-size: 0.92rem; }
+    }
+
+    @media (max-width: 576px) {
+      .brand-text { display: none !important; }
+      .brand-img { height: 48px; max-height: 48px; }
+      .navbar .navbar-toggler { margin-left: auto; }
+      .navbar-brand { gap: 8px; }
+    }
+
+    .nav-link {
+      font-weight: 500;
+      color: #333 !important;
+      transition: color 200ms ease;
+      position: relative;
+      padding-bottom: 6px;
+    }
+    .nav-link:hover {
+      color: #2c5f2d !important;
+    }
+    .nav-link.active {
+      color: #2c5f2d !important;
+      border-bottom: 3px solid #2c5f2d;
+    }
+
+    .btn-contact {
+      background-color: #2c5f2d !important;
+      color: #fff !important;
+      border-radius: 6px;
+      padding: 8px 16px !important;
+      margin-left: 12px;
+    }
+    .btn-contact:hover {
+      background-color: #234a24 !important;
+      transform: translateY(-2px);
+    }
+
+    /* Ensure Journey & Founders images render at a consistent size */
+    .founder-photo {
+      width: 320px;
+      height: 320px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+    }
+    .founder-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Generic text reveal utility used across the about page */
+    .text-reveal {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 420ms cubic-bezier(.2,.9,.2,1), transform 420ms cubic-bezier(.2,.9,.2,1);
+      will-change: opacity, transform;
+    }
+    .text-reveal.in-view {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (max-width: 768px) {
+      .founder-photo { width: 220px; height: 220px; }
+      .founder-photo img { width: 100%; height: 100%; }
+    }
+
+    /* Animate all visible text in the founders section */
+    .founders-section .section-title,
+    .founders-section .section-subtitle,
+    .founders-section .founder-text h4,
+    .founders-section .founder-text p,
+    .founders-section .founder-text strong,
+    .founders-section .founder-text .small {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 420ms cubic-bezier(.2,.9,.2,1), transform 420ms cubic-bezier(.2,.9,.2,1);
+      will-change: opacity, transform;
+    }
+
+    /* When the parent gets .in-view, reveal text with delays for pleasant stagger */
+    .founders-section .section-header.in-view .section-title {
+      opacity: 1;
+      transform: none;
+      transition-delay: 0ms;
+    }
+    .founders-section .section-header.in-view .section-subtitle {
+      opacity: 1;
+      transform: none;
+      transition-delay: 70ms;
+    }
+
+    .founder-item.in-view .founder-text h4 { opacity: 1; transform: none; transition-delay: 120ms; }
+    .founder-item.in-view .founder-text p  { opacity: 1; transform: none; transition-delay: 200ms; }
+    .founder-item.in-view .founder-text .small { opacity: 1; transform: none; transition-delay: 260ms; }
+
+    /* Fixed background applied only to selected sections */
+    .fixed-bg-section {
+      position: relative;
+      background-image: url("../images/about/back.webp");
+      background-attachment: fixed;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-color: transparent;
+      z-index: 0;
+    }
+
+    /* Ensure Bootstrap modals appear above fixed-section overlays */
+    .modal {
+      z-index: 20050 !important;
+    }
+    .modal-backdrop {
+      z-index: 20040 !important;
+    }
+
+    /* Optional overlay to improve contrast */
+    .fixed-bg-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.18);
+      z-index: 0;
+      pointer-events: none;
+    }
+    .fixed-bg-section > .container { position: relative; z-index: 2; }
+
+    /* About detail: white text and subtle background blur for this section only */
+    .about-detail.fixed-bg-section {
+      position: relative;
+      color: #ffffff;
+    }
+    .about-detail.fixed-bg-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.28);
+      z-index: 1;
+      pointer-events: none;
+    }
+    .about-detail .about-detail-text { position: relative; z-index: 2; color: #fff; }
+    .about-detail .about-detail-text h3,
+    .about-detail .about-detail-text p,
+    .about-detail .about-detail-text .lead { color: #ffffff !important; }
+
+    /* Image composition */
+    .image-composition {
+      position: relative;
+      height: 400px;
+      margin: 0 auto;
+    }
+    .back-rect {
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      background: rgba(248, 183, 57, 0.1);
+      border-radius: 12px;
+      top: 40px;
+      right: 0;
+      z-index: 1;
+    }
+    .comp {
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      object-fit: cover;
+      border-radius: 12px;
+      display: block;
+    }
+    .rect-image {
+      top: 0;
+      left: 0;
+      z-index: 3;
+      width: 240px;
+      height: 240px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+    .ellipse-image {
+      top: 80px;
+      right: 60px;
+      z-index: 2;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+    .rounded-image {
+      bottom: 0;
+      right: 20px;
+      z-index: 4;
+      width: 180px;
+      height: 180px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+    }
+
+    @media (max-width: 768px) {
+      .image-composition { height: 300px; }
+      .back-rect { width: 200px; height: 200px; }
+      .rect-image { width: 150px; height: 150px; }
+      .ellipse-image { width: 120px; height: 120px; top: 60px; right: 40px; }
+      .rounded-image { width: 100px; height: 100px; }
+    }
+
+    /* Disable fixed background on smaller screens */
+    @media (max-width: 1024px) {
+      .fixed-bg-section { background-attachment: scroll !important; }
+    }
+
+    /* Founders / Journey background image and overlay */
+    .founders-section {
+      position: relative;
+      background-image: none;
+      background-color: #ffffff;
+      color: #000000;
+    }
+    .founders-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: transparent;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .founders-section .container { position: relative; z-index: 2; }
+    
+    /* Ensure text is visible on light background */
+    .founders-section .section-title,
+    .founders-section .section-subtitle,
+    .founders-section .founder-text h4,
+    .founders-section .founder-text p,
+    .founders-section .founder-text strong,
+    .founders-section .founder-text .small {
+      color: #000000 !important;
+      text-shadow: none;
+    }
+    .founders-section a { color: #ffd166; }
+
+    /* Animations for Journey & Founders */
+    .founders-section .section-header,
+    .founders-section .founder-item {
+      opacity: 0;
+      transform: translateY(-12px);
+      transition: opacity 520ms cubic-bezier(.2,.9,.2,1), transform 520ms cubic-bezier(.2,.9,.2,1);
+      will-change: opacity, transform;
+    }
+
+    .founders-section .section-header.in-view,
+    .founders-section .founder-item.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Small-screen (stacked) stagger */
+    .founder-item .founder-photo { opacity: 0; transform: translateY(10px); transition-delay: 0s; }
+    .founder-item .founder-text h4 { opacity: 0; transform: translateY(10px); transition-delay: 0s; }
+    .founder-item .founder-text p  { opacity: 0; transform: translateY(10px); transition-delay: 0s; }
+
+    .founder-item.in-view .founder-photo { opacity: 1; transform: none; transition-delay: 80ms; }
+    .founder-item.in-view .founder-text h4 { opacity: 1; transform: none; transition-delay: 140ms; }
+    .founder-item.in-view .founder-text p  { opacity: 1; transform: none; transition-delay: 220ms; }
+
+    /* gentle floating applied to photos after they enter view */
+    .founder-item.in-view .founder-photo img {
+      animation: floatY 6s ease-in-out 0.6s infinite;
+      animation-play-state: running;
+      will-change: transform;
+    }
+
+    /* Slide-in animation for founder photos */
+    .founder-item .founder-photo {
+      opacity: 0;
+      transform: translateX(-120%);
+      transition: transform 900ms ease, opacity 900ms ease;
+      will-change: transform, opacity;
+    }
+    /* If the item layout is reversed (even items), start from the opposite side */
+    .founder-item:nth-child(even) .founder-photo { transform: translateX(120%); }
+
+    /* When the parent receives .in-view, reveal the photo (slide to place) */
+    .founder-item.in-view .founder-photo { transform: translateX(0); opacity: 1; transition-delay: 80ms; }
+
+    /* On small screens animate from below for better visual flow */
+    @media (max-width: 768px) {
+      .founder-item .founder-photo { transform: translateY(18px); }
+      .founder-item.in-view .founder-photo { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Stronger selectors to ensure the photo element itself can be toggled */
+    .founder-photo.in-view {
+      transform: translateX(0) !important;
+      transform-origin: center center;
+      opacity: 1 !important;
+      transition: transform 900ms ease, opacity 900ms ease;
+    }
+    @media (max-width: 768px) {
+      .founder-photo.in-view { transform: translateY(0) !important; }
+    }
+
+    .section-header.in-view .section-title { opacity: 1; transform: none; transition-delay: 0ms; }
+    .section-header.in-view .section-subtitle { opacity: 1; transform: none; transition-delay: 60ms; }
+
+    /* Larger screens: arrange items in rows and animate images/text from opposite directions */
+    @media (min-width: 768px) {
+      .founder-list { display: flex; flex-direction: column; gap: 28px; }
+      .founder-item { display: flex; align-items: center; gap: 28px; }
+      /* Alternate layout: place image on right for even items */
+      .founder-item:nth-child(even) { flex-direction: row-reverse; }
+      .founder-item .founder-photo { flex: 0 0 320px; width: 320px; }
+      .founder-item .founder-text { flex: 1; }
+
+      /* initial horizontal offsets */
+      .founder-item .founder-photo { opacity: 0; transform: translateX(20px); transition: transform 520ms cubic-bezier(.2,.9,.2,1), opacity 520ms ease; }
+      .founder-item .founder-text h4, .founder-item .founder-text p { opacity: 0; transform: translateX(-20px); transition: transform 520ms cubic-bezier(.2,.9,.2,1), opacity 520ms ease; }
+
+      /* invert for even items (image on right) */
+      .founder-item:nth-child(even) .founder-photo { transform: translateX(-20px); }
+      .founder-item:nth-child(even) .founder-text h4, .founder-item:nth-child(even) .founder-text p { transform: translateX(20px); }
+
+      /* when visible -> reset transform */
+      .founder-item.in-view .founder-photo { transform: none; opacity: 1; transition-delay: 80ms; }
+      .founder-item.in-view .founder-text h4 { transform: none; opacity: 1; transition-delay: 140ms; }
+      .founder-item.in-view .founder-text p  { transform: none; opacity: 1; transition-delay: 220ms; }
+    }
+
+    /* Float keyframes: small, slow vertical movement for a subtle "floating" effect */
+    @keyframes floatY {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+      100% { transform: translateY(0); }
+    }
+
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .founders-section .section-header,
+      .founders-section .founder-item,
+      .founders-section .founder-item .founder-photo,
+      .founders-section .founder-item .founder-text h4,
+      .founders-section .founder-item .founder-text p {
+        transition: none !important;
+        transform: none !important;
+        opacity: 1 !important;
+        animation: none !important;
+      }
+    }
+
+    /* Infrastructure gallery: force uniform thumbnail sizes */
+    .infra-thumb {
+      display: block;
+      overflow: hidden;
+      border-radius: 6px;
+    }
+    .infra-thumb img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .infra-thumb img { height: 140px; }
+    }
+
+    /* Exports & Partners flags: use specific sizes from design */
+    .export-markets .flag-btn { padding: 0.25rem; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; }
+    .export-markets .flag-btn img {
+      width: 75px;
+      height: 71px;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .export-markets .flag-btn img { width: 60px; height: 24px; }
+    }
+
+    /* Make Infrastructure & Exports section headings/subtitles clearly visible */
+    .infrastructure .section-header .section-title,
+    .export-markets .section-header .section-title {
+      color: #ffffff !important;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    }
+    .infrastructure .section-header .section-subtitle,
+    .export-markets .section-header .section-subtitle {
+      color: rgba(255,255,255,0.92) !important;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+      font-weight: 600;
+    }
+
+    /* Certificate logo sizing */
+    .cert-logo {
+      width: 96px;
+      height: 96px;
+      object-fit: contain;
+      display: inline-block;
+    }
+    .cert-logo-large {
+      max-width: 140px;
+      height: auto;
+      object-fit: contain;
+      display: inline-block;
+    }
+    @media (max-width: 768px) {
+      .cert-logo { width: 64px; height: 64px; }
+      .cert-logo-large { max-width: 100px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="top-info">
+            <i class="fas fa-phone-alt"></i> <a href="tel:+919876543210">+91 98765 43210</a>
+            <i class="fas fa-envelope ms-3"></i> <a href="mailto:info@primeimpex.com">info@primeimpex.com</a>
+          </div>
+        </div>
+        <div class="col-md-6 text-end">
+          <div class="social-links">
+            <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="../index.html">
+        <img src="../images/Logo.png" alt="Patel Universal Traders Logo" class="brand-img">
+        <span class="brand-text">Patel Universal Traders PVT.LTD.</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link active" href="about.html">About Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
+          <li class="nav-item"><a class="nav-link" href="quality.html">Quality</a></li>
+          <li class="nav-item"><a class="nav-link" href="support.html">Support</a></li>
+          <li class="nav-item"><a class="nav-link btn-contact" href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- About Detail Section -->
+  <section class="about-detail py-5 fixed-bg-section">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 about-detail-text">
+          <h3>Patel Universal Traders PVT.LTD.</h3>
+          <p class="lead">Delivering India's Heritage of Taste to the World.</p>
+          <p>At Patel Universal Traders PVT.LTD., we are proud to represent India's finest rice and spices on the global stage. As a trusted exporter, we combine traditional sourcing with modern processing to deliver products that embody purity, authenticity, and quality. From the lush paddy fields and spice farms of India to dining tables across continents, every shipment reflects our commitment to ethical sourcing, precise quality control, and international standards.</p>
+          <p>With customized packaging, sustainable practices, and seamless logistics, we ensure our clients receive India's true flavor — fresh, natural, and globally trusted.</p>
+          <p class="mb-0"><strong>Patel Universal Traders PVT.LTD. — Redefining Indian Excellence in Global Trade.</strong></p>
+        </div>
+        <div class="col-lg-6">
+          <div class="image-composition">
+            <div class="back-rect"></div>
+            <img src="../images/hero/hero1.webp" alt="Premium quality rice" class="comp rect-image" fetchpriority="high" width="240" height="240" loading="eager" decoding="sync" style="background-color:#f8b739;background-size:cover;background-position:center;">
+            <img src="../images/hero/hero2.webp" alt="Global logistics" class="comp ellipse-image" fetchpriority="high" width="200" height="200" loading="eager" decoding="sync" style="background-color:#f8b739;background-size:cover;background-position:center;">
+            <img src="../images/hero/hero3.webp" alt="Certified excellence" class="comp rounded-image" fetchpriority="high" width="180" height="180" loading="eager" decoding="sync" style="background-color:#f8b739;background-size:cover;background-position:center;">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Journey & Founders -->
+  <section class="founders-section py-5">
+    <div class="container">
+      <div class="section-header text-center mb-4">
+        <h2 class="section-title">Journey & Founders</h2>
+        <p class="section-subtitle">The story behind Patel Universal Traders PVT.LTD. and the founders who led the way</p>
+      </div>
+
+      <div class="founder-list">
+        <div class="founder-item">
+          <div class="founder-photo">
+            <img src="../images/team/founder1.webp" alt="Dipak Patel" loading="lazy">
+          </div>
+          <div class="founder-text">
+            <h4>Dipak Patel (Co-Founder & Managing Director) — From Technology to Trade</h4>
+            <p>After completing my Bachelor's in Computer Science from the University of East London, I always knew that innovation could empower traditional industries — especially agriculture. Coming from a farming background, I had seen the hard work and dedication that goes into every harvest. During my university years, I began selling our family's produce — wheat, rice, and cumin — to local stores and restaurants. That small initiative planted the seed for something bigger: connecting India's rich agricultural quality to global markets and building trusted supply chains that honor both farmers and customers.</p>
+          </div>
+        </div>
+
+        <div class="founder-item">
+          <div class="founder-photo">
+            <img src="../images/team/founder2.webp" alt="Pankaj Patel" loading="lazy">
+          </div>
+          <div class="founder-text">
+            <h4>Pankaj Patel (Co-Founder & Director – Procurement & Trade Relations) — Turning Tradition Into Opportunity</h4>
+            <p>Having completed my graduation from SAAL College, I shared the same passion for agriculture and entrepreneurship. Growing up in a farming family, I understood both the challenges and potential of this industry. Along with Dipak, we began trading our homegrown produce locally, building strong relationships and learning the real essence of trust and quality in business.</p>
+          </div>
+        </div>
+
+        <div class="founder-item">
+          <div class="founder-photo">
+            <img src="../images/team/manager1.webp" alt="Founders" loading="lazy">
+          </div>
+          <div class="founder-text">
+            <h4>Our Shared Vision</h4>
+            <p>"Two friends from farming families, one dream — to take India's finest rice and spices to global tables." Together, Dipak Patel and Pankaj Patel founded Patel Universal Traders PVT.LTD., transforming their early passion for agriculture into a trusted global export company. Their journey — from selling local farm produce to building an international trade brand — is rooted in authenticity, partnership, and an unwavering commitment to quality.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Certifications -->
+  <section class="certifications py-5">
+    <div class="container">
+      <div class="section-header text-center mb-4">
+        <h2 class="section-title">Certifications</h2>
+        <p class="section-subtitle">Our certifications and industry recognitions that ensure quality and trust</p>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-lg-12">
+          <div class="row g-3 justify-content-center">
+            <div class="col-6 col-md-4 cert-item text-center">
+              <img src="../images/certs/iso-logo.webp" alt="ISO" class="img-fluid cert-logo mb-2" loading="lazy" decoding="async">
+              <div class="small">ISO 9001</div>
+              <a href="#" class="d-block small mt-1">Download PDF</a>
+            </div>
+            <div class="col-6 col-md-4 cert-item text-center">
+              <img src="../images/certs/fssai-logo.webp" alt="FSSAI" class="img-fluid cert-logo mb-2" loading="lazy" decoding="async">
+              <div class="small">FSSAI</div>
+              <a href="#" class="d-block small mt-1">Download PDF</a>
+            </div>
+            <div class="col-6 col-md-4 cert-item text-center">
+              <img src="../images/certs/apeda-logo.webp" alt="APEDA" class="img-fluid cert-logo mb-2" loading="lazy" decoding="async">
+              <div class="small">APEDA</div>
+              <a href="#" class="d-block small mt-1">Download PDF</a>
+            </div>
+            <div class="col-6 col-md-4 cert-item text-center">
+              <img src="../images/certs/haccp-logo.webp" alt="HACCP" class="img-fluid cert-logo mb-2" loading="lazy" decoding="async">
+              <div class="small">HACCP</div>
+              <a href="#" class="d-block small mt-1">Download PDF</a>
+            </div>
+            <div class="col-6 col-md-4 cert-item text-center">
+              <img src="../images/certs/halal-logo.webp" alt="Halal" class="img-fluid cert-logo mb-2" loading="lazy" decoding="async">
+              <div class="small">Halal</div>
+              <a href="#" class="d-block small mt-1">Download PDF</a>
+            </div>
+            <div class="col-6 col-md-4 cert-item text-center">
+              <img src="../images/certs/organic-logo.webp" alt="Organic" class="img-fluid cert-logo mb-2" loading="lazy" decoding="async">
+              <div class="small">Organic</div>
+              <a href="#" class="d-block small mt-1">Download PDF</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Infrastructure -->
+  <section class="infrastructure py-2 fixed-bg-section">
+    <div class="container">
+      <div class="section-header text-center mb-4">
+        <h2 class="section-title">Infrastructure & Facilities</h2>
+        <p class="section-subtitle">Modern milling units, storage silos, and packaging lines</p>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <a href="#" class="infra-thumb d-block" data-img="../images/infra/infra1-1200.webp">
+            <img src="../images/infra/infra1-800.webp" alt="Infrastructure 1" class="img-fluid rounded shadow-sm w-100" loading="lazy" decoding="async">
+          </a>
+        </div>
+        <div class="col-md-6">
+          <a href="#" class="infra-thumb d-block" data-img="../images/infra/infra2-1200.webp">
+            <img src="../images/infra/infra2-800.webp" alt="Infrastructure 2" class="img-fluid rounded shadow-sm w-100" loading="lazy" decoding="async">
+          </a>
+        </div>
+        <div class="col-md-6">
+          <a href="#" class="infra-thumb d-block" data-img="../images/infra/infra3-1200.webp">
+            <img src="../images/infra/infra3-800.webp" alt="Infrastructure 3" class="img-fluid rounded shadow-sm w-100" loading="lazy" decoding="async">
+          </a>
+        </div>
+        <div class="col-md-6">
+          <a href="#" class="infra-thumb d-block" data-img="../images/infra/infra4-1200.webp">
+            <img src="../images/infra/infra4-800.webp" alt="Infrastructure 4" class="img-fluid rounded shadow-sm w-100" loading="lazy" decoding="async">
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Export Markets -->
+  <section class="export-markets py-5 fixed-bg-section">
+    <div class="container">
+      <div class="section-header text-center mb-4">
+        <h2 class="section-title">Exports & Partners</h2>
+        <p class="section-subtitle">Click a country to view key partner and year we started exports</p>
+      </div>
+      <div class="d-flex gap-3 justify-content-center flex-wrap">
+        <button class="btn flag-btn" data-country="UAE" data-partner="Al Noor Foods" data-year="2012">
+          <img src="../images/flags/uae.webp" alt="UAE" loading="lazy" decoding="async">
+        </button>
+        <button class="btn flag-btn" data-country="UK" data-partner="SpiceHouse Ltd" data-year="2014">
+          <img src="../images/flags/uk.webp" alt="UK" loading="lazy" decoding="async">
+        </button>
+        <button class="btn flag-btn" data-country="USA" data-partner="Global Foods Inc" data-year="2016">
+          <img src="../images/flags/usa.webp" alt="USA" loading="lazy" decoding="async">
+        </button>
+        <button class="btn flag-btn" data-country="Saudi Arabia" data-partner="Arabian Retail" data-year="2013">
+          <img src="../images/flags/saudi.webp" alt="Saudi Arabia" loading="lazy" decoding="async">
+        </button>
+        <button class="btn flag-btn" data-country="Singapore" data-partner="EastTraders" data-year="2018">
+          <img src="../images/flags/singapore.webp" alt="Singapore" loading="lazy" decoding="async">
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer bg-dark text-white pt-5 pb-3">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 mb-4">
+          <h5 class="footer-heading">Patel Universal Traders PVT.LTD.</h5>
+          <p class="footer-text">India's leading exporter of Premium Rice & Spices.</p>
+          <div class="d-flex gap-2 mt-3">
+            <a href="contact.html" class="btn btn-light btn-sm">Enquire Now</a>
+            <a href="#" class="btn btn-outline-light btn-sm" target="_blank" rel="noopener" download>Download Brochure</a>
+          </div>
+          <div class="social-links-footer mt-3">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-6 mb-4 footer-quick-links">
+          <h5 class="footer-heading">Quick Links</h5>
+          <ul class="footer-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="quality.html">Quality</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4 footer-products">
+          <h5 class="footer-heading">Our Products</h5>
+          <ul class="footer-links">
+            <li><a href="products.html">Basmati Rice</a></li>
+            <li><a href="products.html">Non-Basmati Rice</a></li>
+            <li><a href="products.html">Organic Rice</a></li>
+            <li><a href="products.html">Spices</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <h5 class="footer-heading">Contact Info</h5>
+          <ul class="footer-contact">
+            <li><i class="fas fa-map-marker-alt"></i> Mumbai, Maharashtra, India</li>
+            <li><i class="fas fa-phone-alt"></i> <a href="tel:+919876543210">+91 98765 43210</a></li>
+            <li><i class="fas fa-envelope"></i> <a href="mailto:info@primeimpex.com">info@primeimpex.com</a></li>
+            <li><i class="fas fa-globe"></i> www.primeimpex.com</li>
+          </ul>
+        </div>
+      </div>
+      <hr class="footer-divider">
+      <div class="row">
+        <div class="col-12 text-center">
+          <p class="mb-0">&copy; 2025 Patel Universal Traders PVT.LTD. All Rights Reserved. <a href="#" class="footer-legal">Privacy Policy</a> | <a href="#" class="footer-legal">Terms of Service</a></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Infra Modal -->
+  <div class="modal fade" id="infraModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <img src="" id="infraModalImg" alt="Infrastructure" class="img-fluid w-100" loading="lazy" decoding="async">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flag Modal -->
+  <div class="modal fade" id="flagModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="flagModalTitle"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Key Partner:</strong> <span id="flagPartner"></span></p>
+          <p><strong>Year since exports started:</strong> <span id="flagYear"></span></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/cursor.js"></script>
+  <script src="../js/animations.js"></script>
+  <script>
+// infra gallery preview
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('.infra-thumb').forEach(function(a){
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      var img = a.getAttribute('data-img');
+      var modalImg = document.getElementById('infraModalImg');
+      modalImg.src = img;
+      var infraModal = new bootstrap.Modal(document.getElementById('infraModal'));
+      infraModal.show();
+    });
+  });
+
+  // flags
+  document.querySelectorAll('.flag-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var country = btn.getAttribute('data-country');
+      var partner = btn.getAttribute('data-partner');
+      var year = btn.getAttribute('data-year');
+      document.getElementById('flagModalTitle').innerText = country;
+      document.getElementById('flagPartner').innerText = partner;
+      document.getElementById('flagYear').innerText = year;
+      var flagModal = new bootstrap.Modal(document.getElementById('flagModal'));
+      flagModal.show();
+    });
+  });
+});
+</script>
+<script>
+// Reveal animation for founders on scroll
+document.addEventListener('DOMContentLoaded', function(){
+  var items = document.querySelectorAll('.founder-item');
+  if (!items || !items.length) return;
+
+  // honor reduced motion preference
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    items.forEach(function(i){ i.classList.add('in-view'); });
+    var header = document.querySelector('.founders-section .section-header');
+    if (header) header.classList.add('in-view');
+    return;
+  }
+
+  if (!('IntersectionObserver' in window)) {
+    items.forEach(function(i){ i.classList.add('in-view'); });
+    var header = document.querySelector('.founders-section .section-header');
+    if (header) header.classList.add('in-view');
+    return;
+  }
+
+  var io = new IntersectionObserver(function(entries, observer){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        // also mark the photo and text wrappers so CSS selectors that rely on .in-view on those elements activate
+        var photo = entry.target.querySelector('.founder-photo');
+        if (photo) {
+          photo.classList.add('in-view');
+          var img = photo.querySelector('img');
+          if (img) img.classList.add('in-view');
+        }
+        var text = entry.target.querySelector('.founder-text');
+        if (text) text.classList.add('in-view');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.22 });
+
+  items.forEach(function(i){ io.observe(i); });
+
+  // Also observe the section header so the title/subtitle animate when visible
+  var headerEl = document.querySelector('.founders-section .section-header');
+  if (headerEl) {
+    var hio = new IntersectionObserver(function(entries, hObserver){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          hObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    hio.observe(headerEl);
+  }
+});
+</script>
+<script>
+// Generic text reveal across the about page: add .text-reveal to common text elements
+// then observe sections and reveal contained text with a small stagger.
+document.addEventListener('DOMContentLoaded', function(){
+  var textSelectors = 'h1,h2,h3,h4,h5,h6,p,li,.lead,.small,.section-title,.section-subtitle,a';
+  var els = Array.prototype.slice.call(document.querySelectorAll(textSelectors));
+
+  // Narrow scope to elements that are inside a section (avoid nav/footer accidental matches)
+  els = els.filter(function(el){ return !!el.closest('section'); });
+  if (!els.length) return;
+
+  // add base class so CSS handles the transition
+  els.forEach(function(el){ el.classList.add('text-reveal'); });
+
+  // Respect user's reduced motion preference
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    els.forEach(function(el){ el.classList.add('in-view'); });
+    return;
+  }
+
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(function(el){ el.classList.add('in-view'); });
+    return;
+  }
+
+  var sections = Array.prototype.slice.call(document.querySelectorAll('section'));
+  var secObserver = new IntersectionObserver(function(entries, observer){
+    entries.forEach(function(entry){
+      if (!entry.isIntersecting) return;
+      var reveals = Array.prototype.slice.call(entry.target.querySelectorAll('.text-reveal'));
+      reveals.forEach(function(el, idx){
+        // small stagger: 60ms between items
+        setTimeout(function(){ el.classList.add('in-view'); }, idx * 60);
+      });
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.12 });
+
+  sections.forEach(function(s){ secObserver.observe(s); });
+
+  // If any text-reveal is already visible (above threshold), reveal immediately
+  // This handles short pages or top-of-page content
+  els.forEach(function(el){
+    var rect = el.getBoundingClientRect();
+    if (rect.top >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)) {
+      el.classList.add('in-view');
+    }
+  });
+});
+</script>
+</body>
+</html>

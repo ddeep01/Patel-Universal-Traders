@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>Patel Universal Traders PVT.LTD. - Trusted Rice Exporters from India</title>
+  <meta name="description" content="Patel Universal Traders PVT.LTD. is a leading Exporter of Premium Basmati, Non-Basmati, and Organic rice from India.">
+  <meta name="keywords" content="rice exporters India, basmati rice, 1121 basmati, premium rice suppliers">
+  <meta name="author" content="Patel Universal Traders PVT.LTD.">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Patel Universal Traders PVT.LTD. - Trusted Rice Exporters from India">
+  <meta property="og:description" content="Premium Rice Exporters from India">
+  <meta property="og:image" content="./images/og-image.webp">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="./images/favicon.webp">
+  
+  <!-- CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/home.css">
+  <link rel="stylesheet" href="./css/cursor.css">
+  
+  <style>
+    img, .img-fluid { object-fit: cover; display: block; max-width: 100%; height: auto; }
+
+    /* Top Bar + Navbar refinements (match Django base) */
+    .top-bar { background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%); padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.875rem; }
+    .top-bar .top-info { color: #fff; }
+    .top-bar .top-info a { color: #fff; text-decoration: none; transition: color 200ms ease; }
+    .top-bar .top-info a:hover { color: #ffd166; }
+    .top-bar .social-links a { color: #fff; text-decoration: none; margin-left: 12px; transition: color 200ms ease; display: inline-block; }
+    .top-bar .social-links a:hover { color: #ffd166; }
+    @media (max-width: 768px) { .top-bar { display: none; } }
+
+    .navbar-brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .brand-img { border-radius: 8px; height: 68px; max-height: 68px; width: auto; flex: 0 0 auto; display: inline-block; margin-right: 0; transition: transform 200ms ease, box-shadow 160ms ease; box-shadow: 0 6px 18px rgba(15,15,15,0.06); }
+    .brand-img:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 14px 36px rgba(15,15,15,0.12); }
+    .brand-text { font-weight: 800; font-size: 1.02rem; line-height: 1.05; letter-spacing: 0.2px; display: block; flex: 1 1 auto; min-width: 0; white-space: normal; overflow-wrap: anywhere; background: linear-gradient(90deg, #2c5f2d 0%, #4f8d52 100%); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: 0 1px 0 rgba(255,255,255,0.15); }
+    @media (max-width: 768px) { .brand-img { height: 56px; max-height: 56px; } .brand-text { font-size: 0.92rem; } }
+    @media (max-width: 576px) { .brand-text { display: none !important; } .brand-img { height: 48px; max-height: 48px; } .navbar .navbar-toggler { margin-left: auto; } .navbar-brand { gap: 8px; } .top-bar { display: none !important; } }
+    .nav-link { font-weight: 500; color: #333 !important; transition: color 200ms ease; position: relative; padding-bottom: 6px; }
+    .nav-link:hover { color: #2c5f2d !important; }
+    .nav-link.active { color: #2c5f2d !important; border-bottom: 3px solid #2c5f2d; }
+    .btn-contact { background-color: #2c5f2d !important; color: #fff !important; border-radius: 6px; padding: 8px 16px !important; margin-left: 12px; }
+    .btn-contact:hover { background-color: #234a24 !important; transform: translateY(-2px); }
+    .stat-item p { color: #333; font-weight: 600; }
+
+    /* Inline home-page styles mirrored from Django template */
+    #heroFullWrap { background-image: url('./images/hero/hero1.webp'); background-size: cover; background-position: center; }
+    #mapVideoWrap { background-color: #000; background-image: none !important; }
+
+    .hero-section { position: relative; overflow: hidden; }
+    .hero-section .container { position: relative; z-index: 2; }
+    .hero-section-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.18); z-index: 1; pointer-events: none; }
+
+    .hero-section .hero-bg { position: absolute; inset: 0; background-image: url('./images/hero/back.webp'); background-size: cover; background-position: center; z-index: 0; opacity: 0.22; }
+    .hero-section .hero-bg-img { display: none; width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; z-index: 0; opacity: 0.22; }
+
+    .reveal-up { transform: translateY(18px); opacity: 0; transition: transform 560ms cubic-bezier(.2,.9,.2,1), opacity 420ms ease; }
+    .reveal-up.in-view { transform: translateY(0); opacity: 1; }
+    .hero-title { will-change: transform, opacity; }
+    .hero-subtitle { will-change: transform, opacity; transition-delay: 0.12s; }
+    .hero-buttons .btn { transform: translateY(6px); opacity: 0; transition: transform 420ms ease, opacity 320ms ease; }
+    .hero-buttons .btn.in-view { transform: translateY(0); opacity: 1; }
+    .stat-item h3 { font-variant-numeric: tabular-nums; }
+    .stat-item p { font-size: 0.9rem; color: #000000; margin: 0; }
+
+    .why-item { opacity: 1; transform: none; }
+    .hero-video-wrap.parallax { transition: transform 0.12s linear; }
+    .map-video-wrap { position: relative; }
+    .map-video-wrap img { display: none; }
+    section.hero-video-full { margin-bottom: 0 !important; padding-bottom: 0 !important; }
+    .hero-video-wrap { line-height: 0; }
+    .hero-video-wrap video { display: block; width: 100%; height: auto; margin: 0; padding: 0; }
+    .hero-video-full { position: relative; width: 100%; z-index: 0; background-color: #000; }
+    .hero-video-full .hero-video-wrap { position: relative; width: 100%; height: min(70vh, 640px); overflow: hidden; z-index: 0; }
+    .hero-video-full .hero-main-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; z-index: 0; opacity: 1 !important; visibility: visible !important; }
+    @media (max-width: 768px) { .hero-video-full .hero-video-wrap { height: 38vh; } }
+    section.hero-video-full + section.hero-section { margin-top: 0 !important; padding-top: 0 !important; }
+    .hero-video-wrap { margin-bottom: 0 !important; padding-bottom: 0 !important; }
+    section.hero-video-full + section.hero-section { margin-top: 0 !important; padding-top: 0 !important; }
+
+    .cta-vintage-box { animation: slideInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    @keyframes slideInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    .cta-benefits .benefit-item:nth-child(1) { animation: slideInUp 0.6s ease-out 0.1s both; }
+    .cta-benefits .benefit-item:nth-child(2) { animation: slideInUp 0.6s ease-out 0.2s both; }
+    .cta-benefits .benefit-item:nth-child(3) { animation: slideInUp 0.6s ease-out 0.3s both; }
+    .cta-vintage-box { background: repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0, 0, 0, 0.02) 2px, rgba(0, 0, 0, 0.02) 4px), repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.02) 2px, rgba(0, 0, 0, 0.02) 4px), linear-gradient(135deg, rgba(255, 250, 240, 0.98), rgba(245, 238, 223, 0.98)); }
+
+    .why-choose-us-alt { position: relative; background-image: url('./images/hero/backwhy.webp'); background-size: cover; background-position: center; background-repeat: no-repeat; }
+    .why-choose-us-alt::before { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,0.7); z-index: 0; }
+    .why-choose-us-alt .container { position: relative; z-index: 2; }
+    .why-list { display: flex; flex-direction: column; gap: 2rem; }
+    .why-list .why-item { display: flex; align-items: center; gap: 1.25rem; }
+    .why-list .why-item .why-text, .why-list .why-item .why-img { flex: 1 1 50%; }
+    .why-list .why-item .why-img img { width: 100%; height: auto; display: block; border-radius: 8px; }
+    @media (max-width: 768px) { .why-list .why-item { flex-direction: column; } .why-list .why-item .why-text { text-align: left; } }
+    .why-list .why-item .why-text { position: static; overflow: visible; }
+    .why-list .why-item:nth-child(even) { flex-direction: row-reverse; }
+    .why-list .why-item .why-img { opacity: 0; transform: translateX(-120%); transition: transform 1s ease, opacity 1s ease; will-change: transform, opacity; }
+    .why-list .why-item:nth-child(even) .why-img { transform: translateX(120%); }
+    .why-list .why-item .why-img.in-view { transform: translateX(0); opacity: 1; }
+    @media (max-width: 768px) { .why-list .why-item { flex-direction: column; } .why-list .why-item .why-img { transform: translateY(18px); } .why-list .why-item .why-img.in-view { transform: translateY(0); opacity: 1; } }
+    .why-choose-us-alt { background-color: transparent !important; }
+    .why-choose-us-alt .section-title,
+    .why-choose-us-alt .section-subtitle,
+    .why-choose-us-alt .why-text h3,
+    .why-choose-us-alt .why-text p,
+    .why-choose-us-alt .why-text li { color: #fff !important; text-shadow: 0 1px 2px rgba(0,0,0,0.4); }
+    .why-choose-us-alt .why-text h3 { font-weight: 700; color: #fff !important; }
+
+    .cert-marquee { padding: 12px 0 18px; margin-top: 0; overflow: hidden; }
+    .cert-marquee .marquee-header { text-align: center; margin: 0px 0px 33px; }
+    .cert-marquee .marquee-header h2 { margin: 0 0 6px; font-weight: 800; font-size: clamp(1.25rem, 2.4vw, 1.75rem); color: #111; }
+    .cert-marquee .marquee-header p { margin: 0; color: #555; font-weight: 600; }
+    @keyframes floatUp { from { transform: translateY(18px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .stagger > * { opacity: 0; transform: translateY(18px); }
+    .stagger.in-view > * { animation: floatUp 1.4s ease-out both; }
+    .stagger > *:nth-child(1){ animation-delay: 0ms; }
+    .stagger > *:nth-child(2){ animation-delay: 120ms; }
+    .stagger > *:nth-child(3){ animation-delay: 240ms; }
+    .stagger > *:nth-child(4){ animation-delay: 360ms; }
+    .stagger > *:nth-child(5){ animation-delay: 480ms; }
+    .stagger > *:nth-child(6){ animation-delay: 600ms; }
+    .stagger > *:nth-child(7){ animation-delay: 720ms; }
+    .stagger > *:nth-child(8){ animation-delay: 840ms; }
+    .stagger > *:nth-child(9){ animation-delay: 960ms; }
+    .stagger > *:nth-child(10){ animation-delay: 1080ms; }
+    @media (prefers-reduced-motion: reduce){ .stagger > * { animation: none; opacity: 1; transform: none; } }
+    .cert-marquee .marquee-viewport { max-width: 1200px; margin: 0 auto; position: relative; overflow: hidden; margin-top: 10px; }
+    .cert-marquee .marquee-track { display: flex; gap: 32px; align-items: center; width: max-content; animation: marqueeMove 20s linear infinite; }
+    .cert-marquee .marquee-group { display: flex; gap: 32px; align-items: center; white-space: nowrap; }
+    .cert-marquee .cert-logo-large { width: 190px; height: auto; max-height: 110px; object-fit: contain; filter: none; transition: transform 220ms ease; display: block; }
+    .cert-marquee .cert-logo-large:hover { transform: scale(1.1); }
+    @keyframes marqueeMove { 0% { transform: translateX(0); } 90% { transform: translateX(-50%); } 100% { transform: translateX(-50%); } }
+    @media (max-width: 768px) { .cert-marquee { padding: 14px 0; } .cert-marquee .cert-logo-large { width: 120px; max-height: 72px; } .cert-marquee .marquee-viewport { padding-left: 12px; padding-right: 12px; } .cert-marquee .marquee-track { animation-duration: 14s; } }
+    @media (max-width: 480px) { .cert-marquee .cert-logo-large { width: 100px; max-height: 64px; } .cert-marquee .marquee-viewport { overflow-x: auto; -webkit-overflow-scrolling: touch; } .cert-marquee .marquee-track { animation-duration: 12s; } }
+
+    .map-wrap { position: relative; }
+    .map-magnifier { position: absolute; width: 220px; height: 220px; border-radius: 50%; box-shadow: 0 12px 30px rgba(0,0,0,0.45), 0 2px 6px rgba(0,0,0,0.2); border: 3px solid rgba(255,255,255,0.9); overflow: hidden; pointer-events: none; display: none; z-index: 30; background-repeat: no-repeat; background-position: 0 0; background-color: transparent; }
+    .map-magnifier .mag-marker { position: absolute; transform: translate(-50%, -50%); pointer-events: none; }
+    .map-magnifier .mag-marker .mag-dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(220,30,30,0.95); box-shadow: 0 2px 6px rgba(0,0,0,0.45); display: block; }
+    @media (hover: none) { .map-magnifier { display: none !important; } }
+
+    .product-slider { padding: 18px 0; }
+    .product-slider .slider-viewport { overflow: hidden; width: 100%; }
+    .product-slider .slider-track { display: flex; align-items: stretch; transition: transform 600ms ease; will-change: transform; }
+    .product-slider .slider-card { flex: 0 0 calc(100% / 3); box-sizing: border-box; padding: 0 10px; }
+    .product-slider .product-card { height: 100%; background: #ffffff; color: #111; border-radius: 12px; overflow: hidden; border: none; box-shadow: 0 6px 18px rgba(15,15,15,0.06); transition: transform 200ms cubic-bezier(.2,.9,.2,1), box-shadow 160ms ease; display: flex; flex-direction: column; }
+    .product-slider .product-card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(15,15,15,0.09); }
+    .product-slider .product-image { position: relative; width: 100%; padding-top: 75%; background: #f8f8f8; }
+    .product-slider .product-image img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+    .product-slider .product-info { color: #111; padding: 1rem; flex: 1 1 auto; display: flex; flex-direction: column; justify-content: space-between; }
+    .product-slider .product-info .product-category { display: inline-block; font-size: 0.8rem; color: #666; background: rgba(17,17,17,0.04); padding: 4px 8px; border-radius: 999px; margin-bottom: 8px; }
+    .product-slider .product-info .product-title { font-size: 1.05rem; font-weight: 700; margin: 6px 0 8px; color: #111; }
+    .product-slider .product-info .product-description { color: #555; font-size: 0.94rem; margin-bottom: 12px; line-height: 1.35; }
+    .product-slider .product-info .btn { align-self: center; background: transparent; border: 1px solid rgba(0,0,0,0.08); color: #111; padding: 0.45rem 0.8rem; border-radius: 8px; font-weight: 600; transition: transform 140ms ease, background 140ms ease, color 140ms ease; }
+    .product-slider .product-info .btn:hover { transform: translateY(-2px); background: #111; color: #fff; border-color: #111; }
+    .product-slider .product-badge { position: absolute; top: 10px; left: 10px; background: linear-gradient(90deg,#ffd166 0%, #ff9f1c 100%); color: #111; padding: 6px 10px; border-radius: 999px; font-weight: 700; font-size: 0.78rem; box-shadow: 0 6px 18px rgba(255,159,28,0.12); }
+    @media (max-width: 992px) { .product-slider .slider-card { flex: 0 0 calc(100% / 2); } }
+    @media (max-width: 576px) { .product-slider .slider-card { flex: 0 0 100%; } }
+
+    .featured-products { color: #111; position: relative; }
+    .featured-products .section-header { color: #111; }
+    .featured-products .section-title { color: #111; text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8); font-weight: 800; }
+    /* Keep featured heading visible even before JS adds in-view */
+    .featured-products .section-title { opacity: 1; transform: none; }
+    .featured-products.in-view .section-title.enter { animation: bounceUp 1400ms cubic-bezier(0.215, 0.61, 0.355, 1) both; }
+    @keyframes bounceUp { 0% { opacity: 0; transform: translateY(40px); } 60% { opacity: 1; transform: translateY(-10px); } 80% { transform: translateY(4px); } 100% { transform: translateY(0); } }
+    .featured-products .section-title.entered { opacity: 1 !important; transform: none !important; }
+    .product-slider .product-card { background: #ffffff; color: #111; border-radius: 10px; overflow: hidden; border: none; box-shadow: 0 6px 18px rgba(15,15,15,0.06); }
+    .btn-view-all { display: inline-block; background: transparent; border: 1px solid rgba(0,0,0,0.08); color: #111; padding: 0.55rem 0.95rem; border-radius: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; transition: background 140ms ease, color 140ms ease, transform 120ms ease; }
+    .btn-view-all:hover { background: #111; color: #fff; transform: translateY(-2px); border-color: #111; }
+    .product-slider .product-image { background: #fff; }
+    .featured-products .btn-outline-primary { color: #111; border-color: rgba(0,0,0,0.08); }
+
+    #fixed-bg-wrapper { background-image: url('./images/hero/b1.png'); background-size: cover; background-position: center; background-attachment: fixed; background-repeat: no-repeat; width: 100%; position: relative; padding: 0rem 0; }
+    @media (max-width: 768px) { #fixed-bg-wrapper { background-attachment: scroll; padding: 1rem 0; } }
+    .overlay-section { position: relative; background: rgba(255, 255, 255, 0.6); margin: 0; padding: 2rem 0; }
+    .overlay-section.dark-overlay { background: rgba(26, 32, 44, 0.6); color: #ffffff; }
+    .overlay-section.dark-overlay .section-title,
+    .overlay-section.dark-overlay .section-subtitle,
+    .overlay-section.dark-overlay h3,
+    .overlay-section.dark-overlay p { color: #ffffff; }
+    .overlay-section + .overlay-section { margin-top: 0rem; }
+    @media (max-width: 768px) { .overlay-section { padding: 3rem 0; } .overlay-section + .overlay-section { margin-top: 1.5rem; } }
+
+    .section-header-glass { background: rgba(255, 255, 255, 0.15); padding: 2rem; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.2); margin-bottom: 3rem; }
+    .scroll-fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+    .scroll-fade-up.active { opacity: 1; transform: translateY(0); }
+    .scroll-fade-up.scroll-fade-fast { transform: translateY(18px); transition: opacity 0.55s ease-out, transform 0.55s ease-out; }
+    .scroll-fade-up:nth-child(1) { transition-delay: 0s; }
+    .scroll-fade-up:nth-child(2) { transition-delay: 0.15s; }
+    .scroll-fade-up:nth-child(3) { transition-delay: 0.3s; }
+    .scroll-fade-up:nth-child(4) { transition-delay: 0.45s; }
+    #fixed-bg-wrapper .product-card { background: rgba(255, 255, 255, 0.98); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12); }
+    #fixed-bg-wrapper .map-wrap { background: rgba(255, 255, 255, 0.95); padding: 2rem; border-radius: 16px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); }
+    .global-dominance .section-title { font-weight: 800; text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8); }
+    .global-dominance .section-subtitle { font-weight: 600; color: #444; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8); }
+    #fixed-bg-wrapper .cert-marquee { background: rgba(255, 255, 255, 0.95); }
+    #fixed-bg-wrapper .industry-card { background: rgba(255, 255, 255, 0.98); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); }
+
+    .industries-serve { padding: 0; position: relative; }
+    .industries-serve .section-header { margin-bottom: 3rem; }
+    .industries-serve .section-title { font-size: clamp(1.75rem, 3vw, 2.25rem); font-weight: 800; color: #111; margin-bottom: 0.5rem; text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8); }
+    .industries-serve .section-subtitle { font-size: 1rem; color: #444; font-weight: 600; margin: 0; margin-bottom: 2.5rem; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8); }
+    .industries-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.75rem; margin-bottom: 1rem; }
+    .industry-card { background: #ffffff; border-radius: 14px; padding: 2rem; text-align: center; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06); border: 1px solid rgba(0, 0, 0, 0.03); transition: all 320ms cubic-bezier(0.34, 1.56, 0.64, 1); overflow: hidden; position: relative; opacity: 0; transform: translateY(20px); animation: slideUpFade 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+    .industry-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at center, rgba(184, 134, 11, 0.12), transparent 70%); opacity: 0; transition: opacity 320ms ease; pointer-events: none; }
+    .industry-card:hover::before { opacity: 1; }
+    .industry-card:hover { transform: translateY(-8px); box-shadow: 0 16px 40px rgba(139, 69, 19, 0.15); }
+    .industry-icon { width: 80px; height: 80px; margin: 0 auto 1.25rem; background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; color: #92400e; transition: all 320ms cubic-bezier(0.34, 1.56, 0.64, 1); position: relative; z-index: 1; border: 2px solid rgba(184, 134, 11, 0.2); }
+    .industry-card:hover .industry-icon { transform: scale(1.12) rotateY(10deg); background: linear-gradient(135deg, #fcd34d 0%, #fbbf24 100%); border-color: rgba(184, 134, 11, 0.4); }
+    .industry-name { font-size: 1.1rem; font-weight: 700; color: #3a2817; margin: 0; letter-spacing: -0.3px; transition: color 280ms ease; z-index: 1; position: relative; }
+    .industry-card:hover .industry-name { color: #92400e; }
+    .industry-card:nth-child(1) { animation-delay: 0ms; }
+    .industry-card:nth-child(2) { animation-delay: 100ms; }
+    .industry-card:nth-child(3) { animation-delay: 200ms; }
+    .industry-card:nth-child(4) { animation-delay: 300ms; }
+    .industry-card:nth-child(5) { animation-delay: 400ms; }
+    .industry-card:nth-child(6) { animation-delay: 500ms; }
+    .industry-card:nth-child(7) { animation-delay: 600ms; }
+    .industry-card:nth-child(8) { animation-delay: 700ms; }
+    @keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 768px) { .industries-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.25rem; } .industries-serve { padding: 3rem 0; } .industry-card { padding: 1.5rem; } .industry-icon { width: 70px; height: 70px; font-size: 1.8rem; } }
+    @media (max-width: 480px) { .industries-grid { grid-template-columns: 1fr; gap: 1rem; } .industry-icon { width: 60px; height: 60px; font-size: 1.6rem; } .industry-name { font-size: 1rem; } .industries-serve .section-title { font-size: 1.5rem; } }
+    @media (prefers-reduced-motion: reduce) { .industry-card { animation: none; opacity: 1; transform: none; } .industry-card:hover { transform: none; } .industry-card:hover .industry-icon { transform: none; } }
+  </style>
+</head>
+<body>
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="top-info">
+            <i class="fas fa-phone-alt"></i> <a href="tel:+919876543210">+91 98765 43210</a>
+            <i class="fas fa-envelope ms-3"></i> <a href="mailto:info@primeimpex.com">info@primeimpex.com</a>
+          </div>
+        </div>
+        <div class="col-md-6 text-end">
+          <div class="social-links">
+            <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <img src="./images/Logo.png" alt="Patel Universal Traders Logo" class="brand-img">
+        <span class="brand-text">Patel Universal Traders PVT.LTD.</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="pages/about.html">About Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="pages/products.html">Products</a></li>
+          <li class="nav-item"><a class="nav-link" href="pages/quality.html">Quality</a></li>
+          <li class="nav-item"><a class="nav-link" href="pages/support.html">Support</a></li>
+          <li class="nav-item"><a class="nav-link btn-contact" href="pages/contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Map Video Section -->
+  <section class="map-video-section">
+    <div class="map-video-wrap" id="mapVideoWrap">
+      <video id="mapVideo" class="map-video" autoplay muted loop playsinline preload="auto">
+        <source src="./videos/hero.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="video-overlay" role="region" aria-label="Map video banner">
+      <h2 class="video-overlay-title">The Flavor That Conquered the World — The Timeless Journey of India's Rice & Spices | Patel Universal Traders PVT.LTD.</h2>
+    </div>
+  </section>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-bg" aria-hidden="true">
+      <img src="./images/hero/back.webp" alt="" class="hero-bg-img" aria-hidden="true" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;">
+    </div>
+    <div class="hero-section-overlay" aria-hidden="true"></div>
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 hero-content">
+          <h1 class="hero-title"><span class="typewriter" data-text="India's leading Exporter of Premium Rice & Spices">India's leading Exporter of Premium Rice & Spices</span></h1>
+          <p class="hero-subtitle">Exporting Basmati, Non-Basmati, Organic rice, and a wide range of Indian spices with global standards and certified quality.</p>
+          <div class="hero-stats mt-4 d-flex gap-3">
+            <div class="stat-item text-center">
+              <h3 class="stat-number" data-target="25" data-suffix="+">0</h3>
+              <p class="mb-0">Verities Serves</p>
+            </div>
+            <div class="stat-item text-center">
+              <h3 class="stat-number" data-target="30" data-suffix="+">0</h3>
+              <p class="mb-0">Farmer Network</p>
+            </div>
+            <div class="stat-item text-center">
+              <h3 class="stat-number" data-target="100" data-suffix="%">0</h3>
+              <p class="mb-0">Quality Guaranteed</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 hero-image">
+          <div id="heroCarousel" class="carousel slide rounded" data-bs-ride="carousel" data-bs-interval="3000" data-bs-pause="false" data-bs-keyboard="false" data-bs-touch="false">
+            <div class="carousel-indicators" aria-hidden="true">
+              <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1" disabled tabindex="-1"></button>
+              <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2" disabled tabindex="-1"></button>
+              <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3" disabled tabindex="-1"></button>
+            </div>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="./images/hero/hero1.webp" class="img-fluid rounded d-block w-100" alt="Basmati rice fields">
+              </div>
+              <div class="carousel-item">
+                <img src="./images/hero/hero2.webp" class="img-fluid rounded d-block w-100" alt="Rice milling">
+              </div>
+              <div class="carousel-item">
+                <img src="./images/hero/hero3.webp" class="img-fluid rounded d-block w-100" alt="Export shipping">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section class="why-choose-us-alt py-5 bg-light">
+    <div class="container">
+      <div class="section-header text-center mb-5">
+        <h2 class="section-title">What makes us different?</h2>
+        <p class="section-subtitle">Your trusted partner for premium rice and spices exports</p>
+      </div>
+      <div class="why-list animate-together">
+        <div class="why-item">
+          <div class="why-text">
+            <h3>Premium Quality & Direct Sourcing From Farmers</h3>
+            <p><strong>We Source the finest Spices, Basmati & Non Basmati rice directly from farmers which means no broker and hidden costs. Each lot is inspected, graded and processed to meet strict quality standards before packing and shipment.</strong></p>
+          </div>
+          <div class="why-img">
+            <img src="./images/hero/hero1.webp" alt="Premium quality rice" class="img-fluid" />
+          </div>
+        </div>
+
+        <div class="why-item">
+          <div class="why-text">
+            <h3>Global Logistics & Timely Delivery</h3>
+            <p><strong>With an established logistics network we ensure timely shipments and safe handling across sea, air and land routes.</strong></p>
+            <p class="mb-0"><strong>Flexible shipment sizes, reliable tracking and dedicated customer support for every order.</strong></p>
+          </div>
+          <div class="why-img">
+            <img src="./images/hero/h2.webp" alt="Global logistics" class="img-fluid" />
+          </div>
+        </div>
+
+        <div class="why-item">
+          <div class="why-text">
+            <h3>Certified & Trusted</h3>
+            <p><strong>Our processes follow international safety and quality regulations — ISO, FSSAI and HACCP certifications guarantee hygienic handling and consistent product standards.</strong></p>
+          </div>
+          <div class="why-img">
+            <img src="./images/hero/h3.webp" alt="Certified excellence" class="img-fluid" />
+          </div>
+        </div>
+
+        <div class="why-item">
+          <div class="why-text">
+            <h3>Private Labeling & Flexible Packaging</h3>
+            <p><strong>From retail packs to bulk orders, we provide private labelling and custom packaging to match market and brand requirements. Small or large, every order is handled with care.</strong></p>
+          </div>
+          <div class="why-img">
+            <img src="./images/hero/h4.webp" alt="Packaging solutions" class="img-fluid" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fixed Background Wrapper -->
+  <div id="fixed-bg-wrapper">
+
+    <!-- Featured Products Section -->
+    <section class="featured-products overlay-section scroll-fade-up">
+      <div class="container">
+        <div class="section-header text-center mb-5">
+          <h2 class="section-title">Our Premium Products</h2>
+          <p class="section-subtitle">Explore our range of premium rice varieties</p>
+        </div>
+        <div class="product-slider">
+          <div class="slider-viewport">
+            <div class="slider-track" id="productSliderTrack">
+              <!-- Products will be loaded here via JavaScript -->
+            </div>
+          </div>
+        </div>
+        <div class="text-center mt-4">
+          <a href="pages/products.html" class="btn-view-all">View All Products</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Global Dominance -->
+    <section class="global-dominance overlay-section scroll-fade-up">
+      <div class="container">
+        <div class="section-header text-center mb-4">
+          <h3 class="section-title">Global Dominance — Our Reach</h3>
+          <p class="section-subtitle">Proudly exporting to countries worldwide</p>
+        </div>
+        <div class="map-wrap position-relative">
+          <img src="./images/map.webp" alt="World map" class="img-fluid world-map">
+          <div class="map-marker" id="marker-usa" style="left:20%; top:41%;" data-country="USA" aria-label="USA" tabindex="0">
+            <span class="map-dot" aria-hidden="true"></span>
+          </div>
+          <div class="map-marker" id="marker-uk" style="left:47%; top:34%;" data-country="United Kingdom" aria-label="United Kingdom" tabindex="0">
+            <span class="map-dot" aria-hidden="true"></span>
+          </div>
+          <div class="map-marker" id="marker-sa" style="left:55%; top:52%;" data-country="Saudi Arabia" aria-label="Saudi Arabia" tabindex="0">
+            <span class="map-dot" aria-hidden="true"></span>
+          </div>
+          <div class="map-marker" id="marker-uae" style="left:61%; top:50%;" data-country="UAE" aria-label="UAE" tabindex="0">
+            <span class="map-dot" aria-hidden="true"></span>
+          </div>
+          <div class="map-marker" id="marker-sg" style="left:72%; top:60%;" data-country="Singapore" aria-label="Singapore" tabindex="0">
+            <span class="map-dot" aria-hidden="true"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Certificates Marquee -->
+    <section class="cert-marquee overlay-section dark-overlay scroll-fade-up" aria-label="Certificates and certifications">
+      <div class="marquee-header">
+        <div class="stagger">
+          <h2>Quality That Speaks for Itself</h2>
+          <p>Internationally Recognized &amp; Certified</p>
+        </div>
+      </div>
+      <div class="marquee-viewport">
+        <div class="marquee-track" aria-hidden="false">
+          <div class="marquee-group">
+            <img src="./images/certs/iso-logo.webp" alt="ISO 9001" class="cert-logo-large" loading="lazy" decoding="async">
+            <img src="./images/certs/fssai-logo.webp" alt="FSSAI" class="cert-logo-large" loading="lazy" decoding="async">
+            <img src="./images/certs/apeda-logo.webp" alt="APEDA" class="cert-logo-large" loading="lazy" decoding="async">
+            <img src="./images/certs/haccp-logo.webp" alt="HACCP" class="cert-logo-large" loading="lazy" decoding="async">
+            <img src="./images/certs/halal-logo.webp" alt="Halal" class="cert-logo-large" loading="lazy" decoding="async">
+            <img src="./images/certs/organic-logo.webp" alt="Organic" class="cert-logo-large" loading="lazy" decoding="async">
+          </div>
+          <!-- duplicate for seamless loop -->
+          <div class="marquee-group" aria-hidden="true">
+            <img src="./images/certs/iso-logo.webp" alt="ISO 9001" class="cert-logo-large" loading="lazy" decoding="async">
+            <img src="./images/certs/fssai-logo.webp" alt="FSSAI" class="cert-logo-large" loading="lazy" decoding="async">
+            <img src="./images/certs/apeda-logo.webp" alt="APEDA" class="cert-logo-large" loading="lazy" decoding="async">
+            <img src="./images/certs/haccp-logo.webp" alt="HACCP" class="cert-logo-large" loading="lazy" decoding="async">
+            <img src="./images/certs/halal-logo.webp" alt="Halal" class="cert-logo-large" loading="lazy" decoding="async">
+            <img src="./images/certs/organic-logo.webp" alt="Organic" class="cert-logo-large" loading="lazy" decoding="async">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Industries We Serve -->
+    <section class="industries-serve overlay-section scroll-fade-up">
+      <div class="container">
+        <div class="section-header text-center">
+          <h2 class="section-title">Industries We Serve</h2>
+          <p class="section-subtitle">We offer solutions for</p>
+        </div>
+        <div class="industries-grid">
+          <div class="industry-card">
+            <div class="industry-icon"><i class="fas fa-utensils"></i></div>
+            <h3 class="industry-name">HORECA</h3>
+          </div>
+          <div class="industry-card">
+            <div class="industry-icon"><i class="fas fa-store"></i></div>
+            <h3 class="industry-name">Supermarts</h3>
+          </div>
+          <div class="industry-card">
+            <div class="industry-icon"><i class="fas fa-box-open"></i></div>
+            <h3 class="industry-name">General Trade</h3>
+          </div>
+          <div class="industry-card">
+            <div class="industry-icon"><i class="fas fa-shopping-cart"></i></div>
+            <h3 class="industry-name">E-commerce</h3>
+          </div>
+          <div class="industry-card">
+            <div class="industry-icon"><i class="fas fa-warehouse"></i></div>
+            <h3 class="industry-name">Wholesalers</h3>
+          </div>
+          <div class="industry-card">
+            <div class="industry-icon"><i class="fas fa-truck"></i></div>
+            <h3 class="industry-name">Distributors</h3>
+          </div>
+          <div class="industry-card">
+            <div class="industry-icon"><i class="fas fa-ship"></i></div>
+            <h3 class="industry-name">Exporters & Importers</h3>
+          </div>
+          <div class="industry-card">
+            <div class="industry-icon"><i class="fas fa-layer-group"></i></div>
+            <h3 class="industry-name">Retail Chains</h3>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section-vintage overlay-section py-5">
+      <div class="cta-overlay"></div>
+      <div class="container position-relative" style="z-index: 2;">
+        <div class="cta-vintage-box">
+          <div class="row align-items-center">
+            <div class="col-lg-7">
+              <div class="vintage-cta-content">
+                <h2 class="vintage-cta-title">
+                  <i class="fas fa-shipping-fast"></i> Ready to Place Your Order?
+                </h2>
+                <p class="vintage-cta-subtitle">Get in touch with us for competitive pricing and bulk orders</p>
+                <div class="cta-benefits mt-4">
+                  <div class="benefit-item"><i class="fas fa-globe"></i> <span>Global Shipping</span></div>
+                  <div class="benefit-item"><i class="fas fa-truck"></i> <span>Fast Delivery</span></div>
+                  <div class="benefit-item"><i class="fas fa-lock"></i> <span>Secure Transactions</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-5">
+              <div class="vintage-cta-contact">
+                <div class="contact-card">
+                  <h4 class="contact-card-title"><i class="fas fa-envelope-open"></i> Connect With Us</h4>
+                  <div class="contact-methods">
+                    <a href="pages/contact.html" class="btn btn-vintage btn-lg w-100 mb-3">
+                      <i class="fas fa-comments"></i> Contact Us Now
+                    </a>
+                    <div class="contact-divider">OR</div>
+                    <div class="quick-contact">
+                      <p><strong>Call Direct:</strong></p>
+                      <a href="tel:+919876543210" class="btn btn-outline-vintage btn-sm w-100 mb-2">
+                        <i class="fas fa-phone"></i> +91 98765 43210
+                      </a>
+                      <p class="mt-3"><strong>Quick Email:</strong></p>
+                      <a href="mailto:info@primeimpex.com" class="btn btn-outline-vintage btn-sm w-100">
+                        <i class="fas fa-envelope"></i> info@primeimpex.com
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- End Fixed Background Wrapper -->
+
+  <!-- Footer -->
+  <footer class="footer bg-dark text-white pt-5 pb-3">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 mb-4">
+          <h5 class="footer-heading">Patel Universal Traders PVT.LTD.</h5>
+          <p class="footer-text">India's leading Exporter of Premium Rice &amp; Spices.</p>
+          <div class="d-flex gap-2 mt-3">
+            <a href="pages/contact.html" class="btn btn-light btn-sm">Enquire Now</a>
+            <a href="#" class="btn btn-outline-light btn-sm" target="_blank" rel="noopener" download>Download Brochure</a>
+          </div>
+          <div class="social-links-footer mt-3">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-6 mb-4 footer-quick-links">
+          <h5 class="footer-heading">Quick Links</h5>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="pages/about.html">About Us</a></li>
+            <li><a href="pages/products.html">Products</a></li>
+            <li><a href="pages/quality.html">Quality</a></li>
+            <li><a href="pages/contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4 footer-products">
+          <h5 class="footer-heading">Our Products</h5>
+          <ul class="footer-links">
+            <li><a href="pages/products.html">Basmati Rice</a></li>
+            <li><a href="pages/products.html">Non-Basmati Rice</a></li>
+            <li><a href="pages/products.html">Organic Rice</a></li>
+            <li><a href="pages/products.html">Spices</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <h5 class="footer-heading">Contact Info</h5>
+          <ul class="footer-contact">
+            <li><i class="fas fa-map-marker-alt"></i> Mumbai, Maharashtra, India</li>
+            <li><i class="fas fa-phone-alt"></i> <a href="tel:+919876543210">+91 98765 43210</a></li>
+            <li><i class="fas fa-envelope"></i> <a href="mailto:info@primeimpex.com">info@primeimpex.com</a></li>
+            <li><i class="fas fa-globe"></i> www.primeimpex.com</li>
+          </ul>
+        </div>
+      </div>
+      <hr class="footer-divider">
+      <div class="row">
+        <div class="col-12 text-center">
+          <p class="mb-0">&copy; 2025 Patel Universal Traders PVT.LTD. All Rights Reserved. <a href="pages/privacy.html" class="footer-legal">Privacy Policy</a> | <a href="pages/terms.html" class="footer-legal">Terms of Service</a></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./js/cursor.js"></script>
+  <script src="./js/data-loader.js"></script>
+  <script src="./js/animations.js"></script>
+  <script src="./js/home.js"></script>
+  <script>
+    // Fade-in videos once ready (prevents poster flash)
+    document.addEventListener('DOMContentLoaded', function () {
+      function attachReady(videoId, wrapId) {
+        var v = document.getElementById(videoId);
+        var wrap = document.getElementById(wrapId);
+        if (!v || !wrap) return;
+
+        function attemptPlay() {
+          v.muted = true;
+          var playPromise = v.play();
+          if (playPromise && playPromise.catch) {
+            playPromise.catch(function () { /* ignore autoplay block */ });
+          }
+        }
+
+        function markReady() { wrap.classList.add('video-ready'); }
+        v.addEventListener('canplay', markReady, { once: true });
+        v.addEventListener('playing', markReady, { once: true });
+        if (v.readyState >= 3) markReady();
+
+        attemptPlay();
+        v.addEventListener('loadeddata', attemptPlay, { once: true });
+        v.addEventListener('canplay', attemptPlay, { once: true });
+        ['pointerdown','touchend'].forEach(function (evt) {
+          document.addEventListener(evt, function handler() {
+            attemptPlay();
+          }, { once: true });
+        });
+      }
+
+      attachReady('mapVideo', 'mapVideoWrap');
+    });
+  </script>
+  <script>
+    // Staggered text reveal for certificate marquee heading
+    document.addEventListener('DOMContentLoaded', function(){
+      var staggerEls = document.querySelectorAll('.stagger');
+      if (!staggerEls.length) return;
+      var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced || !('IntersectionObserver' in window)) {
+        staggerEls.forEach(function(el){ el.classList.add('in-view'); });
+        return;
+      }
+      var io = new IntersectionObserver(function(entries, obs){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.16, rootMargin: '0px 0px -10% 0px' });
+      staggerEls.forEach(function(el){ io.observe(el); });
+    });
+  </script>
+  <script>
+    // Animate map overlay title characters when section enters view
+    document.addEventListener('DOMContentLoaded', function () {
+      var section = document.querySelector('.map-video-section');
+      var title = document.querySelector('.video-overlay-title');
+      if (!section || !title) return;
+
+      var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var raw = title.textContent.trim();
+      var chars = Array.from(raw);
+      title.innerHTML = chars.map(function (ch) {
+        if (ch === ' ') return '<span class="char">&nbsp;</span>';
+        return '<span class="char">' + ch + '</span>';
+      }).join('');
+
+      var charNodes = title.querySelectorAll('.char');
+      if (prefersReduced) {
+        charNodes.forEach(function (c) { c.style.opacity = 1; c.style.transform = 'none'; });
+        return;
+      }
+
+      if (!('IntersectionObserver' in window)) {
+        title.classList.add('play');
+        return;
+      }
+
+      var io = new IntersectionObserver(function (entries, observer) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            charNodes.forEach(function (node, idx) {
+              node.style.transitionDelay = (idx * 0.03) + 's';
+            });
+            requestAnimationFrame(function () { title.classList.add('play'); });
+            observer.unobserve(section);
+          }
+        });
+      }, { threshold: 0.4 });
+
+      io.observe(section);
+    });
+  </script>
+</body>
+</html>

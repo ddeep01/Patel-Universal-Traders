@@ -1,0 +1,248 @@
+/* Old-school / Retro theme for Contact pages */
+/* Scoped under the .oldschool-theme container to avoid global breakage */
+/* Use a typewriter-like display font for authentic retro feel */
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+.oldschool-theme {
+  font-family: 'Special Elite', 'Courier New', Courier, monospace;
+  background: radial-gradient(circle at 10% 10%, #fff9eb 0%, #fbf0d6 15%, #f2e4c6 35%, #e8dac0 55%);
+  color: #2b2b2b;
+  padding: 28px 0 36px 0;
+  font-size: 15px; /* base font-size to avoid oversized rendering */
+}
+
+/* Vintage heading font for the large serif titles */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
+
+/* Page title / masthead used on the contact page */
+.vintage-masthead {
+  text-align: center;
+  color: #3a2f22;
+  margin-bottom: 24px;
+}
+.vintage-masthead h1 {
+  font-family: 'Cinzel', serif;
+  font-size: 2.1rem; /* reduced from 2.6rem to prevent zoomed look */
+  letter-spacing: 1.5px;
+  margin: 0 0 6px 0;
+  line-height: 1.02;
+}
+.vintage-masthead h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem; /* slightly smaller subheading */
+  margin: 6px 0 12px 0;
+  color: #4b3526;
+}
+.vintage-masthead p.intro {
+  max-width: 820px;
+  margin: 8px auto 16px auto;
+  color: #3e3429;
+  font-size: 0.95rem;
+  line-height:1.45;
+}
+
+/* Two column layout matching the attached design */
+.vintage-columns {
+  display: grid;
+  grid-template-columns: 1fr 380px; /* slightly narrower right column */
+  gap: 28px;
+  align-items: start;
+  align-content: start;
+  width:100%;
+}
+
+/* Left scroll panel */
+.scroll-panel {
+  background: linear-gradient(180deg, rgba(255,250,240,0.95), rgba(245,235,215,0.95));
+  border: 3px solid rgba(120,85,45,0.10);
+  padding: 18px 18px 14px 18px;
+  border-radius: 6px;
+  box-shadow: 0 6px 0 rgba(0,0,0,0.03) inset, 0 8px 18px rgba(0,0,0,0.06);
+  position: relative;
+}
+.scroll-panel::before,
+.scroll-panel::after {
+  content: '';
+  position: absolute;
+  width: 24px; height: 24px;
+  background: linear-gradient(180deg,#d5b887,#b08958);
+  border-radius: 4px;
+  left: -12px;
+}
+.scroll-panel::before { top: -10px; transform: rotate(-8deg); }
+.scroll-panel::after { bottom: -10px; transform: rotate(8deg); }
+
+.scroll-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.98rem;
+  color: #2f2419;
+  margin-bottom: 10px;
+  letter-spacing: 0.8px;
+}
+.scroll-item { margin-bottom: 12px; color:#3b2f26; }
+.scroll-item h5 { margin:0 0 6px 0; font-weight:700; color:#3a2f22; font-size:0.95rem; }
+.scroll-item p { margin:0; color:#4b3b2f; }
+
+.scroll-separator { height:1px; background:rgba(0,0,0,0.06); margin:12px 0; }
+
+/* globe circle decoration (lower-left) */
+.vintage-globe {
+  width:100px; height:100px; border-radius:50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.6), rgba(220,200,170,0.6));
+  border: 5px solid rgba(200,170,120,0.12);
+  margin-top: 14px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.05) inset;
+}
+
+/* Right inquiry panel */
+.inquiry-panel {
+  background: rgba(250,245,235,0.98);
+  border-left: 2px solid rgba(80,60,40,0.06);
+  padding: 14px 14px 16px 14px;
+  border-radius: 4px;
+}
+.inquiry-title { font-family: 'Cinzel', serif; font-size:1.05rem; color:#2f2419; margin-bottom:12px; }
+
+/* boxed inputs (matching the attached look) */
+.boxed-input {
+  background: rgba(240,230,210,0.9);
+  border: 2px solid rgba(120,90,50,0.18);
+  padding: 10px 12px;
+  border-radius:6px;
+  margin-bottom:10px;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.02) inset;
+}
+.boxed-input::placeholder { color:#6b5746; }
+
+.inquiry-type {
+  min-height:64px;
+  border-radius:6px;
+  border:2px solid rgba(120,90,50,0.12);
+  background: linear-gradient(180deg, rgba(255,254,244,0.6), rgba(240,230,210,0.6));
+  padding: 10px;
+  margin-bottom:12px;
+  color:#4b392b;
+}
+
+/* large wax-seal button */
+.wax-btn {
+  display:inline-flex; align-items:center; gap:12px;
+  background: linear-gradient(180deg,#7b3f18,#5b2b10);
+  color: #f6ead9; padding:14px 20px; border-radius:6px;
+  border:2px solid #a36b3b; box-shadow: 0 6px 0 #3b200e;
+  text-transform:uppercase; letter-spacing:1.5px; font-weight:700;
+}
+.wax-seal {
+  width:34px; height:34px; display:inline-block; background: radial-gradient(circle at 30% 30%, #d65a41, #8a2815);
+  border-radius:50%; box-shadow: 0 2px 6px rgba(0,0,0,0.25) inset;
+  border:2px solid rgba(0,0,0,0.12);
+}
+
+/* small footer below button */
+.merchant-note { text-align:center; color:#3b2f26; margin-top:18px; font-size:0.95rem; }
+
+@media (max-width: 880px) {
+  .vintage-columns { grid-template-columns: 1fr; }
+  .inquiry-panel { order:2; }
+  .wax-btn { width:100%; justify-content:center; }
+  .vintage-masthead h1 { font-size:1.6rem; }
+  .vintage-masthead p.intro { font-size:0.95rem; }
+}
+
+/* Ensure Django form widgets with .retro-field get boxed styling */
+.retro-field.form-control, .retro-field {
+  width:100%;
+  background: rgba(245,235,220,0.95);
+  border: 2px solid rgba(120,90,50,0.12);
+  padding: 10px 12px;
+  border-radius:6px;
+  margin-bottom:10px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+  color:#3c2f24;
+}
+.retro-textarea { min-height:120px; }
+
+.oldschool-paper {
+  background: repeating-linear-gradient(45deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 1px, transparent 1px, transparent 10px),
+              linear-gradient(180deg, rgba(255,255,250,0.98), rgba(245,238,223,0.98));
+  border: 6px solid #d9c59b;
+  box-shadow: 0 8px 0 #b49763 inset, 0 12px 30px rgba(0,0,0,0.14);
+  border-radius: 6px;
+  padding: 28px 26px;
+  background-image: url(''); /* placeholder if you want to add a paper texture image later */
+}
+
+.oldschool-header {
+  text-align: center;
+  margin-bottom: 18px;
+}
+.oldschool-header h1 {
+  font-size: 2.25rem;
+  letter-spacing: 3px;
+  color: #2e4b2e;
+  margin-bottom: 6px;
+  text-shadow: 1px 1px 0 #efe6cf;
+}
+.oldschool-header p.lead {
+  font-size: 0.95rem;
+  color: #4b3f31;
+  margin-top: 6px;
+}
+
+.oldschool-grid { display:flex; gap:20px; flex-wrap:wrap; }
+.oldschool-left { flex:1 1 560px; }
+.oldschool-right { flex:0 0 320px; }
+
+.retro-form label { display:block; font-size:0.95rem; margin-bottom:6px; }
+.retro-field {
+  width:100%;
+  padding:10px 12px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px dashed #7a5b2a;
+  font-size:1rem;
+  margin-bottom:16px;
+  outline:none;
+  color:#2e2e2e;
+}
+.retro-textarea { min-height:140px; resize:vertical; font-family:inherit; }
+
+/* ensure bootstrap form-control doesn't override retro visuals if present */
+.retro-field.form-control {
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  border-bottom: 2px dashed #7a5b2a;
+}
+
+.retro-btn {
+  display:inline-block;
+  padding:10px 18px;
+  background: linear-gradient(180deg,#6b4421,#432a12);
+  color:#fff;
+  border-radius:4px;
+  box-shadow: 0 3px 0 #2c1608;
+  border:2px solid #8b6238;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  font-weight:700;
+}
+.retro-btn:active { transform:translateY(2px); box-shadow:none; }
+
+.contact-info-retro { background:transparent; padding:10px 12px; }
+.contact-info-retro h5 { font-size:1rem; color:#3a3a3a; margin-bottom:8px; }
+.contact-info-retro p { color:#3f2f27; margin:0 0 10px 0; }
+
+.map-retro iframe { border:4px solid #e8dcc1; border-radius:4px; }
+
+/* small decorative footer inside the paper */
+.oldschool-footer { margin-top:18px; font-size:0.85rem; color:#5a4b3f; border-top:1px dashed rgba(0,0,0,0.08); padding-top:10px; }
+
+/* Make sure this file doesn't override broader site mobile rules too much */
+@media (max-width: 768px) {
+  .oldschool-grid { flex-direction:column; }
+  .oldschool-right { order:2; }
+}
+
+/* small helpers */
+.retro-muted { color:#6b5846; }
+.retro-icon { font-weight:700; margin-right:8px; color:#5b422c; }

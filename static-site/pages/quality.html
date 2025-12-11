@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quality - Patel Universal Traders PVT.LTD.</title>
+  <meta name="description" content="Learn about our quality standards and certifications at Patel Universal Traders">
+  
+  <link rel="icon" type="image/png" href="../images/favicon.webp">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/cursor.css">
+
+  <!-- Top Bar Styles -->
+  <style>
+    .top-bar {
+      background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%);
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.875rem;
+    }
+    .top-bar .top-info { color: #fff; }
+    .top-bar .top-info a { color: #fff; text-decoration: none; transition: color 200ms ease; }
+    .top-bar .top-info a:hover { color: #ffd166; }
+    .top-bar .social-links a { color: #fff; text-decoration: none; margin-left: 12px; transition: color 200ms ease; display: inline-block; }
+    .top-bar .social-links a:hover { color: #ffd166; }
+    @media (max-width: 768px) { .top-bar { display: none; } }
+
+    .navbar-brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .brand-img { border-radius: 8px; height: 68px; max-height: 68px; width: auto; flex: 0 0 auto; display: inline-block; margin-right: 0; transition: transform 200ms ease, box-shadow 160ms ease; box-shadow: 0 6px 18px rgba(15,15,15,0.06); }
+    .brand-img:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 14px 36px rgba(15,15,15,0.12); }
+    .brand-text { font-weight: 800; font-size: 1.02rem; line-height: 1.05; letter-spacing: 0.2px; display: block; flex: 1 1 auto; min-width: 0; white-space: normal; overflow-wrap: anywhere; background: linear-gradient(90deg, #2c5f2d 0%, #4f8d52 100%); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: 0 1px 0 rgba(255,255,255,0.15); }
+    @media (max-width: 768px) { .brand-img { height: 56px; max-height: 56px; } .brand-text { font-size: 0.92rem; } }
+    @media (max-width: 576px) { .brand-text { display: none !important; } .brand-img { height: 48px; max-height: 48px; } .navbar .navbar-toggler { margin-left: auto; } .navbar-brand { gap: 8px; } }
+
+    .nav-link { font-weight: 500; color: #333 !important; transition: color 200ms ease; position: relative; padding-bottom: 6px; }
+    .nav-link:hover { color: #2c5f2d !important; }
+    .nav-link.active { color: #2c5f2d !important; border-bottom: 3px solid #2c5f2d; }
+
+    .btn-contact { background-color: #2c5f2d !important; color: #fff !important; border-radius: 6px; padding: 8px 16px !important; margin-left: 12px; }
+    .btn-contact:hover { background-color: #234a24 !important; transform: translateY(-2px); }
+  </style>
+
+  <!-- Quality Page Styles -->
+  <style>
+    /* Simple quality page styles */
+    .quality-section { padding: 48px 0; }
+    .quality-row { align-items: start; }
+    .quality-text h2 { font-size: 1.9rem; margin-bottom: 0.75rem; }
+    .quality-text p.lead { font-size: 1.02rem; color:#333; }
+
+    .quality-carousel { display:flex; gap:12px; }
+    .quality-carousel .item { flex:0 0 calc((100% - 36px)/4); height:420px; border-radius:14px; overflow:hidden; background:#f8f8f8; }
+    .quality-carousel .item img { width:100%; height:100%; object-fit:cover; object-position:left top; display:block; }
+
+    @media (max-width:991px) { .quality-carousel .item { flex:0 0 calc((100% - 18px)/2); height:300px; } }
+    @media (max-width:575px) { .quality-row { flex-direction:column-reverse; } .quality-carousel .item { flex:0 0 100%; height:220px; } }
+
+    .cert-list{ list-style:none; padding:0; margin:0; }
+    .cert-list li{ display:inline-block; margin-right:10px; background:#fff; padding:6px 10px; border-radius:6px; }
+    
+    /* New modern Quality Verification card styles */
+    .qv-section { background: #f7fbf9; padding: 44px 0; }
+    .qv-wrap { max-width: 1100px; margin: 0 auto; padding: 0 18px; }
+    .qv-grid-modern { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items:stretch; }
+    .qv-card-modern { background: #fff; border-radius: 14px; padding: 28px; box-shadow: 0 12px 34px rgba(8,18,12,0.06); transition: transform 260ms cubic-bezier(.2,.9,.2,1), box-shadow 260ms ease; }
+    .qv-card-modern:hover { transform: translateY(-8px); box-shadow: 0 26px 60px rgba(8,18,12,0.10); }
+    .qv-card-modern .qv-top { display:flex; align-items:center; gap:14px; margin-bottom:10px; }
+    .qv-card-modern .qv-top .qv-icon-modern { width:52px; height:52px; border-radius:12px; display:inline-flex; align-items:center; justify-content:center; background:linear-gradient(180deg,#eef9f0,#e0f3e4); color:#136127; font-size:22px; box-shadow: 0 6px 18px rgba(12,20,16,0.04); }
+    .qv-card-modern h4 { margin:0 0 8px 0; font-size:1.18rem; font-weight:700; color:#0b2b1a; }
+    .qv-card-modern p { margin:0; color:#20332b; line-height:1.5; }
+    .qv-points { margin-top:14px; display:flex; flex-direction:column; gap:12px; }
+    .qv-point { display:flex; gap:12px; align-items:flex-start; }
+    .qv-point .icon { width:40px; height:40px; flex:0 0 40px; display:inline-flex; align-items:center; justify-content:center; border-radius:10px; background:#fff; box-shadow: 0 6px 16px rgba(0,0,0,0.04); color:#7a470f; }
+    .qv-point strong { display:block; font-weight:700; color:#0d2b1a; }
+    .qv-point small { display:block; color:#33423a; }
+    @media (max-width: 880px) { .qv-grid-modern { grid-template-columns: 1fr; } }
+    
+    .intro-img{ width:100%; height:100%; min-height:560px; object-fit:cover; display:block; border-radius:8px; transform: translateX(30%); transition: transform 900ms cubic-bezier(.2,.8,.2,1); }
+    .intro-img.inview{ transform: translateX(0); }
+    .gallery-img{ width:100%; height:260px; object-fit:cover; display:block; }
+    
+    /* right-column container: plain background (no image) with optional slide-in */
+    .hero-bg{ min-height:420px; background: transparent; border-radius:8px; position:relative; overflow:hidden; transform: translateX(-30%); transition: transform 900ms cubic-bezier(.2,.8,.2,1); }
+    .hero-bg.inview{ transform: translateX(0); }
+    .hero-bg .stagger{ position:relative; z-index:2; color:inherit; padding:28px; }
+    
+    /* certification logos (reuse home page styles) */
+    .cert-logos{ display:flex; gap:18px; align-items:center; justify-content:center; flex-wrap:wrap; margin-top:18px; }
+    .cert-logos .cert-logo-large{ width:140px; max-height:84px; object-fit:contain; display:block; }
+    
+    /* promise image */
+    .promise-img{ width:100%; height:360px; object-fit:cover; display:block; border-radius:8px; }
+    
+    /* float-up animation for intro text */
+    @keyframes floatUp { from { transform: translateY(18px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .stagger > * { opacity: 0; transform: translateY(18px); }
+    .stagger.inview > * { animation: floatUp 1.4s ease-out both; }
+    .quality-heading .brand{ display:block; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.08em; color:rgba(0,0,0,0.65); margin-bottom:6px; font-weight:600; }
+    .quality-heading .quality-title{ font-size:2.4rem; font-weight:700; margin:0 0 .5rem 0; color:inherit; }
+    .stagger > *:nth-child(1){ animation-delay: 0ms; }
+    .stagger > *:nth-child(2){ animation-delay: 120ms; }
+    .stagger > *:nth-child(3){ animation-delay: 240ms; }
+    .stagger > *:nth-child(4){ animation-delay: 360ms; }
+    .stagger > *:nth-child(5){ animation-delay: 480ms; }
+    .stagger > *:nth-child(6){ animation-delay: 600ms; }
+    .stagger > *:nth-child(7){ animation-delay: 720ms; }
+    .stagger > *:nth-child(8){ animation-delay: 840ms; }
+    .stagger > *:nth-child(9){ animation-delay: 960ms; }
+    .stagger > *:nth-child(10){ animation-delay: 1080ms; }
+    @media (prefers-reduced-motion: reduce){ .stagger > * { animation: none; opacity: 1; transform: none; } }
+    .quality-intro .row{ align-items:stretch; }
+    .quality-intro .hero-bg{ display:flex; align-items:center; }
+    @media (max-width:991px){ .intro-img{ min-height:320px; transform:none; } .hero-bg{ transform:none; padding:20px; } }
+
+    /* Fixed background for the promise section */
+    .quality-fixed-bg {
+      position: relative;
+      background-image: url("../images/hero/q2.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+    @media (max-width: 768px) {
+      .quality-fixed-bg { background-attachment: scroll; }
+    }
+
+    .quality-fixed-bg .overlay-panel {
+      background: rgba(255, 255, 255, 0.82);
+      border-radius: 12px;
+      padding: 2rem 2rem;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+    }
+
+    /* Private Labelling Section */
+    #private-labelling { 
+      background-image: url("../images/hero/q3.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      padding: 4rem 0;
+      position: relative;
+    }
+    #private-labelling .pl-inner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 1; }
+    #private-labelling h2.pl-title { text-align: center; color: #6b3e1e; font-weight: 800; font-size: 3.25rem; margin: -33px 0px 3.25rem; }
+    #private-labelling .pl-row { display: flex; gap: 2rem; align-items: center; }
+    #private-labelling .pl-left { flex: 1 1 50%; max-width: 600px; }
+    #private-labelling h3.pl-sub { color: #d96c20; font-size: 2rem; margin: 0 0 1rem; font-weight: 700; }
+    #private-labelling p.pl-body { color: #222; font-size: 1rem; line-height: 1.6; margin-bottom: 1rem; }
+    #private-labelling .pl-right { flex: 1 1 50%; display: flex; justify-content: center; }
+    #private-labelling .pl-right img { width: 100%; height: auto; border-radius: 6px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); display: block; }
+
+    #private-labelling .cut-corner-img {
+      width: auto; height: auto; max-width: 100%; border-radius: 0; display: block;
+      -webkit-clip-path: path('M0 0 H85% A40 40 0 0 1 100% 15% V100% H0 Z');
+      clip-path: path('M0 0 H85% A40 40 0 0 1 100% 15% V100% H0 Z');
+      -webkit-clip-path: polygon(0 0, 85% 0, 100% 15%, 100% 100%, 0 100%);
+      clip-path: polygon(0 0, 85% 0, 100% 15%, 100% 100%, 0 100%);
+      -webkit-mask-image: radial-gradient(circle 40px at 92% 8%, transparent 38px, black 39px);
+      mask-image: radial-gradient(circle 40px at 92% 8%, transparent 38px, black 39px);
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+    }
+
+    #private-labelling .intro-img { min-height: 320px; transform: translateX(30%); transition: transform 900ms cubic-bezier(.2,.8,.2,1); }
+    #private-labelling .intro-img.inview { transform: translateX(0); }
+
+    @media (max-width: 768px) {
+      #private-labelling { padding: 2.25rem 0; }
+      #private-labelling h2.pl-title { font-size: 1.75rem; }
+      #private-labelling .pl-row { flex-direction: column; }
+      #private-labelling .pl-left, #private-labelling .pl-right { max-width: 100%; }
+      #private-labelling .pl-left { margin-bottom: 1rem; }
+      #private-labelling .cut-corner-img {
+        -webkit-clip-path: path('M0 0 H92% A26 26 0 0 1 100% 8% V100% H0 Z');
+        clip-path: path('M0 0 H92% A26 26 0 0 1 100% 8% V100% H0 Z');
+        -webkit-clip-path: polygon(0 0, 92% 0, 100% 8%, 100% 100%, 0 100%);
+        clip-path: polygon(0 0, 92% 0, 100% 8%, 100% 100%, 0 100%);
+        -webkit-mask-image: radial-gradient(circle 26px at 94% 6%, transparent 24px, black 25px);
+        mask-image: radial-gradient(circle 26px at 94% 6%, transparent 24px, black 25px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="top-info">
+            <i class="fas fa-phone-alt"></i> <a href="tel:+919876543210">+91 98765 43210</a>
+            <i class="fas fa-envelope ms-3"></i> <a href="mailto:info@primeimpex.com">info@primeimpex.com</a>
+          </div>
+        </div>
+        <div class="col-md-6 text-end">
+          <div class="social-links">
+            <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="../index.html">
+        <img src="../images/Logo.png" alt="Patel Universal Traders Logo" class="brand-img">
+        <span class="brand-text">Patel Universal Traders PVT.LTD.</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
+          <li class="nav-item"><a class="nav-link active" href="quality.html">Quality</a></li>
+          <li class="nav-item"><a class="nav-link" href="support.html">Support</a></li>
+          <li class="nav-item"><a class="nav-link btn-contact" href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Intro two-column -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <div class="hero-bg">
+            <div class="stagger">
+              <div class="quality-heading">
+                <small class="brand">Patel Universal Traders PVT.LTD.</small>
+                <h2 class="quality-title">Quality</h2>
+              </div>
+              <p>At Patel Universal Traders PVT.LTD., quality isn't just our policy — it's our pride. From the golden fields of India to dining tables worldwide, every grain of Basmati &amp; Non-Basmati Rice and every blend of Indian Spices carries our promise of purity, aroma, and excellence.</p>
+
+              <p>We combine traditional Indian heritage with modern international standards — delivering products that inspire trust and taste beyond borders.</p>
+              <p class="mt-3">Choose an option below to verify your order — we offer in-person inspections, local representatives, and third-party inspections.</p>
+
+              <article class="qv-card-modern mt-3" aria-labelledby="qv-hero-verify">
+                <div class="qv-top">
+                  <div class="qv-icon-modern" aria-hidden="true"><i class="fas fa-check-circle"></i></div>
+                  <h4 id="qv-hero-verify">Quality Verification Options</h4>
+                </div>
+                <div class="qv-points" role="list">
+                  <div class="qv-point" role="listitem">
+                    <div class="icon" aria-hidden="true"><i class="fas fa-map-marker-alt"></i></div>
+                    <div>
+                      <strong>Visit &amp; Inspect Personally</strong>
+                      <small>See the process yourself. Walk through our facility, inspect your consignment, and verify quality before shipment.</small>
+                    </div>
+                  </div>
+
+                  <div class="qv-point" role="listitem">
+                    <div class="icon" aria-hidden="true"><i class="fas fa-user-tie"></i></div>
+                    <div>
+                      <strong>Appoint a Local Representative</strong>
+                      <small>Your agent can inspect goods, verify documents, and approve the shipment on your behalf.</small>
+                    </div>
+                  </div>
+
+                  <div class="qv-point" role="listitem">
+                    <div class="icon" aria-hidden="true"><i class="fas fa-clipboard-check"></i></div>
+                    <div>
+                      <strong>Pre-Shipment Inspection — SGS Certified</strong>
+                      <small>Arrange independent third-party inspection through SGS for international quality compliance.</small>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <img src="../images/hero/quality-hero.webp" alt="quality inspection" class="img-fluid rounded shadow-sm intro-img">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Certifications Section -->
+  <section class="py-4 quality-fixed-bg">
+    <div class="container overlay-panel">
+      <div class="row align-items-center">
+        <div class="col-lg-6 mb-3 mb-lg-0">
+          <div class="stagger">
+            <h4>Certified to Win Your Trust</h4>
+            <p>We meet and exceed global food safety and quality norms:</p>
+            <p class="mb-1"><i class="fas fa-certificate text-primary me-2" aria-hidden="true"></i><strong>ISO 9001 / ISO 22000</strong></p>
+            <p class="mb-1"><i class="fas fa-certificate text-primary me-2" aria-hidden="true"></i><strong>FSSAI Licensed</strong></p>
+            <p class="mb-1"><i class="fas fa-certificate text-primary me-2" aria-hidden="true"></i><strong> HACCP Licensed</strong></p>
+            <p class="mb-3"><i class="fas fa-vials text-primary me-2" aria-hidden="true"></i><strong>SGS Verified Shipments</strong></p>
+            <p class="mt-2">These certifications ensure that every shipment is authentic, hygienic, and export-ready — every time.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="cert-logos text-center stagger" aria-hidden="false">
+            <img src="../images/certs/iso-logo.webp" alt="ISO" class="cert-logo-large" loading="lazy" decoding="async">
+            <img src="../images/certs/fssai-logo.webp" alt="FSSAI" class="cert-logo-large" loading="lazy" decoding="async">
+            <img src="../images/certs/apeda-logo.webp" alt="APEDA" class="cert-logo-large" loading="lazy" decoding="async">
+            <img src="../images/certs/haccp-logo.webp" alt="HACCP" class="cert-logo-large" loading="lazy" decoding="async">
+            <img src="../images/certs/halal-logo.webp" alt="Halal" class="cert-logo-large" loading="lazy" decoding="async">
+            <img src="../images/certs/organic-logo.webp" alt="Organic" class="cert-logo-large" loading="lazy" decoding="async">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Promise Section -->
+  <section class="py-5 quality-fixed-bg">
+    <div class="container overlay-panel">
+      <div class="row align-items-center">
+        <div class="col-md-6 mb-4 mb-md-0">
+          <img src="../images/hero/back.webp" alt="Our Promise" class="img-fluid promise-img">
+        </div>
+        <div class="col-md-6">
+          <div class="stagger">
+            <h3 class="mb-4">Our Promise</h3>
+            <blockquote class="fs-5">"From India's Soil to the World's Kitchen — Pure, Premium, Perfect."</blockquote>
+            <p>When you choose Patel Universal Traders PVT.LTD., you choose:</p>
+            <ul class="list-unstyled">
+              <li class="mb-2"><i class="fas fa-check-circle text-primary me-2" aria-hidden="true"></i><strong>Verified Quality</strong></li>
+              <li class="mb-2"><i class="fas fa-check-circle text-primary me-2" aria-hidden="true"></i><strong>Transparent Process</strong></li>
+              <li class="mb-2"><i class="fas fa-check-circle text-primary me-2" aria-hidden="true"></i><strong>International Standards</strong></li>
+              <li class="mb-2"><i class="fas fa-check-circle text-primary me-2" aria-hidden="true"></i><strong>On-Time, Hassle-Free Delivery</strong></li>
+            </ul>
+            <p class="mt-3"><em>Because for us, Quality is Royalty.</em></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Private Labelling Section -->
+  <section id="private-labelling">
+    <div class="pl-inner">
+      <h2 class="pl-title">Private Labelling</h2>
+
+      <div class="pl-row" role="region" aria-labelledby="private-labelling">
+        <div class="pl-left stagger">
+          <h3 class="pl-sub">We Customize Every Order to Fit Your Brand Perfectly</h3>
+          <p class="pl-body">Our private-label solutions bring you premium-quality rice and spices at competitive prices—crafted through a meticulous quality control process that guarantees only the finest grains carry your name.</p>
+
+          <p class="pl-body">With years of expertise, we've refined our workflow to perfection. From signing the contract to delivering the final shipment, every private-label partnership is handled with unwavering commitment.</p>
+        </div>
+
+        <div class="pl-right">
+          <img class="intro-img cut-corner-img" src="../images/infra/infra3-800.webp" alt="Private labelling product packaging" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality Journey Section -->
+  <section class="py-0" style="background: transparent;">
+    <div class="container-fluid px-0" style="background:#ffffff;">
+      <img src="../images/hero/step.png" alt="Quality Journey steps" class="d-block w-100 quality-hero-img" style="width:100%; height:auto; max-height:100vh; object-fit:contain; display:block; margin:0 auto;">
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer bg-dark text-white pt-5 pb-3">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 mb-4">
+          <h5 class="footer-heading">Patel Universal Traders PVT.LTD.</h5>
+          <p class="footer-text">India's leading exporter of Premium Rice &amp; Spices.</p>
+          <div class="d-flex gap-2 mt-3">
+            <a href="contact.html" class="btn btn-light btn-sm">Enquire Now</a>
+            <a href="#" class="btn btn-outline-light btn-sm" target="_blank" rel="noopener" download>Download Brochure</a>
+          </div>
+          <div class="social-links-footer mt-3">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-6 mb-4 footer-quick-links">
+          <h5 class="footer-heading">Quick Links</h5>
+          <ul class="footer-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="quality.html">Quality</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4 footer-products">
+          <h5 class="footer-heading">Our Products</h5>
+          <ul class="footer-links">
+            <li><a href="products.html">Basmati Rice</a></li>
+            <li><a href="products.html">Non-Basmati Rice</a></li>
+            <li><a href="products.html">Organic Rice</a></li>
+            <li><a href="products.html">Spices</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <h5 class="footer-heading">Contact Info</h5>
+          <ul class="footer-contact">
+            <li><i class="fas fa-map-marker-alt"></i> Mumbai, Maharashtra, India</li>
+            <li><i class="fas fa-phone-alt"></i> <a href="tel:+919876543210">+91 98765 43210</a></li>
+            <li><i class="fas fa-envelope"></i> <a href="mailto:info@primeimpex.com">info@primeimpex.com</a></li>
+            <li><i class="fas fa-globe"></i> www.primeimpex.com</li>
+          </ul>
+        </div>
+      </div>
+      <hr class="footer-divider">
+      <div class="row">
+        <div class="col-12 text-center">
+          <p class="mb-0">&copy; 2025 Patel Universal Traders PVT.LTD. All Rights Reserved. <a href="#" class="footer-legal">Privacy Policy</a> | <a href="#" class="footer-legal">Terms of Service</a></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/cursor.js"></script>
+  <script>
+document.addEventListener('DOMContentLoaded', function(){
+  // trigger stagger animations when section scrolls into view
+  var staggerEls = document.querySelectorAll('.stagger');
+  var heroBgEls = document.querySelectorAll('.hero-bg');
+  var introImgs = document.querySelectorAll('.intro-img');
+  if ('IntersectionObserver' in window && (staggerEls.length || heroBgEls.length)) {
+    var io = new IntersectionObserver(function(entries, observer){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add('inview');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
+    staggerEls.forEach(function(el){ io.observe(el); });
+    heroBgEls.forEach(function(el){ io.observe(el); });
+    introImgs.forEach(function(el){ io.observe(el); });
+  } else {
+    // fallback: enable immediately
+    staggerEls.forEach(function(el){ el.classList.add('inview'); });
+    heroBgEls.forEach(function(el){ el.classList.add('inview'); });
+    introImgs.forEach(function(el){ el.classList.add('inview'); });
+  }
+});
+  </script>
+</body>
+</html>

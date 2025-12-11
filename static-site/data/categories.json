@@ -1,0 +1,18 @@
+[
+  {
+    "id": 2,
+    "name": "Rice",
+    "slug": "rice",
+    "description": "",
+    "image": "/media/categories/golden.jpg",
+    "order": 0
+  },
+  {
+    "id": 1,
+    "name": "Spices speciations",
+    "slug": "spices-speciations",
+    "description": "",
+    "image": "/media/categories/IMG-20251111-WA0001.jpg",
+    "order": 0
+  }
+]
